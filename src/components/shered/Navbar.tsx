@@ -6,7 +6,9 @@ import { Avatar } from "antd";
 import { FaRegCircleUser } from "react-icons/fa6";
 const Navbar = () => {
     return (
-        <nav className='bg-background py-3 glass-effect backdrop-blur-xl'>
+        <nav
+            className='bg-background py-3 glass-effect backdrop-blur-xl sticky
+         top-0 z-50'>
             <div className='container flex items-center justify-between'>
                 <Link href='/'>
                     <Image src={logo} alt='Logo' className='w-24' />
@@ -14,9 +16,9 @@ const Navbar = () => {
                 <div className='flex items-center gap-4'>
                     <ThemeToggle />
                     <Avatar
-                    className="cursor-pointer"
+                        className='cursor-pointer'
                         // style={{ backgroundColor: "#87d068" }}
-                        icon={<FaRegCircleUser className="text-4xl"/>}
+                        icon={<FaRegCircleUser className='text-4xl' />}
                     />
                 </div>
             </div>

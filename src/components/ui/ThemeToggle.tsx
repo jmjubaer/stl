@@ -1,12 +1,16 @@
 "use client";
 import { MenuTheme, Switch } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ThemeToggle = () => {
     const [theme, setTheme] = useState("dark");
 
+    useEffect(() => {
+        document.documentElement.classList.toggle("dark", theme === "dark");
+    }, [theme]);
     const changeTheme = (value: boolean) => {
-        setTheme(value ? "dark" : "light");
+        const newTheme = value ? "dark" : "light";
+        setTheme(newTheme);
     };
     return (
         <div>
@@ -16,6 +20,7 @@ const ThemeToggle = () => {
                 checkedChildren='Dark'
                 unCheckedChildren='Light'
             />
+        
         </div>
     );
 };
