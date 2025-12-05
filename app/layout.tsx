@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/src/components/shered/Navbar";
+import { Provider } from "react-redux";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -25,9 +26,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang='en'>
-            <body className={`dark:bg-background dark:text-primary bg-secondary`}>
-                <Navbar />
-                <main className='min-h-screen'>{children}</main>
+            <body
+                className={`bg-background text-primary`}>
+                {/* <Provider store={store}> */}
+                    <Navbar />
+                    <main className='min-h-screen'>{children}</main>
+                {/* </Provider> */}
             </body>
         </html>
     );

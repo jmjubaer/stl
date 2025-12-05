@@ -1,13 +1,17 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-    --background: rgb(16, 20, 26);
-    --foreground: 40 95% 95%;
-    --primary: #fef6e6;
+    --background: #ededed;
+    --primary: rgb(16, 20, 26);
     --secondary: #ededed;
-    --primary-foreground: 220 25% 8%;
 }
 
+.dark {
+    --background: rgb(16, 20, 26);
+    --primary: #fef6e6;
+    --secondary: #ededed;
+}
 @layer base {
     :root {
         --background: 220 25% 8%;
@@ -143,11 +147,11 @@ body {
 }
 .glass-effect {
     background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(0, 0, 0, 0.3);
 }
 .dark .glass-effect {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
