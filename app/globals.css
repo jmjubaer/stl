@@ -4,12 +4,14 @@
 :root {
     --background: #ededed;
     --primary: rgb(16, 20, 26);
+    
     --secondary: #ededed;
 }
 
 .dark {
     --background: rgb(16, 20, 26);
-    --primary: #fef6e6;
+    --primary: #ededed;
+
     --secondary: #ededed;
 }
 @layer base {
