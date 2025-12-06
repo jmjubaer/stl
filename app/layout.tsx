@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang='en'>
-            <body className={`bg-background text-primary`}>
+            <body className={`bg-background text-text`}>
                 {/* <Provider store={store}> */}
                 {/* <AntdThemeProvider> */}
                 <Navbar />

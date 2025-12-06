@@ -2,17 +2,15 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+    --primary: #CF3A71;
     --background: #ededed;
-    --primary: rgb(16, 20, 26);
+    --text: rgb(16, 20, 26);
     
-    --secondary: #ededed;
 }
 
 .dark {
     --background: rgb(16, 20, 26);
-    --primary: #ededed;
-
-    --secondary: #ededed;
+    --text: #ededed;  
 }
 @layer base {
     :root {
@@ -124,9 +122,8 @@
 
 @theme inline {
     --color-background: var(--background);
-    --color-foreground: var(--foreground);
+    --color-text: var(--text);
     --color-primary: var(--primary);
-    --color-secondary: var(--secondary);
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
 }
