@@ -1,18 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 type TagDropdownProps = {
-    openTag: boolean;
-    setOpenTag: React.Dispatch<React.SetStateAction<boolean>>;
     tag: string[];
     setTag: React.Dispatch<React.SetStateAction<string[]>>;
 };
-const TagDropdown = ({
-    openTag,
-    setOpenTag,
-    tag,
-    setTag,
-}: TagDropdownProps) => {
+const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
+    const [openTag, setOpenTag] = useState(false);
     const handleToggleTag = (tag: string) => {
         setTag((prevTag) =>
             prevTag.includes(tag)

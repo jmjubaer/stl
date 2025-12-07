@@ -145,7 +145,7 @@ body {
     @apply w-[96%] mx-auto max-w-[1240px];
 }
 .glass-effect {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(112, 111, 111, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(0, 0, 0, 0.3);
 }

@@ -5,11 +5,12 @@ import { FaList } from "react-icons/fa6";
 import { IoGrid } from "react-icons/io5";
 import { LuArrowDownUp } from "react-icons/lu";
 import TagDropdown from "../../ui/TagDropdown";
+import SortDropdown from "../../ui/SortDropdoen";
 
 const MainSection = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
-    const [openTag, setOpenTag] = useState(false);
     const [tag, setTag] = useState<string[]>([]);
+    const [sortby, setSortby] = useState<string>("Newest First");
 
     return (
         <section className=''>
@@ -26,19 +27,9 @@ const MainSection = () => {
                             />
                         </div>
                         {/* Tag filter */}
-                        <TagDropdown
-                            openTag={openTag}
-                            setOpenTag={setOpenTag}
-                            tag={tag}
-                            setTag={setTag}
-                        />
+                        <TagDropdown tag={tag} setTag={setTag} />
                         {/* Sort by */}
-                        <div className=''>
-                            <button className='px-5 py-1.5 border border-text/20 rounded-xl outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500'>
-                                <LuArrowDownUp className='inline mr-2 text-xl' />{" "}
-                                <span className='inline'>Newest first</span>
-                            </button>
-                        </div>
+                        <SortDropdown sortby={sortby} setSortby={setSortby} />
                     </div>
                     {/* Grid change section */}
                     <div className=''>
