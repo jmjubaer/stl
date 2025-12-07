@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { CiFilter } from "react-icons/ci";
-import { FaCheck } from "react-icons/fa6";
 import { LuArrowDownUp } from "react-icons/lu";
 type TagDropdownProps = {
     sortby: string;

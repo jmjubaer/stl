@@ -1,16 +1,17 @@
+import { TTag } from "@/src/types";
 import { useEffect, useRef, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 type TagDropdownProps = {
-    tag: string[];
-    setTag: React.Dispatch<React.SetStateAction<string[]>>;
+    tag: TTag[];
+    setTag: React.Dispatch<React.SetStateAction<TTag[]>>;
 };
 const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
     const [openTag, setOpenTag] = useState(false);
-    const handleToggleTag = (tag: string) => {
+    const handleToggleTag = (tag: TTag) => {
         setTag((prevTag) =>
-            prevTag.includes(tag)
-                ? prevTag.filter((t) => t !== tag)
+            prevTag.some((t) => t.name === tag.name)
+                ? prevTag.filter((t) => t.name !== tag.name)
                 : [...prevTag, tag]
         );
     };
@@ -39,9 +40,15 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
         <div className='relative' ref={tagRef}>
             <button
                 onClick={() => setOpenTag(!openTag)}
-                className='px-5 py-1.5 border border-text/20 rounded-xl outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500'>
-                <CiFilter className='inline mr-1 text-xl' />{" "}
+                className='px-5 py-1.5 border border-text/20 rounded-xl outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-1'>
+                <CiFilter className='inline text-xl' />{" "}
                 <span className='inline'>Tags</span>
+                <span
+                    className={`w-6 h-6 bg-text/10 rounded-full text-xs flex items-center justify-center ${
+                        tag.length > 0 ? "block" : "hidden"
+                    }`}>
+                    {tag.length}
+                </span>
             </button>
             <ul
                 className={`absolute top-10 border border-text/20 p-1 px-1.5 rounded-xl left-0 bg-background shadow-md dark:shadow-white/20 w-48 ${
@@ -50,12 +57,12 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 {tagList.map((tagItem) => (
                     <li
                         key={tagItem.name}
-                        onClick={() => handleToggleTag(tagItem.name)}
+                        onClick={() => handleToggleTag(tagItem)}
                         className='px-3 py-2 rounded-xl text-xs hover:bg-text/5 cursor-pointer flex items-center gap-3'>
                         <FaCheck
                             className={`text-sm ${
-                                tag.includes(tagItem.name)
-                                    ? "visible"
+                                tag.some((t) => t.name === tagItem.name)
+                                    ? "block"
                                     : "invisible"
                             }`}
                         />

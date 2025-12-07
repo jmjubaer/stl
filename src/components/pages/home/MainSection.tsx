@@ -1,19 +1,20 @@
 "use client";
 import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import { FaList } from "react-icons/fa6";
 import { IoGrid } from "react-icons/io5";
-import { LuArrowDownUp } from "react-icons/lu";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
+import { TTag } from "@/src/types";
 
 const MainSection = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
-    const [tag, setTag] = useState<string[]>([]);
+    const [tag, setTag] = useState<TTag[]>([]);
     const [sortby, setSortby] = useState<string>("Newest First");
 
     return (
         <section className=''>
+            {/* Filter section likely section header */}
             <div className=' py-3 shadow-sm dark:shadow-md dark:shadow-text/10'>
                 <div className='flex items-center justify-between container'>
                     <div className='flex items-center gap-4'>
@@ -52,6 +53,35 @@ const MainSection = () => {
                     </div>
                 </div>
             </div>
+            {/* Show Filter Tag */}
+            <div
+                className={`py-3 flex items-center gap-2 container ${
+                    tag.length > 0 ? "block" : "hidden"
+                }`}>
+                {tag.map((tagItem) => (
+                    <span
+                        key={tagItem.name}
+                        style={{
+                            backgroundColor: tagItem.color + "20",
+                            color: tagItem.color,
+                        }}
+                        className={`p-1 text-xs font-bold px-3  rounded-full flex items-center gap-1`}>
+                        {tagItem.name}
+                        <button
+                            onClick={() =>
+                                setTag((prvTag) =>
+                                    prvTag.filter(
+                                        (t) => t.name !== tagItem.name
+                                    )
+                                )
+                            }
+                            className='cursor-pointer'>
+                            <FaTimes />
+                        </button>
+                    </span>
+                ))}
+            </div>
+            <div className=''></div>
         </section>
     );
 };
