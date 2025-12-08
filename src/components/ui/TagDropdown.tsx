@@ -44,7 +44,7 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 <CiFilter className='inline text-xl' />{" "}
                 <span className='inline'>Tags</span>
                 <span
-                    className={`w-6 h-6 bg-text/10 rounded-full text-xs flex items-center justify-center ${
+                    className={`w-6 h-6 bg-text/30 rounded-full text-xs flex items-center justify-center ${
                         tag.length > 0 ? "block" : "hidden"
                     }`}>
                     {tag.length}
