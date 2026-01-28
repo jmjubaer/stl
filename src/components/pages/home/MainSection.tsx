@@ -1,13 +1,12 @@
 "use client";
 import { useState } from "react";
-import { FaCalendarAlt, FaSearch, FaTimes } from "react-icons/fa";
-import { FaCalendar, FaList } from "react-icons/fa6";
+import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaList } from "react-icons/fa6";
 import { IoGrid } from "react-icons/io5";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
 import { TTag } from "@/src/types";
-import image from "@/src/assets/img_1.jpg";
-import Image from "next/image";
+import LinkCard from "../../ui/LinkCard";
 const MainSection = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [tag, setTag] = useState<TTag[]>([]);
@@ -43,7 +42,7 @@ const MainSection = () => {
                     <div className=''>
                         <button
                             onClick={() => setLayout("list")}
-                            className={`px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer ${
+                            className={`px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
                                 layout === "list" &&
                                 "bg-text text-background border-text"
                             }`}>
@@ -51,7 +50,7 @@ const MainSection = () => {
                         </button>
                         <button
                             onClick={() => setLayout("grid")}
-                            className={`px-5 border py-2 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer ${
+                            className={`px-5 border py-2 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
                                 layout === "grid" &&
                                 "bg-text text-background border-text"
                             }`}>
@@ -78,8 +77,8 @@ const MainSection = () => {
                             onClick={() =>
                                 setTag((prvTag) =>
                                     prvTag.filter(
-                                        (t) => t.name !== tagItem.name
-                                    )
+                                        (t) => t.name !== tagItem.name,
+                                    ),
                                 )
                             }
                             className='cursor-pointer'>
@@ -89,54 +88,10 @@ const MainSection = () => {
                 ))}
             </div>
             {/* Link Card section` */}
-            <div className='grid grid-cols-3 gap-5 my-5 container'>
-                <div className='overflow-hidden rounded-xl border border-text/20 shadow-md dark:shadow-white/10 bg-white dark:bg-background group'>
-                    <div className='overflow-hidden'>
-                        <Image
-                            src={image}
-                            alt='Link image '
-                            className='group-hover:scale-110 transition-all duration-300'
-                        />
-                        <div className="">
-                            
-                        </div>
-                    </div>
-                    <div className=''>
-                        <div className='p-3'>
-                            <h2 className='text-xl font-semibold'>
-                                Unsplash - Free Photos
-                            </h2>
-                            <p className='text-sm text-text/80'>
-                                Beautiful, free images and photos for any
-                                project. High resolution.
-                            </p>
-                            <div className='flex items-center flex-wrap gap-2  mt-1'>
-                                {tagList.slice(1, 4).map((tagItem) => (
-                                    <span
-                                        key={tagItem.name}
-                                        style={{
-                                            backgroundColor:
-                                                tagItem.color + "20",
-                                            color: tagItem.color,
-                                        }}
-                                        className={`p-1 text-xs font-bold px-3  rounded-full flex items-center gap-1`}>
-                                        {tagItem.name}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                        <div className='border-t border-text/10 flex items-center justify-between p-3'>
-                            <h5 className='flex items-center gap-2 text-sm text-text/70'>
-                                <FaCalendar className='text-xs' />
-                                Created Feb 5, 2024
-                            </h5>
-                            <h5 className='flex items-center gap-2 text-sm text-text/70'>
-                                <FaCalendar className='text-xs' />
-                                Updated Feb 5, 2024
-                            </h5>
-                        </div>
-                    </div>
-                </div>
+            <div
+                className={` grid-cols-3 gap-5 my-5 container ${layout === "grid" ? "grid" : "block"}`}>
+                {/* card */}
+                <LinkCard tagList={tagList} layout={layout} />
             </div>
         </section>
     );

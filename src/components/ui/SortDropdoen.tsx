@@ -39,7 +39,7 @@ const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
                 <span className='inline'>{sortby}</span>
             </button>
             <div
-                className={`absolute top-10 border border-text/20 rounded-xl left-0 bg-background shadow-md dark:shadow-white/20 w-60 ${
+                className={`absolute top-10 border border-text/20 rounded-xl left-0 bg-background shadow-md dark:shadow-white/20 w-60 z-10 ${
                     openSort ? "block" : "hidden"
                 }`}>
                 <h3 className='p-2 px-3 border-b border-text/20'>Sort by</h3>

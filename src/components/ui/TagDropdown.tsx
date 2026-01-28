@@ -51,7 +51,7 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 </span>
             </button>
             <ul
-                className={`absolute top-10 border border-text/20 p-1 px-1.5 rounded-xl left-0 bg-background shadow-md dark:shadow-white/20 w-48 ${
+                className={`absolute top-10 border border-text/20 p-1 px-1.5 rounded-xl left-0 bg-background shadow-md dark:shadow-white/20 w-48 z-10 ${
                     openTag ? "visible" : "hidden"
                 }`}>
                 {tagList.map((tagItem) => (
