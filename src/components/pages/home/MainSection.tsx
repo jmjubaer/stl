@@ -26,7 +26,7 @@ const MainSection = () => {
         <section className=''>
             {/* Filter section likely section header */}
             <div className=' py-3 shadow-sm dark:shadow-md dark:shadow-text/10 sticky
-         top-0 z-50 glass-effect backdrop-blur-3xl'>
+         top-0 z-50 bg-background'>
                 <div className='flex items-center justify-between container'>
                     <div className='flex items-center gap-4'>
                         {/* Search bar */}

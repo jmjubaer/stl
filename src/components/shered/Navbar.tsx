@@ -7,7 +7,7 @@ import { FaRegCircleUser } from "react-icons/fa6";
 const Navbar = () => {
     return (
         <nav
-            className=' py-3  '>
+            className=' py-3  glass-effect backdrop-blur-3xl'>
             <div className='container flex items-center justify-between'>
                 <Link href='/'>
                     <Image src={logo} alt='Logo' className='w-24' />
