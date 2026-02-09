@@ -1,13 +1,14 @@
 import Image from "next/image";
 import { FaPenAlt, FaTrashAlt } from "react-icons/fa";
-import { FaCalendar, FaCopy, FaLink, FaRegCopy } from "react-icons/fa6";
+import { FaCalendar, FaLink, FaRegCopy } from "react-icons/fa6";
 import image from "@/src/assets/img_1.jpg";
 import { TTag } from "@/src/types";
 type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";
+    columns: number;
 };
-const LinkCard = ({ tagList, layout }: TProps) => {
+const LinkCard = ({ tagList, layout, columns }: TProps) => {
     return (
         <div
             className={`overflow-hidden rounded-xl border border-text/20 shadow-md dark:shadow-white/10 bg-white/50 dark:bg-background group ${layout === "list" ? "flex items-center p-4 gap-1 relative" : ""}`}>
@@ -16,7 +17,7 @@ const LinkCard = ({ tagList, layout }: TProps) => {
                 <Image
                     src={image}
                     alt='Link image'
-                    className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" ? "h-56" : "h-24 w-fit"}`}
+                    className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" && columns === 4 ? "h-44" : layout === "grid" ? "h-56" : layout === "list" && columns === 2 ? "h-20 w-28" : "h-24 w-fit"}`}
                 />
                 {/* Floating button section */}
                 <div
@@ -27,7 +28,7 @@ const LinkCard = ({ tagList, layout }: TProps) => {
                                 className={`inline  ${layout === "list" ? "text-lg" : "text-xl"}`}
                             />{" "}
                             <span
-                                className={` text-sm ${layout === "list" ? "hidden" : "inline"}`}>
+                                className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : "inline"}`}>
                                 Open
                             </span>
                         </button>{" "}
@@ -36,7 +37,7 @@ const LinkCard = ({ tagList, layout }: TProps) => {
                                 className={`inline text-md ${layout === "list" ? "" : ""}`}
                             />{" "}
                             <span
-                                className={` text-sm ${layout === "list" ? "hidden" : "inline"}`}>
+                                className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : "inline"}`}>
                                 Copy
                             </span>
                         </button>{" "}
@@ -58,10 +59,11 @@ const LinkCard = ({ tagList, layout }: TProps) => {
             <div
                 className={`${layout === "list" ? "flex items-center justify-between w-full" : ""}`}>
                 <div className='p-3'>
-                    <h2 className='text-xl font-semibold'>
+                    <h2
+                        className={` font-semibold line-clamp-1 ${(layout === "list" && columns === 2) || columns === 4 ? "text-md" : "text-xl"}`}>
                         Unsplash - Free Photos
                     </h2>
-                    <p className='text-sm text-text/80'>
+                    <p className='text-sm text-text/80 line-clamp-1'>
                         Beautiful, free images and photos for any project. High
                         resolution.
                     </p>
@@ -84,11 +86,16 @@ const LinkCard = ({ tagList, layout }: TProps) => {
                     <h5
                         className={`flex items-center gap-2 text-sm text-text/70 ${layout === "list" ? "hidden" : ""}`}>
                         <FaCalendar className='text-xs' />
-                        Created Feb 5, 2024
+                        <span
+                            className={`${(layout === "list" || columns === 4) && "hidden"}`}>
+                            Created
+                        </span>{" "}
+                        Feb 5, 2024
                     </h5>
-                    <h5 className='flex items-center gap-2 text-sm text-text/70'>
+                    <h5 className='flex items-center gap-2 text-sm text-text/70 whitespace-nowrap'>
                         <FaCalendar className='text-xs' />
-                        <span className={`${layout === "list" && "hidden"}`}>
+                        <span
+                            className={`${layout === "list" || (columns === 4 && "hidden")}`}>
                             Updated
                         </span>{" "}
                         Feb 5, 2024

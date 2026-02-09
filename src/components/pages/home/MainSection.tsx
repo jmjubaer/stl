@@ -7,8 +7,12 @@ import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
 import { TTag } from "@/src/types";
 import LinkCard from "../../ui/LinkCard";
+import { LuColumns2, LuColumns3, LuColumns4 } from "react-icons/lu";
+import { PiTextColumnsBold } from "react-icons/pi";
+import { TfiLayoutColumn4Alt } from "react-icons/tfi";
 const MainSection = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
+    const [columns, setColumns] = useState<number>(3);
     const [tag, setTag] = useState<TTag[]>([]);
     const [sortby, setSortby] = useState<string>("Newest First");
     const tagList = [
@@ -21,7 +25,8 @@ const MainSection = () => {
     return (
         <section className=''>
             {/* Filter section likely section header */}
-            <div className=' py-3 shadow-sm dark:shadow-md dark:shadow-text/10'>
+            <div className=' py-3 shadow-sm dark:shadow-md dark:shadow-text/10 sticky
+         top-0 z-50 glass-effect backdrop-blur-3xl'>
                 <div className='flex items-center justify-between container'>
                     <div className='flex items-center gap-4'>
                         {/* Search bar */}
@@ -38,27 +43,86 @@ const MainSection = () => {
                         {/* Sort by */}
                         <SortDropdown sortby={sortby} setSortby={setSortby} />
                     </div>
-                    {/* Grid change section */}
-                    <div className=''>
-                        <button
-                            onClick={() => setLayout("list")}
-                            className={`px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
-                                layout === "list" &&
-                                "bg-text text-background border-text"
-                            }`}>
-                            <FaList />
-                        </button>
-                        <button
-                            onClick={() => setLayout("grid")}
-                            className={`px-5 border py-2 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
-                                layout === "grid" &&
-                                "bg-text text-background border-text"
-                            }`}>
-                            <IoGrid className='tex' />
-                        </button>
+                    {/* grid control section */}
+                    <div className='flex gap-3'>
+                        {/* Grid change section */}
+                        <div className=''>
+                            <button
+                                onClick={() => {
+                                    setLayout("list");
+                                    setColumns(1);
+                                }}
+                                className={`px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
+                                    layout === "list" &&
+                                    "bg-text text-background border-text"
+                                }`}>
+                                <FaList />
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setLayout("grid");
+                                    setColumns(3);
+                                }}
+                                className={`px-5 border py-2 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
+                                    layout === "grid" &&
+                                    "bg-text text-background border-text"
+                                }`}>
+                                <IoGrid className='tex' />
+                            </button>
+                        </div>
+
+                        {/* Grid column quantity change section */}
+                        {layout === "grid" ? (
+                            <div className=''>
+                                <button
+                                    onClick={() => setColumns(2)}
+                                    className={`px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
+                                        columns === 2 &&
+                                        "bg-text text-background border-text"
+                                    }`}>
+                                    <LuColumns2 />
+                                </button>
+                                <button
+                                    onClick={() => setColumns(3)}
+                                    className={`px-5 border py-2 hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
+                                        columns === 3 &&
+                                        "bg-text text-background border-text"
+                                    }`}>
+                                    <LuColumns3 className='tex' />
+                                </button>
+                                <button
+                                    onClick={() => setColumns(4)}
+                                    className={`px-5 border py-2 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
+                                        columns === 4 &&
+                                        "bg-text text-background border-text"
+                                    }`}>
+                                    <LuColumns4 className='tex' />
+                                </button>
+                            </div>
+                        ) : (
+                            <div className='flex'>
+                                <button
+                                    onClick={() => setColumns(1)}
+                                    className={`px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
+                                        columns === 1 &&
+                                        "bg-text text-background border-text"
+                                    }`}>
+                                    <TfiLayoutColumn4Alt className='rotate-90' />
+                                </button>
+                                <button
+                                    onClick={() => setColumns(2)}
+                                    className={`px-4 border py-1 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
+                                        columns === 2 &&
+                                        "bg-text text-background border-text"
+                                    }`}>
+                                    <PiTextColumnsBold className='text-2xl' />
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
+
             {/* Show Filter Tag */}
             <div
                 className={`pt-3 flex items-center gap-2 container ${
@@ -89,9 +153,21 @@ const MainSection = () => {
             </div>
             {/* Link Card section` */}
             <div
-                className={` grid-cols-3 gap-5 my-5 container ${layout === "grid" ? "grid" : "block"}`}>
+                className={`grid gap-3 my-5 container  ${
+                    columns === 1
+                        ? "grid-cols-1"
+                        : columns === 2
+                          ? "grid-cols-2"
+                          : columns === 3
+                            ? "grid-cols-3"
+                            : "grid-cols-4"
+                }`}>
                 {/* card */}
-                <LinkCard tagList={tagList} layout={layout} />
+                <LinkCard columns={columns} tagList={tagList} layout={layout} />
+                <LinkCard columns={columns} tagList={tagList} layout={layout} />
+                <LinkCard columns={columns} tagList={tagList} layout={layout} />
+                <LinkCard columns={columns} tagList={tagList} layout={layout} />
+                <LinkCard columns={columns} tagList={tagList} layout={layout} />
             </div>
         </section>
     );
