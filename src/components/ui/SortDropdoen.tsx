@@ -34,9 +34,9 @@ const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
         <div className='relative' ref={sortbyRef}>
             <button
                 onClick={() => setOpenSort(!openSort)}
-                className='px-5 py-1.5 border border-text/20 rounded-xl outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500'>
-                <LuArrowDownUp className='inline mr-2 text-xl' />{" "}
-                <span className='inline'>{sortby}</span>
+                className='sm:px-5 px-4 py-1.5 border whitespace-nowrap border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500'>
+                <LuArrowDownUp className='inline sm:mr-2 text-xl' />{" "}
+                <span className='hidden sm:inline'>{sortby}</span>
             </button>
             <div
                 className={`absolute top-10 border border-text/20 rounded-xl left-0 bg-background shadow-md dark:shadow-white/20 w-60 z-10 ${

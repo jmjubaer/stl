@@ -25,17 +25,18 @@ const MainSection = () => {
     return (
         <section className=''>
             {/* Filter section likely section header */}
-            <div className=' py-3 shadow-sm dark:shadow-md dark:shadow-text/10 sticky
+            <div
+                className=' py-3 shadow-sm dark:shadow-md dark:shadow-text/10 sticky
          top-0 z-50 bg-background'>
-                <div className='flex items-center justify-between container'>
-                    <div className='flex items-center gap-4'>
+                <div className='flex flex-wrap items-center gap-3 justify-center lg:justify-between container'>
+                    <div className='flex items-center gap-2 sm:gap-3'>
                         {/* Search bar */}
                         <div className='relative'>
-                            <FaSearch className='absolute top-3 left-3 text-text/50' />
+                            <FaSearch className='absolute text-sm sm:text-base top-2.5   sm:top-3 left-3 text-text/50' />
                             <input
                                 type='search'
                                 placeholder='Search for products...'
-                                className='px-4 py-1.5 border border-text/20 rounded-xl w-80 outline-none pl-9'
+                                className='sm:px-4 px-3 py-1 sm:py-1.5 border border-text/20 sm:rounded-xl rounded-md w-full sm:w-80 outline-none pl-8 sm:pl-9'
                             />
                         </div>
                         {/* Tag filter */}
