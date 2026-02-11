@@ -26,9 +26,9 @@ const MainSection = () => {
         <section className=''>
             {/* Filter section likely section header */}
             <div
-                className=' py-3 shadow-sm dark:shadow-md dark:shadow-text/10 sticky
+                className='md:py-3 py-2 shadow-sm dark:shadow-md dark:shadow-text/10 sticky
          top-0 z-50 bg-background'>
-                <div className='flex flex-wrap items-center gap-3 justify-center lg:justify-between container'>
+                <div className='flex flex-wrap items-center gap-2 md:gap-3 justify-center lg:justify-between container'>
                     <div className='flex items-center gap-2 sm:gap-3'>
                         {/* Search bar */}
                         <div className='relative'>
@@ -154,7 +154,7 @@ const MainSection = () => {
             </div>
             {/* Link Card section` */}
             <div
-                className={`grid gap-3 my-5 container  ${
+                className={`grid gap-2 md:gap-3 my-5 container  ${
                     columns === 1
                         ? "grid-cols-1"
                         : columns === 2
