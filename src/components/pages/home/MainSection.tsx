@@ -126,7 +126,7 @@ const MainSection = () => {
 
             {/* Show Filter Tag */}
             <div
-                className={`pt-3 flex items-center gap-2 container ${
+                className={`pt-3 flex flex-wrap items-center gap-2 container ${
                     tag.length > 0 ? "block" : "hidden"
                 }`}>
                 {tag.map((tagItem) => (

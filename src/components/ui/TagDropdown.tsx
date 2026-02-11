@@ -40,11 +40,11 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
         <div className='relative' ref={tagRef}>
             <button
                 onClick={() => setOpenTag(!openTag)}
-                className={`sm:px-5 px-4 py-1.5 border border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-1 ${openTag && "bg-primary text-white border-primary"}`}>
+                className={`sm:px-5 px-4 py-1.5 border border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-1 ${(openTag  || tag.length > 0) && "bg-primary text-white border-primary"}`}>
                 <CiFilter className='inline text-xl' />{" "}
                 <span className='hidden sm:inline'>Tags</span>
                 <span
-                    className={`w-6 h-6 bg-text/30 rounded-full text-xs flex items-center justify-center ${
+                    className={`sm:w-6 w-5 sm:h-6 h-5 bg-text/30 rounded-full text-xs flex items-center justify-center ${
                         tag.length > 0 ? "block" : "hidden"
                     }`}>
                     {tag.length}
