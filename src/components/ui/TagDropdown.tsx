@@ -40,7 +40,7 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
         <div className='relative' ref={tagRef}>
             <button
                 onClick={() => setOpenTag(!openTag)}
-                className='sm:px-5 px-4 py-1.5 border border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-1'>
+                className={`sm:px-5 px-4 py-1.5 border border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-1 ${openTag && "bg-primary text-white border-primary"}`}>
                 <CiFilter className='inline text-xl' />{" "}
                 <span className='hidden sm:inline'>Tags</span>
                 <span
@@ -51,7 +51,7 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 </span>
             </button>
             <ul
-                className={`absolute top-10 border border-text/20 p-1 px-1.5 rounded-xl left-0 bg-background shadow-md dark:shadow-white/20 w-48 z-10 ${
+                className={`absolute top-10 border border-text/20 p-1 px-1.5 rounded-xl sm:left-0 right-0 bg-background shadow-md dark:shadow-white/20 w-48 z-10 ${
                     openTag ? "visible" : "hidden"
                 }`}>
                 {tagList.map((tagItem) => (

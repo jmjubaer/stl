@@ -34,33 +34,35 @@ const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
         <div className='relative' ref={sortbyRef}>
             <button
                 onClick={() => setOpenSort(!openSort)}
-                className='sm:px-5 px-4 py-1.5 border whitespace-nowrap border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500'>
+                className={`sm:px-5 px-4 py-1.5 border whitespace-nowrap border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500  ${openSort && "bg-primary text-white border-primary"}`}>
                 <LuArrowDownUp className='inline sm:mr-2 text-xl' />{" "}
                 <span className='hidden sm:inline'>{sortby}</span>
             </button>
             <div
-                className={`absolute top-10 border border-text/20 rounded-xl left-0 bg-background shadow-md dark:shadow-white/20 w-60 z-10 ${
+                className={`absolute top-10 border border-text/20 rounded-xl right-0 sm:left-0 bg-background shadow-md dark:shadow-white/20 sm:w-60 w-52 z-10 ${
                     openSort ? "block" : "hidden"
                 }`}>
-                <h3 className='p-2 px-3 border-b border-text/20'>Sort by</h3>
+                <h3 className='sm:p-2 p-1 px-3 border-b border-text/20'>
+                    Sort by
+                </h3>
                 <div className='p-1 px-1.5'>
                     <button
                         onClick={() => handleSetSortBy("Newest First")}
-                        className={`px-3 py-2 rounded-xl text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full ${
+                        className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full ${
                             sortby === "Newest First" && "bg-primary text-white"
                         }`}>
                         Newest First
                     </button>{" "}
                     <button
                         onClick={() => handleSetSortBy("Oldest First")}
-                        className={`px-3 py-2 rounded-xl text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
+                        className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
                             sortby === "Oldest First" && "bg-primary text-white"
                         }`}>
                         Oldest First
                     </button>
                     <button
                         onClick={() => handleSetSortBy("Recently Updated")}
-                        className={`px-3 py-2 rounded-xl text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
+                        className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
                             sortby === "Recently Updated" &&
                             "bg-primary text-white"
                         }`}>
@@ -68,14 +70,14 @@ const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
                     </button>
                     <button
                         onClick={() => handleSetSortBy("Title A to Z")}
-                        className={`px-3 py-2 rounded-xl text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
+                        className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
                             sortby === "Title A to Z" && "bg-primary text-white"
                         }`}>
                         Title A to Z
                     </button>
                     <button
                         onClick={() => handleSetSortBy("Title Z to A")}
-                        className={`px-3 py-2 rounded-xl text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
+                        className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
                             sortby === "Title Z to A" && "bg-primary text-white"
                         }`}>
                         Title Z to A
