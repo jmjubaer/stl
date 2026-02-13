@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { FaList } from "react-icons/fa6";
 import { IoGrid } from "react-icons/io5";
@@ -10,6 +10,7 @@ import LinkCard from "../../ui/LinkCard";
 import { LuColumns2, LuColumns3, LuColumns4 } from "react-icons/lu";
 import { PiTextColumnsBold } from "react-icons/pi";
 import { TfiLayoutColumn4Alt } from "react-icons/tfi";
+import { TbColumns1 } from "react-icons/tb";
 const MainSection = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
@@ -22,6 +23,19 @@ const MainSection = () => {
         { name: "Marketing", color: "#F97A1F" },
         { name: "Inspiration", color: "#1DBAC9" },
     ];
+    // for auto change the collumn based on screen size, but I think it's better to let user decide the column quantity
+//   useEffect(() => {
+//     const handleResize = () => {
+//       if (window.innerWidth <= 768) {
+//         setColumns(3); // md
+//       }
+//     };
+
+//     handleResize(); // run on mount
+//     window.addEventListener("resize", handleResize);
+
+//     return () => window.removeEventListener("resize", handleResize);
+//   }, []);
     return (
         <section className=''>
             {/* Filter section likely section header */}
@@ -76,8 +90,16 @@ const MainSection = () => {
                         {layout === "grid" ? (
                             <div className=''>
                                 <button
+                                    onClick={() => setColumns(1)}
+                                    className={`inline xs:hidden border-r-0 px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
+                                        columns === 1 &&
+                                        "bg-text text-background border-text"
+                                    }`}>
+                                    <TbColumns1 />
+                                </button>
+                                <button
                                     onClick={() => setColumns(2)}
-                                    className={`px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
+                                    className={`px-5 border py-2 xs:rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
                                         columns === 2 &&
                                         "bg-text text-background border-text"
                                     }`}>

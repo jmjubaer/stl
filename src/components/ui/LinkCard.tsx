@@ -5,6 +5,7 @@ import image from "@/src/assets/img_1.jpg";
 import { TTag } from "@/src/types";
 import { MdUpdate } from "react-icons/md";
 import { RiMenuAddLine } from "react-icons/ri";
+import { LuExternalLink } from "react-icons/lu";
 type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";
@@ -19,7 +20,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                 <Image
                     src={image}
                     alt='Link image'
-                    className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" && (columns === 4 || columns === 3) ? "lg:h-44 h-28" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
+                    className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-44 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
                 />
                 {/* Floating button section */}
                 <div
@@ -27,7 +28,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                     <div className='w-fit flex items-center gap-2 text-black'>
                         <button
                             className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
-                            <FaLink
+                            <LuExternalLink
                                 className={`inline  ${columns === 3 ? "text-lg sm:text-xl" : layout === "list" ? "text-lg" : "text-xl"}`}
                             />{" "}
                             <span
@@ -48,13 +49,13 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                     </div>
                     <div className='flex items-center gap-2 e-fit text-black'>
                         <button
-                            className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" :columns === 3 ? "px-3" :  "xs:px-4 px-1.5"}`}>
+                            className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
                             <FaPenAlt
                                 className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
                             />{" "}
                         </button>{" "}
                         <button
-                            className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" :columns === 3 ? "px-3" :  "xs:px-4 px-1.5"}`}>
+                            className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
                             <FaTrashAlt
                                 className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
                             />{" "}
@@ -65,7 +66,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
             <div
                 className={`${layout === "list" ? "flex items-center justify-between w-full" : ""}`}>
                 <div
-                    className={` ${columns === 4 ? "p-1" : layout === "list" ? "sm:px-3 xs:px-1.5 px-1" : "sm:p-3 xs:p-1.5 p-1"}`}>
+                    className={` ${columns === 4 ? "p-1" : columns === 1 ? "p-3" : layout === "list" ? "sm:px-3 xs:px-1.5 px-1" : "sm:p-3 xs:p-1.5 p-1"}`}>
                     <h2
                         className={` font-semibold line-clamp-1 ${(layout === "list" && columns === 2) || columns === 4 ? "text-md" : "xs:text-lg sm:text-xl"}`}
                         title=' Unsplash - Free Photos'>
@@ -87,7 +88,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                                     backgroundColor: tagItem.color + "20",
                                     color: tagItem.color,
                                 }}
-                                className={`sm:p-1 p-0.5 text-xs font-bold px-2.5 sm:px-3 text-center rounded-full flex items-center gap-1 justify-center ${columns === 4 ? "w-full lg:w-fit" : layout === "list" ? "w-fit" : "w-full sm:w-fit"}`}>
+                                className={`sm:p-1 p-0.5 text-xs font-bold px-2.5 sm:px-3 text-center rounded-full flex items-center gap-1 justify-center ${columns === 4 ? "w-full lg:w-fit" : columns === 1 ? "w-fit" : layout === "list" ? "w-fit" : "w-full sm:w-fit"}`}>
                                 {tagItem.name}
                             </span>
                         ))}
@@ -96,7 +97,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                 <div
                     className={`border-text/10 items-center justify-between p-1.5 px-3 ${columns === 4 ? "p-1.5 border-t hidden sm:flex" : layout === "list" && columns === 2 ? "hidden " : layout === "grid" ? "border-t flex sm:p-3" : "hidden sm:flex sm:p-3"} `}>
                     <h5
-                        className={`hidden whitespace-nowrap items-center gap-1 sm:gap-1.5 text-sm text-text/70 ${columns === 4 || columns === 3 ? "hidden lg:flex" : layout === "list" ? "hidden" : "md:flex"}`}>
+                        className={` whitespace-nowrap items-center gap-1 sm:gap-1.5 text-sm text-text/70 ${columns === 4 || columns === 3 ? "hidden lg:flex" : columns === 1 ? "flex" : layout === "list" ? "hidden" : "hidden md:flex"}`}>
                         <RiMenuAddLine className='' />
                         <span
                             className={`${(layout === "list" || columns === 4) && "hidden"}`}>
