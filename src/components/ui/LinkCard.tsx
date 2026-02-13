@@ -3,6 +3,8 @@ import { FaPenAlt, FaTrashAlt } from "react-icons/fa";
 import { FaCalendar, FaLink, FaRegCopy } from "react-icons/fa6";
 import image from "@/src/assets/img_1.jpg";
 import { TTag } from "@/src/types";
+import { MdUpdate } from "react-icons/md";
+import { RiMenuAddLine } from "react-icons/ri";
 type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";
@@ -21,10 +23,10 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                 />
                 {/* Floating button section */}
                 <div
-                    className={`absolute p-1 flex items-center gap-1 md:gap-2  ${columns === 3 ? "flex-wrap-reverse md:flex-nowrap w-full h-full md:h-fit bottom-0 right-0 justify-center" : layout === "list" && columns === 2 ? "bottom-0 sm:bottom-auto sm:top-0 right-0 w-full xs:w-fit justify-between" : layout === "list" ? " top-0 right-0 w-full xs:w-fit justify-between" : "bottom-0 left-0 w-full justify-between"}`}>
+                    className={`absolute p-1 flex items-center gap-1 md:gap-2  ${columns === 3 ? "flex-wrap-reverse md:flex-nowrap w-full h-full sm:h-fit bottom-0 right-0 justify-center sm:justify-between" : layout === "list" && columns === 2 ? "bottom-0 sm:bottom-auto sm:top-0 right-0 w-full xs:w-fit justify-between" : layout === "list" ? " top-0 right-0 w-full xs:w-fit justify-between" : "bottom-0 left-0 w-full justify-between"}`}>
                     <div className='w-fit flex items-center gap-2 text-black'>
                         <button
-                            className={`  py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : "xs:px-4 px-1.5"}`}>
+                            className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
                             <FaLink
                                 className={`inline  ${columns === 3 ? "text-lg sm:text-xl" : layout === "list" ? "text-lg" : "text-xl"}`}
                             />{" "}
@@ -34,9 +36,9 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                             </span>
                         </button>{" "}
                         <button
-                            className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : "xs:px-4 px-1.5"}`}>
+                            className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
                             <FaRegCopy
-                                className={`inline ${columns === 3 ? "sm:text-xl" : "text-lg "}`}
+                                className={`inline ${columns === 3 ? "" : "text-lg"}`}
                             />{" "}
                             <span
                                 className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : columns === 3 ? "hidden lg:inline" : "md:inline hidden"}`}>
@@ -46,13 +48,13 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                     </div>
                     <div className='flex items-center gap-2 e-fit text-black'>
                         <button
-                            className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : "xs:px-4 px-1.5"}`}>
+                            className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" :columns === 3 ? "px-3" :  "xs:px-4 px-1.5"}`}>
                             <FaPenAlt
                                 className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
                             />{" "}
                         </button>{" "}
                         <button
-                            className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : "xs:px-4 px-1.5"}`}>
+                            className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" :columns === 3 ? "px-3" :  "xs:px-4 px-1.5"}`}>
                             <FaTrashAlt
                                 className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
                             />{" "}
@@ -95,7 +97,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                     className={`border-text/10 items-center justify-between p-1.5 px-3 ${columns === 4 ? "p-1.5 border-t hidden sm:flex" : layout === "list" && columns === 2 ? "hidden " : layout === "grid" ? "border-t flex sm:p-3" : "hidden sm:flex sm:p-3"} `}>
                     <h5
                         className={`hidden whitespace-nowrap items-center gap-1 sm:gap-1.5 text-sm text-text/70 ${columns === 4 || columns === 3 ? "hidden lg:flex" : layout === "list" ? "hidden" : "md:flex"}`}>
-                        <FaCalendar className='text-xs' />
+                        <RiMenuAddLine className='' />
                         <span
                             className={`${(layout === "list" || columns === 4) && "hidden"}`}>
                             Created
@@ -103,7 +105,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                         Feb 5, 2024
                     </h5>
                     <h5 className='flex items-center gap-1.5 text-sm text-text/70 whitespace-nowrap'>
-                        <FaCalendar className='text-xs' />
+                        <MdUpdate className='' />
                         <span
                             className={` ${layout === "list" || columns === 4 ? "hidden" : "hidden sm:inline-block"}`}>
                             Updated
