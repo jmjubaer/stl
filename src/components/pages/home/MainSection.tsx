@@ -85,7 +85,7 @@ const MainSection = () => {
                                 </button>
                                 <button
                                     onClick={() => setColumns(3)}
-                                    className={`px-5 border py-2 hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
+                                    className={`px-5 border py-2 hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary rounded-r-2xl md:rounded-r-none ${
                                         columns === 3 &&
                                         "bg-text text-background border-text"
                                     }`}>
@@ -93,7 +93,7 @@ const MainSection = () => {
                                 </button>
                                 <button
                                     onClick={() => setColumns(4)}
-                                    className={`px-5 border py-2 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
+                                    className={`hidden  md:inline-block px-5 border py-2 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
                                         columns === 4 &&
                                         "bg-text text-background border-text"
                                     }`}>
