@@ -23,7 +23,8 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                 <div
                     className={`absolute p-1 flex items-center justify-between gap-1 md:gap-2  ${layout === "list" && columns === 2 ? "bottom-0 sm:bottom-auto sm:top-0 right-0 w-full xs:w-fit" : layout === "list" ? " top-0 right-0 w-full xs:w-fit" : "bottom-0 left-0 w-full"}`}>
                     <div className='w-fit flex items-center gap-2 text-black'>
-                        <button className='xs:px-4 px-1.5 py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white'>
+                        <button
+                            className={`  py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : "xs:px-4 px-1.5"}`}>
                             <FaLink
                                 className={`inline  ${layout === "list" ? "text-lg" : "text-xl"}`}
                             />{" "}
@@ -32,9 +33,10 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                                 Open
                             </span>
                         </button>{" "}
-                        <button className='xs:px-4 px-2 py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white'>
+                        <button
+                            className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : "xs:px-4 px-1.5"}`}>
                             <FaRegCopy
-                                className={`inline text-md ${layout === "list" ? "" : ""}`}
+                                className={`inline text-lg ${layout === "list" ? "" : ""}`}
                             />{" "}
                             <span
                                 className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : "md:inline hidden"}`}>
@@ -43,12 +45,14 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                         </button>{" "}
                     </div>
                     <div className='flex items-center gap-2 e-fit text-black'>
-                        <button className='xs:px-4 px-2 py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white'>
+                        <button
+                            className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : "xs:px-4 px-1.5"}`}>
                             <FaPenAlt
                                 className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
                             />{" "}
                         </button>{" "}
-                        <button className='xs:px-4 px-2 py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white'>
+                        <button
+                            className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : "xs:px-4 px-1.5"}`}>
                             <FaTrashAlt
                                 className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
                             />{" "}
@@ -73,7 +77,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                         resolution.
                     </p>
                     <div
-                        className={` items-center flex-wrap gap-1 md:gap-2 mt-1 ${layout === "list" && columns === 2 ? "hidden md:flex" : "flex"}`}>
+                        className={`items-center flex-wrap gap-1 md:gap-2 mt-1 ${columns === 4 ? "flex" : layout === "list" && columns === 2 ? "hidden md:flex" : "flex"}`}>
                         {tagList.slice(1, 4).map((tagItem) => (
                             <span
                                 key={tagItem.name}
@@ -81,7 +85,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                                     backgroundColor: tagItem.color + "20",
                                     color: tagItem.color,
                                 }}
-                                className={`sm:p-1 p-0.5 text-xs font-bold px-2.5 sm:px-3 text-center rounded-full flex items-center gap-1 justify-center ${layout === "list" ? "w-fit" : "w-full sm:w-fit"}`}>
+                                className={`sm:p-1 p-0.5 text-xs font-bold px-2.5 sm:px-3 text-center rounded-full flex items-center gap-1 justify-center ${columns === 4 ? "w-full lg:w-fit" : layout === "list" ? "w-fit" : "w-full sm:w-fit"}`}>
                                 {tagItem.name}
                             </span>
                         ))}
@@ -90,7 +94,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                 <div
                     className={`border-text/10 items-center justify-between p-1.5 px-3 sm:p-3 ${layout === "list" && columns === 2 ? "hidden" : layout === "grid" ? "border-t flex" : "hidden sm:flex"}`}>
                     <h5
-                        className={`hidden items-center gap-1 sm:gap-2 text-sm text-text/70 ${layout === "list" ? "hidden" : "md:flex"}`}>
+                        className={`hidden items-center gap-1 sm:gap-2 text-sm text-text/70 ${columns === 4 ? "hidden lg:flex" : layout === "list" ? "hidden" : "md:flex"}`}>
                         <FaCalendar className='text-xs' />
                         <span
                             className={`${(layout === "list" || columns === 4) && "hidden"}`}>
