@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FaPenAlt, FaTrashAlt } from "react-icons/fa";
-import { FaCalendar, FaLink, FaRegCopy } from "react-icons/fa6";
+import { FaRegCopy } from "react-icons/fa6";
 import image from "@/src/assets/img_1.jpg";
 import { TTag } from "@/src/types";
 import { MdUpdate } from "react-icons/md";

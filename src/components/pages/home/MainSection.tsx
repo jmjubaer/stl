@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import { FaList } from "react-icons/fa6";
+import { FaList, FaPlus } from "react-icons/fa6";
 import { IoGrid } from "react-icons/io5";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
@@ -11,7 +11,9 @@ import { LuColumns2, LuColumns3, LuColumns4 } from "react-icons/lu";
 import { PiTextColumnsBold } from "react-icons/pi";
 import { TfiLayoutColumn4Alt } from "react-icons/tfi";
 import { TbColumns1 } from "react-icons/tb";
+import AddLinkForm from "../../ui/AddLinkForm";
 const MainSection = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
     const [tag, setTag] = useState<TTag[]>([]);
@@ -24,24 +26,22 @@ const MainSection = () => {
         { name: "Inspiration", color: "#1DBAC9" },
     ];
     // for auto change the collumn based on screen size, but I think it's better to let user decide the column quantity
-//   useEffect(() => {
-//     const handleResize = () => {
-//       if (window.innerWidth <= 768) {
-//         setColumns(3); // md
-//       }
-//     };
+    //   useEffect(() => {
+    //     const handleResize = () => {
+    //       if (window.innerWidth <= 768) {
+    //         setColumns(3); // md
+    //       }
+    //     };
 
-//     handleResize(); // run on mount
-//     window.addEventListener("resize", handleResize);
+    //     handleResize(); // run on mount
+    //     window.addEventListener("resize", handleResize);
 
-//     return () => window.removeEventListener("resize", handleResize);
-//   }, []);
+    //     return () => window.removeEventListener("resize", handleResize);
+    //   }, []);
     return (
         <section className=''>
             {/* Filter section likely section header */}
-            <div
-                className='md:py-3 py-2 shadow-sm dark:shadow-md dark:shadow-text/10 sticky
-         top-0 z-50 bg-background'>
+            <div className='md:py-3 py-2 shadow-sm dark:shadow-md dark:shadow-text/10 bg-background'>
                 <div className='flex flex-wrap items-center gap-2 md:gap-3 justify-center lg:justify-between container'>
                     <div className='flex items-center gap-2 sm:gap-3'>
                         {/* Search bar */}
@@ -191,6 +191,17 @@ const MainSection = () => {
                 <LinkCard columns={columns} tagList={tagList} layout={layout} />
                 <LinkCard columns={columns} tagList={tagList} layout={layout} />
                 <LinkCard columns={columns} tagList={tagList} layout={layout} />
+            </div>
+            {/* Add Link section */}
+            <div className=''>
+                <button onClick={() => setIsModalOpen(true)} className='px-4 py-4 cursor-pointer rounded-full hover:bg-primary text-white bg-text transition-colors fixed bottom-5 right-5'>
+                    {" "}
+                    <FaPlus className='sm:text-2xl text-xl' />
+                </button>
+                <AddLinkForm
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                />
             </div>
         </section>
     );
