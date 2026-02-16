@@ -21,7 +21,7 @@ const AddLinkForm = ({ isModalOpen, setIsModalOpen }: TProps) => {
         <>
             <Modal open={isModalOpen} onCancel={handleCancel} footer={false}>
                 <div className=''>
-                    <h2 className='text-2xl font-bold mb-4'>Add New Link</h2>
+                    <h2 className='text-2xl font-bold mb-4'>Add New Link</h2>cd     
                 </div>
             </Modal>
         </>

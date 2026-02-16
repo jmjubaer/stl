@@ -20,7 +20,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                 <Image
                     src={image}
                     alt='Link image'
-                    className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-44 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
+                    className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-36 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
                 />
                 {/* Floating button section */}
                 <div
@@ -66,7 +66,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
             <div
                 className={`${layout === "list" ? "flex items-center justify-between w-full" : ""}`}>
                 <div
-                    className={` ${columns === 4 ? "p-1" : columns === 1 ? "p-3" : layout === "list" ? "sm:px-3 xs:px-1.5 px-1" : "sm:p-3 xs:p-1.5 p-1"}`}>
+                    className={` ${columns === 4 ? "p-1 lg:p-3" : columns === 1 ? "p-3" : layout === "list" ? "sm:px-3 xs:px-1.5 px-1" : "sm:p-3 xs:p-1.5 p-1"}`}>
                     <h2
                         className={` font-semibold line-clamp-1 ${(layout === "list" && columns === 2) || columns === 4 ? "text-md" : "xs:text-lg sm:text-xl"}`}
                         title=' Unsplash - Free Photos'>
