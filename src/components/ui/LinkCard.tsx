@@ -6,6 +6,7 @@ import { TTag } from "@/src/types";
 import { MdUpdate } from "react-icons/md";
 import { RiMenuAddLine } from "react-icons/ri";
 import { LuExternalLink } from "react-icons/lu";
+import { CiGlobe } from "react-icons/ci";
 type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";
@@ -66,12 +67,18 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
             <div
                 className={`${layout === "list" ? "flex items-center justify-between w-full" : ""}`}>
                 <div
-                    className={` ${columns === 4 ? "p-1 lg:p-3" : columns === 1 ? "p-3" : layout === "list" ? "sm:px-3 xs:px-1.5 px-1" : "sm:p-3 xs:p-1.5 p-1"}`}>
-                    <h2
-                        className={` font-semibold line-clamp-1 ${(layout === "list" && columns === 2) || columns === 4 ? "text-md" : "xs:text-lg sm:text-xl"}`}
-                        title=' Unsplash - Free Photos'>
-                        Unsplash - Free Photos
-                    </h2>
+                    className={` ${columns === 4 ? "p-1 lg:p-3" : columns === 1 && layout === "grid" ? "p-3" : layout === "list" ? "sm:px-3 xs:px-1.5 px-1" : "sm:p-3 xs:p-1.5 p-1"}`}>
+                    <div className='flex items-center gap-2 '>
+                        {/* Favicon section */}
+                        <div className='rounded-full xs:text-xl text-sm bg-primary p-1 text-white '>
+                            <CiGlobe />
+                        </div>
+                        <h2
+                            className={` font-semibold line-clamp-1 ${(layout === "list" && columns === 2) || columns === 4 ? "text-md" : "xs:text-lg sm:text-xl"}`}
+                            title=' Unsplash - Free Photos'>
+                            Unsplash - Free Photos
+                        </h2>
+                    </div>
                     <p
                         className={`xs:text-sm text-xs text-text/80 line-clamp-1 ${layout === "list" || columns === 2 ? "line-clamp-2" : "line-clamp-1"}`}
                         title='Beautiful, free images and photos for any project. High
