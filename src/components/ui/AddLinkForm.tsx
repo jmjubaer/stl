@@ -1,17 +1,10 @@
-import React, { useState } from "react";
-import { Button, Modal } from "antd";
+import React from "react";
+import { Modal } from "antd";
 type TProps = {
     isModalOpen: boolean;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const AddLinkForm = ({ isModalOpen, setIsModalOpen }: TProps) => {
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
 
     const handleCancel = () => {
         setIsModalOpen(false);

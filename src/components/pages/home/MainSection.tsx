@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { FaList, FaPlus } from "react-icons/fa6";
 import { IoGrid } from "react-icons/io5";
@@ -12,6 +12,7 @@ import { PiTextColumnsBold } from "react-icons/pi";
 import { TfiLayoutColumn4Alt } from "react-icons/tfi";
 import { TbColumns1 } from "react-icons/tb";
 import AddLinkForm from "../../ui/AddLinkForm";
+import FolderCard from "../../ui/FolderCard";
 const MainSection = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [layout, setLayout] = useState<"grid" | "list">("grid");
@@ -174,27 +175,78 @@ const MainSection = () => {
                     </span>
                 ))}
             </div>
-            {/* Link Card section` */}
-            <div
-                className={`grid gap-2 md:gap-3 my-5 container  ${
-                    columns === 1
-                        ? "grid-cols-1"
-                        : columns === 2
-                          ? "grid-cols-2"
-                          : columns === 3
-                            ? "grid-cols-3"
-                            : "grid-cols-4"
-                }`}>
-                {/* card */}
-                <LinkCard columns={columns} tagList={tagList} layout={layout} />
-                <LinkCard columns={columns} tagList={tagList} layout={layout} />
-                <LinkCard columns={columns} tagList={tagList} layout={layout} />
-                <LinkCard columns={columns} tagList={tagList} layout={layout} />
-                <LinkCard columns={columns} tagList={tagList} layout={layout} />
+
+            {/* Folder Section  */}
+            <div className='container my-5'>
+                <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
+                    Folders
+                </h2>
+                <div
+                    className={`grid gap-2 md:gap-3 ${
+                        columns === 1
+                            ? "grid-cols-1"
+                            : columns === 2
+                              ? "grid-cols-2"
+                              : columns === 3
+                                ? "grid-cols-3"
+                                : "grid-cols-4"
+                    }`}>
+                    <FolderCard columns={columns} layout={layout} />
+                    <FolderCard columns={columns} layout={layout} />
+                    <FolderCard columns={columns} layout={layout} />
+                    <FolderCard columns={columns} layout={layout} />
+                </div>
             </div>
+
+            {/* bookmark section` */}
+            <div className='container my-5'>
+                <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
+                    Bookmarks
+                </h2>
+                <div
+                    className={`grid gap-2 md:gap-3 ${
+                        columns === 1
+                            ? "grid-cols-1"
+                            : columns === 2
+                              ? "grid-cols-2"
+                              : columns === 3
+                                ? "grid-cols-3"
+                                : "grid-cols-4"
+                    }`}>
+                    {/* card */}
+                    <LinkCard
+                        columns={columns}
+                        tagList={tagList}
+                        layout={layout}
+                    />
+                    <LinkCard
+                        columns={columns}
+                        tagList={tagList}
+                        layout={layout}
+                    />
+                    <LinkCard
+                        columns={columns}
+                        tagList={tagList}
+                        layout={layout}
+                    />
+                    <LinkCard
+                        columns={columns}
+                        tagList={tagList}
+                        layout={layout}
+                    />
+                    <LinkCard
+                        columns={columns}
+                        tagList={tagList}
+                        layout={layout}
+                    />
+                </div>
+            </div>
+
             {/* Add Link section */}
             <div className=''>
-                <button onClick={() => setIsModalOpen(true)} className='px-4 py-4 cursor-pointer rounded-full hover:bg-primary text-white bg-text transition-colors fixed bottom-5 right-5'>
+                <button
+                    onClick={() => setIsModalOpen(true)}
+                    className='px-4 py-4 cursor-pointer rounded-full hover:bg-primary text-white bg-text transition-colors fixed bottom-5 right-5'>
                     {" "}
                     <FaPlus className='sm:text-2xl text-xl' />
                 </button>
