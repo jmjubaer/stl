@@ -177,7 +177,7 @@ const MainSection = () => {
             </div>
 
             {/* Folder Section  */}
-            <div className='container my-5'>
+            <div className='container my-2'>
                 <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
                     Folders
                 </h2>
@@ -199,7 +199,7 @@ const MainSection = () => {
             </div>
 
             {/* bookmark section` */}
-            <div className='container my-5'>
+            <div className='container my-2'>
                 <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
                     Bookmarks
                 </h2>
