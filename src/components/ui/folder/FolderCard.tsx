@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import folder from "@/src/assets/folder.png";
+import OptionDropdown from "./OptionDropdown";
 type TProps = {
     layout: "grid" | "list";
     columns: number;
@@ -28,10 +29,7 @@ const FolderCard = ({ columns, layout }: TProps) => {
                     </p>
                 </div>
             </div>
-            <button
-                className={`cursor-pointer ${columns === 3 ? "sm:static absolute top-2 right-2" : ""}`}>
-                <BsThreeDotsVertical />
-            </button>
+            <OptionDropdown columns={columns} />
         </div>
     );
 };

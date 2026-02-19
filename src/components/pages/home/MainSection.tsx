@@ -12,7 +12,7 @@ import { PiTextColumnsBold } from "react-icons/pi";
 import { TfiLayoutColumn4Alt } from "react-icons/tfi";
 import { TbColumns1 } from "react-icons/tb";
 import AddLinkForm from "../../ui/AddLinkForm";
-import FolderCard from "../../ui/FolderCard";
+import FolderCard from "../../ui/folder/FolderCard";
 const MainSection = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [layout, setLayout] = useState<"grid" | "list">("grid");

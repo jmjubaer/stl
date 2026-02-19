@@ -13,7 +13,6 @@ const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
         setSortby(sortby);
         setOpenSort(false);
     };
-
     // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
