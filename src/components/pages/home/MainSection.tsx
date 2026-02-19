@@ -6,15 +6,15 @@ import { IoGrid } from "react-icons/io5";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
 import { TTag } from "@/src/types";
-import LinkCard from "../../ui/LinkCard";
+import LinkCard from "../../ui/LInk/LinkCard";
 import { LuColumns2, LuColumns3, LuColumns4 } from "react-icons/lu";
 import { PiTextColumnsBold } from "react-icons/pi";
 import { TfiLayoutColumn4Alt } from "react-icons/tfi";
 import { TbColumns1 } from "react-icons/tb";
-import AddLinkForm from "../../ui/AddLinkForm";
+import AddLinkForm from "../../ui/LInk/AddLinkForm";
 import FolderCard from "../../ui/folder/FolderCard";
+import AddButton from "../../ui/AddButton";
 const MainSection = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
     const [tag, setTag] = useState<TTag[]>([]);
@@ -26,6 +26,7 @@ const MainSection = () => {
         { name: "Marketing", color: "#F97A1F" },
         { name: "Inspiration", color: "#1DBAC9" },
     ];
+
     // for auto change the collumn based on screen size, but I think it's better to let user decide the column quantity
     //   useEffect(() => {
     //     const handleResize = () => {
@@ -242,18 +243,9 @@ const MainSection = () => {
                 </div>
             </div>
 
-            {/* Add Link section */}
+            {/* Add button section */}
             <div className=''>
-                <button
-                    onClick={() => setIsModalOpen(true)}
-                    className='px-4 py-4 cursor-pointer rounded-full hover:bg-primary text-white bg-text transition-colors fixed bottom-5 right-5'>
-                    {" "}
-                    <FaPlus className='sm:text-2xl text-xl' />
-                </button>
-                <AddLinkForm
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                />
+                <AddButton />
             </div>
         </section>
     );
