@@ -1,14 +1,25 @@
 import { useEffect, useRef, useState } from "react";
-import { FaFolderPlus, FaPlus } from "react-icons/fa6";
-import { IoIosShareAlt } from "react-icons/io";
+import { FaPlus } from "react-icons/fa6";
 import { LuLink } from "react-icons/lu";
-import { MdAddLink, MdOutlineEdit } from "react-icons/md";
 import { RiFolderAddLine } from "react-icons/ri";
+import AddLinkForm from "./LInk/AddLinkForm";
+import AddFolderForm from "./folder/AddFolderForm";
 
 const AddButton = () => {
     const [isOpenOption, setIsOpenOption] = useState(false);
-    const optionRef = useRef<HTMLDivElement>(null);
+    const [isOpenLinkModal, setIsOpenLinkModal] = useState(false);
+    const [isOpenFolderModal, setIsOpenFolderModal] = useState(false);
+    const handleOpenLinkModal = () => {
+        setIsOpenLinkModal(true);
+        setIsOpenOption(false);
+    };
+    const handleOpenFolderModal = () => {
+        setIsOpenFolderModal(true);
+        setIsOpenOption(false);
+    };
+
     // Close dropdown when clicking outside
+    const optionRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (
@@ -33,17 +44,23 @@ const AddButton = () => {
             {isOpenOption && (
                 <div className=' absolute bottom-16 right-2 z-10 '>
                     <button
-                        // onClick={() => setIsOpen(!isOpen)}
+                        onClick={handleOpenFolderModal}
                         className=' text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20'>
                         <RiFolderAddLine className='text-xl' /> Add Folder
                     </button>{" "}
                     <button
-                        // onClick={() => setIsOpen(!isOpen)}
+                        onClick={handleOpenLinkModal}
                         className='text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 mt-5'>
                         <LuLink className='text-xl' /> Add Link
                     </button>{" "}
                 </div>
             )}
+            {/* Add Link Modal  */}
+            <AddLinkForm
+                isOpenLinkModal={isOpenLinkModal}
+                setIsOpenLinkModal={setIsOpenLinkModal}
+            />
+            <AddFolderForm isOpenFolderModal={isOpenFolderModal} setIsOpenFolderModal={setIsOpenFolderModal} />
         </div>
     );
 };

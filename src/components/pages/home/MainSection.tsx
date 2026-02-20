@@ -11,7 +11,6 @@ import { LuColumns2, LuColumns3, LuColumns4 } from "react-icons/lu";
 import { PiTextColumnsBold } from "react-icons/pi";
 import { TfiLayoutColumn4Alt } from "react-icons/tfi";
 import { TbColumns1 } from "react-icons/tb";
-import AddLinkForm from "../../ui/LInk/AddLinkForm";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
 const MainSection = () => {

@@ -1,18 +1,18 @@
 import React from "react";
 import { Modal } from "antd";
 type TProps = {
-    isModalOpen: boolean;
-    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isOpenLinkModal: boolean;
+    setIsOpenLinkModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const AddLinkForm = ({ isModalOpen, setIsModalOpen }: TProps) => {
+const AddLinkForm = ({ isOpenLinkModal, setIsOpenLinkModal }: TProps) => {
 
     const handleCancel = () => {
-        setIsModalOpen(false);
+        setIsOpenLinkModal(false);
     };
 
     return (
         <>
-            <Modal open={isModalOpen} onCancel={handleCancel} footer={false}>
+            <Modal open={isOpenLinkModal} onCancel={handleCancel} footer={false}>
                 <div className=''>
                     <h2 className='text-2xl font-bold mb-4'>Add New Link</h2>cd     
                 </div>
