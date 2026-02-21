@@ -1,12 +1,11 @@
 import Image from "next/image";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import folder from "@/src/assets/folder.png";
 import OptionDropdown from "./OptionDropdown";
 type TProps = {
     layout: "grid" | "list";
     columns: number;
 };
-const FolderCard = ({ columns, layout }: TProps) => {
+const FolderCard = ({ columns }: TProps) => {
     return (
         <div
             className={`cursor-pointer rounded-lg border border-text/20 relative flex items-center justify-between  ${columns === 4 ? "sm:p-2 p-1" : columns === 3 ? "p-2 flex-col sm:flex-row text-center sm:text-left relative" : "p-2"}`}>

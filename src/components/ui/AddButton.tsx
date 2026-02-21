@@ -35,22 +35,22 @@ const AddButton = () => {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
     return (
-        <div className='w-fit h-fit fixed bottom-5 right-5' ref={optionRef}>
+        <div className='w-fit h-fit fixed xs:bottom-5 bottom-16 right-2 xs:right-5' ref={optionRef}>
             <button
                 onClick={() => setIsOpenOption(!isOpenOption)}
-                className='px-4 py-4 cursor-pointer rounded-full hover:bg-primary text-white bg-black transition-colors'>
-                <FaPlus className='sm:text-2xl text-xl' />
+                className='xs:px-4 xs:py-4 px-3 py-3 cursor-pointer rounded-full hover:bg-primary text-white bg-black transition-colors'>
+                <FaPlus className='sm:text-2xl xs:text-xl' />
             </button>
             {isOpenOption && (
-                <div className=' absolute bottom-16 right-2 z-10 '>
+                <div className=' absolute xs:bottom-16 bottom-14 right-2 z-20 '>
                     <button
                         onClick={handleOpenFolderModal}
-                        className=' text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20'>
+                        className=' text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 z-20'>
                         <RiFolderAddLine className='text-xl' /> Add Folder
                     </button>{" "}
                     <button
                         onClick={handleOpenLinkModal}
-                        className='text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 mt-5'>
+                        className='text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 mt-5 z-50'>
                         <LuLink className='text-xl' /> Add Link
                     </button>{" "}
                 </div>

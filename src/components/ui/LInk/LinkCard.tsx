@@ -7,36 +7,46 @@ import { MdUpdate } from "react-icons/md";
 import { RiMenuAddLine } from "react-icons/ri";
 import { LuExternalLink } from "react-icons/lu";
 import { CiGlobe } from "react-icons/ci";
-import { Checkbox } from "antd";
 type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";
     columns: number;
+    selectLink: string[];
+    setSelectLink: React.Dispatch<React.SetStateAction<string[]>>;
 };
-const LinkCard = ({ tagList, layout, columns }: TProps) => {
+const LinkCard = ({
+    tagList,
+    layout,
+    columns,
+    setSelectLink,
+    selectLink,
+}: TProps) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSelectLink = (e: any) => {
         console.log(e.target.checked);
+        if (e.target.checked) {
+            setSelectLink([...selectLink, "linkId"]);
+        }
+        //  else {
+        //     setSelectLink(selectLink.filter((id) => id !== "linkId"));
+        // }
     };
     return (
         <div
             className={`overflow-hidden rounded-xl border border-text/20 shadow-md dark:shadow-white/10 bg-white/50 dark:bg-background group ${layout === "list" && columns === 2 ? "flex items-center p-2 sm:p-4 gap-0 xs:gap-2 relative" : layout === "list" ? "flex items-center p-2 sm:p-4 gap-2 relative" : ""}`}>
-            {/* Checkbox */}
-            {/* <input type='checkbox' className="w-10 text-9xl text-primary"/> */}
-
             <div
                 className={`overflow-hidden flex items-center gap-2  ${layout === "list" ? "" : "relative"}`}>
                 <input
                     onChange={(e) => handleSelectLink(e)}
                     type='checkbox'
-                    className={` z-20 w-9 cursor-pointer accent-primary ${columns === 3 ? "absolute top-3 left-0 scale-150" : layout === "list" && columns === 2 ? "sm:static absolute top-4 right-1 sm:scale-170 scale-150" : layout === "list" ? "static sm:scale-200 scale-150" : "absolute top-4 left-1 sm:scale-200 scale-150"}`}
+                    className={` z-10 w-9 cursor-pointer accent-primary ${columns === 3 ? "absolute top-3 sm:top-5 left-0 sm:left-2 sm:scale-200 scale-150" : layout === "list" && columns === 2 ? "sm:static absolute top-4 right-1 sm:scale-170 scale-150" : layout === "list" ? "static sm:scale-200 scale-150" : "absolute top-4 left-1 sm:scale-200 scale-150"}`}
                 />
                 <div
                     className={`overflow-hidden flex  ${layout === "list" ? "rounded-lg" : "relative"}`}>
                     <Image
                         src={image}
                         alt='Link image'
-                        className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-36 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
+                        className={`group-hover:scale-110  transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-36 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
                     />
                 </div>
                 {/* Floating button section */}
@@ -85,7 +95,7 @@ const LinkCard = ({ tagList, layout, columns }: TProps) => {
                 <div
                     className={` ${columns === 4 ? "p-1 lg:p-3" : columns === 1 && layout === "grid" ? "p-3" : layout === "list" ? "sm:px-3 xs:px-1.5 px-1" : "sm:p-3 xs:p-1.5 p-1"}`}>
                     <div
-                        className={`flex items-center  ${layout === "list" && columns === 2 ? "gap-0.5" : "gap-2"}`}>
+                        className={`flex items-center  ${layout === "list" && columns === 2 ? "gap-0.5 sm:gap-2" : "gap-2"}`}>
                         {/* Favicon section */}
                         <div className='rounded-full xs:text-xl text-sm bg-primary p-1 text-white '>
                             <CiGlobe />
