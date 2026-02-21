@@ -38,7 +38,7 @@ const AddButton = () => {
         <div className='w-fit h-fit fixed xs:bottom-5 bottom-16 right-2 xs:right-5' ref={optionRef}>
             <button
                 onClick={() => setIsOpenOption(!isOpenOption)}
-                className='xs:px-4 xs:py-4 px-3 py-3 cursor-pointer rounded-full hover:bg-primary text-white bg-black transition-colors'>
+                className='xs:px-4 xs:py-4 px-3 py-3 cursor-pointer rounded-full hover:bg-primary dark:bg-primary text-white bg-black transition-colors'>
                 <FaPlus className='sm:text-2xl xs:text-xl' />
             </button>
             {isOpenOption && (
