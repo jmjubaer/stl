@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { FaRegCheckSquare, FaSearch, FaTimes } from "react-icons/fa";
-import { FaList, FaPlus } from "react-icons/fa6";
+import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaList } from "react-icons/fa6";
 import { IoGrid } from "react-icons/io5";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
@@ -13,8 +13,7 @@ import { TfiLayoutColumn4Alt } from "react-icons/tfi";
 import { TbColumns1 } from "react-icons/tb";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
-import { MdDriveFileMoveOutline } from "react-icons/md";
-import { IoMdClose } from "react-icons/io";
+import SelectLinkControl from "../../ui/LInk/SelectLinkControl";
 const MainSection = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [selectLink, setSelectLink] = useState<string[]>([]);
@@ -28,9 +27,7 @@ const MainSection = () => {
         { name: "Marketing", color: "#F97A1F" },
         { name: "Inspiration", color: "#1DBAC9" },
     ];
-    const handleRemoveSelectLink = () => {
-        setSelectLink([]);
-    };
+
     return (
         <section className=''>
             {/* Filter section likely section header */}
@@ -237,24 +234,11 @@ const MainSection = () => {
                 </div>
             </div>
 
-            {/* Card Select  option */}
-            {selectLink?.length > 0 && (
-                <div className='fixed bottom-0 left-1/2 -translate-1/2 bg-background shadow-2xl border border-text/50 rounded-full py-2 px-5 text-sm flex items-center gap-3 z-10'>
-                    <button className='flex items-center gap-1 cursor-pointer border-r pr-3'>
-                        <FaRegCheckSquare className='text-lg' />
-                        <span>{selectLink?.length}</span> Selected
-                    </button>
-                    <button className='flex items-center gap-1 cursor-pointer text-blue-600'>
-                        <MdDriveFileMoveOutline className='text-xl mb-0.5' />
-                        <span className='whitespace-nowrap'>Move to Folder</span>
-                    </button>
-                    <button
-                        onClick={handleRemoveSelectLink}
-                        className=' cursor-pointer'>
-                        <IoMdClose className='text-lg' />
-                    </button>
-                </div>
-            )}
+            {/* Card Select Option */}
+            <SelectLinkControl
+                selectLink={selectLink}
+                setSelectLink={setSelectLink}
+            />
             {/* Add button section */}
             <div className=''>
                 <AddButton />
