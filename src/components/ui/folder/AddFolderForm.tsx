@@ -47,7 +47,7 @@ const AddFolderForm = ({ isOpenFolderModal, setIsOpenFolderModal }: TProps) => {
                         <input
                             {...register("folderName", { required: true })}
                             type='text'
-                            className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 ${errors.folderName ? "border-red-500" : "border-text/5  0"}`}
+                            className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 ${errors.folderName ? "border-red-500" : "border-text/50"}`}
                             placeholder='Enter folder name ....'
                         />
                         {errors.folderName && (

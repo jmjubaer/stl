@@ -4,7 +4,7 @@ export interface TLink {
     id: string;
     url: string;
     domain?: string;
-    title?: string;
+    title: string;
     description?: string;
     image?: string;
     favicon?: string;
@@ -13,6 +13,7 @@ export interface TLink {
     tags: TTag[];
     createdAt: string;
     updatedAt: Date;
+    
     // optional
     isFavorite: boolean;
     visitCount: number;

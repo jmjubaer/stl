@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { LuLink } from "react-icons/lu";
 import { RiFolderAddLine } from "react-icons/ri";
-import AddLinkForm from "./LInk/AddLinkForm";
+import AddLinkForm from "./LInk/AddBookmarkForm";
 import AddFolderForm from "./folder/AddFolderForm";
 
 const AddButton = () => {
