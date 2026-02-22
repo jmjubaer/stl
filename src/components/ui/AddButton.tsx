@@ -35,7 +35,9 @@ const AddButton = () => {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
     return (
-        <div className='w-fit h-fit fixed xs:bottom-5 bottom-16 right-2 xs:right-5' ref={optionRef}>
+        <div
+            className='w-fit h-fit fixed xs:bottom-5 bottom-16 right-2 xs:right-5'
+            ref={optionRef}>
             <button
                 onClick={() => setIsOpenOption(!isOpenOption)}
                 className='xs:px-4 xs:py-4 px-3 py-3 cursor-pointer rounded-full hover:bg-primary dark:bg-primary text-white bg-black transition-colors'>
@@ -44,23 +46,27 @@ const AddButton = () => {
             {isOpenOption && (
                 <div className=' absolute xs:bottom-16 bottom-14 right-2 z-20 '>
                     <button
-                        onClick={handleOpenFolderModal}
-                        className=' text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 z-20'>
-                        <RiFolderAddLine className='text-xl' /> Add Folder
+                        onClick={handleOpenLinkModal}
+                        className='text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 z-50'>
+                        <LuLink className='text-xl' /> Add Link
                     </button>{" "}
                     <button
-                        onClick={handleOpenLinkModal}
-                        className='text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 mt-5 z-50'>
-                        <LuLink className='text-xl' /> Add Link
+                        onClick={handleOpenFolderModal}
+                        className=' text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 z-20 mt-5'>
+                        <RiFolderAddLine className='text-xl' /> Add Folder
                     </button>{" "}
                 </div>
             )}
             {/* Add Link Modal  */}
             <AddLinkForm
+                setIsOpenFolderModal={setIsOpenFolderModal}
                 isOpenLinkModal={isOpenLinkModal}
                 setIsOpenLinkModal={setIsOpenLinkModal}
             />
-            <AddFolderForm isOpenFolderModal={isOpenFolderModal} setIsOpenFolderModal={setIsOpenFolderModal} />
+            <AddFolderForm
+                isOpenFolderModal={isOpenFolderModal}
+                setIsOpenFolderModal={setIsOpenFolderModal}
+            />
         </div>
     );
 };

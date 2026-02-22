@@ -3,14 +3,21 @@ import Image from "next/image";
 import { FaChevronDown, FaRegFolderOpen } from "react-icons/fa";
 import folder from "@/src/assets/folder.png";
 import { useState } from "react";
-import { FaCheck } from "react-icons/fa6";
-
-const FolderDropdown = () => {
+import { FaCheck, FaPlus } from "react-icons/fa6";
+import { MdCreateNewFolder } from "react-icons/md";
+type TProps = {
+    setIsOpenFolderModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const FolderDropdown = ({ setIsOpenFolderModal }: TProps) => {
     const [openDropdown, setOpenDropdown] = useState(false);
     const [selectFolder, setSelectFolder] = useState<string>("No Folder");
     const handleSelectFolder = (folder: string) => {
         setSelectFolder(folder);
-        setOpenDropdown(false)
+        setOpenDropdown(false);
+    };
+    const handleOpenNewFolder = () => {
+        setIsOpenFolderModal(true);
+        setOpenDropdown(false);
     };
     return (
         <div className='mt-5 relative'>
@@ -18,7 +25,7 @@ const FolderDropdown = () => {
                 Folder :
             </label>
             <button
-            type="button"
+                type='button'
                 onClick={() => setOpenDropdown(!openDropdown)}
                 className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0  flex items-center justify-between`}>
                 {
@@ -43,6 +50,14 @@ const FolderDropdown = () => {
             </button>
             {openDropdown && (
                 <div className=' text-sm absolute top-20 left-0 bg-background w-full border border-text rounded-2xl shadow p-1'>
+                    <button
+                        onClick={handleOpenNewFolder}
+                        type='button'
+                        className='flex items-center px-4 py-2 hover:bg-primary rounded-2xl hover:text-white gap-2 w-full cursor-pointer'>
+                        <FaCheck className={`mr-2 invisible `} />
+                        <MdCreateNewFolder className='text-2xl' />
+                        <span> New Folder</span>
+                    </button>
                     <button
                         onClick={() => handleSelectFolder("No Folder")}
                         type='button'

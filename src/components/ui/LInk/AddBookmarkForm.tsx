@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Modal } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
-import folder from "@/src/assets/folder.png";
-import Image from "next/image";
-import { FaRegFolderOpen } from "react-icons/fa6";
 import FolderDropdown from "./FolderDropdown";
 import { FaTimes } from "react-icons/fa";
 import { TTag } from "@/src/types";
+import { TiPlus } from "react-icons/ti";
+import AddTagForm from "./AddTagForm/AddTagForm";
 type TProps = {
     isOpenLinkModal: boolean;
     setIsOpenLinkModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsOpenFolderModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 type TInputs = {
     title: string;
@@ -24,8 +24,14 @@ const tagList = [
     { name: "Marketing", color: "#F97A1F" },
     { name: "Inspiration", color: "#1DBAC9" },
 ];
-const AddLinkForm = ({ isOpenLinkModal, setIsOpenLinkModal }: TProps) => {
+const AddLinkForm = ({
+    isOpenLinkModal,
+    setIsOpenLinkModal,
+    setIsOpenFolderModal,
+}: TProps) => {
     const [tag, setTag] = useState<TTag[]>([]);
+    const [isOpenTagModal, setIsOpenTagModal] = useState(false);
+
     const {
         reset,
         register,
@@ -118,7 +124,9 @@ const AddLinkForm = ({ isOpenLinkModal, setIsOpenLinkModal }: TProps) => {
                         </div>
 
                         {/* Folder */}
-                        <FolderDropdown />
+                        <FolderDropdown
+                            setIsOpenFolderModal={setIsOpenFolderModal}
+                        />
 
                         {/* Notes */}
                         <div className='mt-5'>
@@ -144,6 +152,17 @@ const AddLinkForm = ({ isOpenLinkModal, setIsOpenLinkModal }: TProps) => {
                             </label>
                             <div
                                 className={`pt-3 flex flex-wrap items-center gap-2 container`}>
+                                <button
+                                    onClick={() => setIsOpenTagModal(true)}
+                                    type='button'
+                                    style={{
+                                        backgroundColor: "#1A8CFF" + "20",
+                                        color: "#1A8CFF",
+                                    }}
+                                    className={`p-1 text-xs font-bold px-3  rounded-full cursor-pointer flex items-center gap-1`}>
+                                    <TiPlus />
+                                    Add Tag
+                                </button>
                                 {tagList.map((tagItem) => (
                                     <button
                                         onClick={() => handleToggleTag(tagItem)}
@@ -160,6 +179,7 @@ const AddLinkForm = ({ isOpenLinkModal, setIsOpenLinkModal }: TProps) => {
                                             ) && "border-2"
                                         }`}>
                                         {tagItem.name}
+
                                         {tag.find(
                                             (t) => t.name === tagItem.name,
                                         ) && (
@@ -187,6 +207,10 @@ const AddLinkForm = ({ isOpenLinkModal, setIsOpenLinkModal }: TProps) => {
                         </div>
                     </form>
                 </div>
+                <AddTagForm
+                    isOpenTagModal={isOpenTagModal}
+                    setIsOpenTagModal={setIsOpenTagModal}
+                />
             </Modal>
         </>
     );
