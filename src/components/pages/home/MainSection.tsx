@@ -1,15 +1,15 @@
 "use client";
 import { useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import { FaList } from "react-icons/fa6";
-import { IoGrid } from "react-icons/io5";
+import { FaAngleRight, FaFolder, FaList } from "react-icons/fa6";
+import { IoGrid, IoHomeOutline } from "react-icons/io5";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
 import { TTag } from "@/src/types";
 import LinkCard from "../../ui/LInk/LinkCard";
 import { LuColumns2, LuColumns3, LuColumns4 } from "react-icons/lu";
 import { PiTextColumnsBold } from "react-icons/pi";
-import { TfiLayoutColumn4Alt } from "react-icons/tfi";
+import { TfiAngleRight, TfiLayoutColumn4Alt } from "react-icons/tfi";
 import { TbColumns1 } from "react-icons/tb";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
@@ -30,6 +30,19 @@ const MainSection = () => {
 
     return (
         <section className=''>
+            {/* Top Navigation */}
+            <div className='container flex items-center gap-1'>
+                <button className='flex items-center px-3 text-sm py-1.5 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-full mt-2'>
+                    <IoHomeOutline className='' />
+                    Home
+                </button>
+                <TfiAngleRight className="mt-2 text-xs"/>
+                <button className='flex items-center px-3 text-sm py-1.5 gap-1.5 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-full mt-2 '>
+                    <FaFolder className='text-lg text-[#FED862]' />
+                    Development
+                </button>
+            </div>
+
             {/* Filter section likely section header */}
             <div className='md:py-3 py-2 shadow-sm dark:shadow-md dark:shadow-text/10 bg-background'>
                 <div className='flex flex-wrap items-center gap-2 md:gap-3 justify-center lg:justify-between container'>
@@ -239,7 +252,7 @@ const MainSection = () => {
                 selectLink={selectLink}
                 setSelectLink={setSelectLink}
             />
-            
+
             {/* Add button section */}
             <div className=''>
                 <AddButton />
