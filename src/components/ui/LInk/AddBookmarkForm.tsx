@@ -5,7 +5,7 @@ import FolderDropdown from "./FolderDropdown";
 import { FaTimes } from "react-icons/fa";
 import { TTag } from "@/src/types";
 import { TiPlus } from "react-icons/ti";
-import AddTagForm from "./AddTagForm/AddTagForm";
+import AddTagForm from "./AddTagForm";
 type TProps = {
     isOpenLinkModal: boolean;
     setIsOpenLinkModal: React.Dispatch<React.SetStateAction<boolean>>;
