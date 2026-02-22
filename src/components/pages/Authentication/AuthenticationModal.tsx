@@ -1,13 +1,10 @@
 "use client";
 import logo from "@/src/assets/logo/stl-logo-dark.png";
 import { Modal } from "antd";
-import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 import { useState } from "react";
+import LoginForm from "./LoginForm";
 
-type TInputs = {
-    folderName: string;
-};
 type TProps = {
     isOpenAuthModal: boolean;
     setIsOpenAuthModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,21 +14,9 @@ const AuthenticationModal = ({
     setIsOpenAuthModal,
 }: TProps) => {
     const [authMode, setAuthMode] = useState("signin");
-    const {
-        reset,
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<TInputs>();
-    const handleCreateFolder: SubmitHandler<TInputs> = (data) => {
-        console.log(data);
-        setIsOpenAuthModal(false);
-        reset();
-    };
 
     const handleCancel = () => {
         setIsOpenAuthModal(false);
-        reset();
     };
 
     return (
@@ -50,6 +35,7 @@ const AuthenticationModal = ({
                         Sign in or create an account to get started
                     </p>
 
+                    {/* Toggle button */}
                     <div className='bg-text/10 p-1 px-1.5 rounded-full mt-5 flex items-center gap-2'>
                         <button
                             onClick={() => setAuthMode("signin")}
@@ -62,35 +48,19 @@ const AuthenticationModal = ({
                             Sign Up
                         </button>
                     </div>
-                    <form onSubmit={handleSubmit(handleCreateFolder)}>
-                        <label className='block mb-2 text-s font-medium text-text/80'>
-                            Folder Name :
-                        </label>
-                        <input
-                            {...register("folderName", { required: true })}
-                            type='text'
-                            className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 ${errors.folderName ? "border-red-500" : "border-text/50"}`}
-                            placeholder='Enter folder name ....'
+
+                    {/* Form Section */}
+                    {authMode === "signin" ? (
+                        <LoginForm
+                            isOpenAuthModal={isOpenAuthModal}
+                            setIsOpenAuthModal={setIsOpenAuthModal}
                         />
-                        {errors.folderName && (
-                            <span className='text-red-500'>
-                                {" "}
-                                Folder name is required
-                            </span>
-                        )}
-                        <div className='flex justify-end gap-5 mt-5'>
-                            <button
-                                onClick={handleCancel}
-                                className='border hover:bg-primary rounded-xl px-5 py-2 cursor-pointer hover:text-white'>
-                                Cancel
-                            </button>
-                            <button
-                                className='border bg-blue-700 text-white hover:bg-primary rounded-xl px-5 py-2 cursor-pointer hover:text-white'
-                                type='submit'>
-                                Create Folder
-                            </button>
+                    ) : (
+                        <div className='text-center mt-5'>
+                            {" "}
+                            Sign Up Form Coming Soon...
                         </div>
-                    </form>
+                    )}
                 </div>
             </Modal>
         </>

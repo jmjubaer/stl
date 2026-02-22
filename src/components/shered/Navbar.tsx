@@ -22,6 +22,7 @@ const Navbar = () => {
 
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+    console.log(isOpenAuthModal);
     return (
         <nav
             className={`glass-effect backdrop-blur-3xl sticky
