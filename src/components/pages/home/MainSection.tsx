@@ -32,7 +32,7 @@ const MainSection = () => {
         <section className=''>
             {/* Top Navigation */}
             <div className='container flex items-center gap-1'>
-                <button className='flex items-center px-3 text-sm py-1.5 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-full mt-2'>
+                <button className='flex items-center px-3 text-sm py-1.5 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-full mt-2  bg-text/10 duration-300'>
                     <IoHomeOutline className='' />
                     Home
                 </button>

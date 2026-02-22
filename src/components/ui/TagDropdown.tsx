@@ -2,17 +2,21 @@ import { TTag } from "@/src/types";
 import { useEffect, useRef, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
+import { GoPlus } from "react-icons/go";
+import { TiPlus } from "react-icons/ti";
+import AddTagForm from "./LInk/AddTagForm";
 type TagDropdownProps = {
     tag: TTag[];
     setTag: React.Dispatch<React.SetStateAction<TTag[]>>;
 };
 const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
+    const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const [openTag, setOpenTag] = useState(false);
     const handleToggleTag = (tag: TTag) => {
         setTag((prevTag) =>
             prevTag.some((t) => t.name === tag.name)
                 ? prevTag.filter((t) => t.name !== tag.name)
-                : [...prevTag, tag]
+                : [...prevTag, tag],
         );
     };
     const tagRef = useRef<HTMLDivElement>(null);
@@ -38,9 +42,10 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
     ];
     return (
         <div className='relative' ref={tagRef}>
+            {/* Tag button */}
             <button
                 onClick={() => setOpenTag(!openTag)}
-                className={`sm:px-5 px-4 py-1.5 border border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-1 ${(openTag  || tag.length > 0) && "bg-primary text-white border-primary"}`}>
+                className={`sm:px-5 px-4 py-1.5 border border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-1 ${(openTag || tag.length > 0) && "bg-primary text-white border-primary"}`}>
                 <CiFilter className='inline text-xl' />{" "}
                 <span className='hidden sm:inline'>Tags</span>
                 <span
@@ -50,34 +55,51 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                     {tag.length}
                 </span>
             </button>
+            {/* Dropdown */}
             <ul
-                className={`absolute top-10 border border-text/20 p-1 px-1.5 rounded-xl sm:left-0 right-0 bg-background shadow-md dark:shadow-white/20 w-48 z-10 ${
+                className={`absolute top-10 border border-text/20  rounded-xl sm:left-0 right-0 bg-background shadow-md dark:shadow-white/20 w-48 z-20 ${
                     openTag ? "visible" : "hidden"
                 }`}>
-                {tagList.map((tagItem) => (
-                    <li
-                        key={tagItem.name}
-                        onClick={() => handleToggleTag(tagItem)}
-                        className='px-3 py-2 rounded-xl text-xs hover:bg-text/5 cursor-pointer flex items-center gap-3'>
-                        <FaCheck
-                            className={`text-sm ${
-                                tag.some((t) => t.name === tagItem.name)
-                                    ? "block"
-                                    : "invisible"
-                            }`}
-                        />
+                {/* all tag */}
+                <div className='p-1 px-1.5'>
+                    {tagList.map((tagItem) => (
+                        <li
+                            key={tagItem.name}
+                            onClick={() => handleToggleTag(tagItem)}
+                            className='px-3 py-1.5 rounded-xl text-xs hover:bg-text/5 cursor-pointer flex items-center gap-3'>
+                            <FaCheck
+                                className={`text-sm ${
+                                    tag.some((t) => t.name === tagItem.name)
+                                        ? "block"
+                                        : "invisible"
+                                }`}
+                            />
 
-                        <span
-                            style={{
-                                backgroundColor: tagItem.color + "20",
-                                color: tagItem.color,
-                            }}
-                            className='p-1  font-bold px-3  rounded-full'>
-                            {tagItem.name}
-                        </span>
-                    </li>
-                ))}
+                            <span
+                                style={{
+                                    backgroundColor: tagItem.color + "20",
+                                    color: tagItem.color,
+                                }}
+                                className='p-1  font-bold px-3  rounded-full'>
+                                {tagItem.name}
+                            </span>
+                        </li>
+                    ))}
+                </div>
+                {/* Add tag */}
+                <div className='p-1 px-1.5 border-t border-text/20'>
+                    <button
+                        onClick={() => setIsOpenTagModal(true)}
+                        className='px-3 py-1 rounded-xl text-sm hover:bg-primary/50 cursor-pointer flex items-center gap-3 w-full'>
+                        <GoPlus className='text-2xl' />
+                        Add Tag
+                    </button>
+                </div>
             </ul>
+            <AddTagForm
+                isOpenTagModal={isOpenTagModal}
+                setIsOpenTagModal={setIsOpenTagModal}
+            />
         </div>
     );
 };

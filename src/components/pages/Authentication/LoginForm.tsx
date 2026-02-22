@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
 import { TbLockPassword } from "react-icons/tb";
+import ResetPasswordForm from "./ResetPasswordForm";
 type TInputs = {
     email: string;
     password: string;
@@ -11,6 +12,8 @@ type TProps = {
     setIsOpenAuthModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
+    const [isOpenResetModal, setIsOpenResetModal] = useState(false);
+
     const {
         reset,
         register,
@@ -24,57 +27,68 @@ const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
     };
 
     return (
-        <form onSubmit={handleSubmit(handleLogin)}>
-            {/* Email */}
-            <div className='mt-3 '>
-                <label className='block mb-1 text-s font-medium text-text/80'>
-                    Email :
-                </label>
-                <div className='relative mt-2'>
-                    <PiEnvelopeSimpleLight className='absolute left-3.5 bottom-2.5 text-text text-xl' />
-                    <input
-                        {...register("email", {
-                            required: true,
-                        })}
-                        type='text'
-                        className={`border w-full px-4 py-2 rounded-2xl pl-10 outline-0 ${errors.email ? "border-red-500" : "border-text/50"}`}
-                        placeholder='Enter Email ....'
-                    />
+        <>
+            <form onSubmit={handleSubmit(handleLogin)}>
+                {/* Email */}
+                <div className='mt-3 '>
+                    <label className='block mb-1 text-s font-medium text-text/80'>
+                        Email :
+                    </label>
+                    <div className='relative mt-2'>
+                        <PiEnvelopeSimpleLight className='absolute left-3.5 bottom-2.5 text-text text-xl' />
+                        <input
+                            {...register("email", {
+                                required: true,
+                            })}
+                            type='text'
+                            className={`border w-full px-4 py-2 rounded-2xl pl-10 outline-0 ${errors.email ? "border-red-500" : "border-text/50"}`}
+                            placeholder='Enter Email ....'
+                        />
+                    </div>
+                    {errors.email && (
+                        <span className='text-red-500'> Email is required</span>
+                    )}
+                </div>{" "}
+                {/* Password */}
+                <div className='mt-3 '>
+                    <label className='block mb-1 text-s font-medium text-text/80'>
+                        Password :
+                    </label>
+                    <div className='relative mt-2'>
+                        <TbLockPassword className='absolute left-3.5 bottom-2.5 text-text text-xl' />
+                        <input
+                            {...register("password", {
+                                required: true,
+                            })}
+                            type='password'
+                            className={`border w-full px-4 py-2 rounded-2xl pl-10 outline-0 ${errors.password ? "border-red-500" : "border-text/50"}`}
+                            placeholder='Enter Password ....'
+                        />
+                    </div>
+                    {errors.password && (
+                        <span className='text-red-500'>
+                            {" "}
+                            Password is required
+                        </span>
+                    )}
                 </div>
-                {errors.email && (
-                    <span className='text-red-500'> Email is required</span>
-                )}
-            </div>{" "}
-            <div className='mt-3 '>
-                <label className='block mb-1 text-s font-medium text-text/80'>
-                    Password :
-                </label>
-                <div className='relative mt-2'>
-                    <TbLockPassword className='absolute left-3.5 bottom-2.5 text-text text-xl' />
-                    <input
-                        {...register("password", {
-                            required: true,
-                        })}
-                        type='password'
-                        className={`border w-full px-4 py-2 rounded-2xl pl-10 outline-0 ${errors.password ? "border-red-500" : "border-text/50"}`}
-                        placeholder='Enter Password ....'
-                    />
-                </div>
-                {errors.password && (
-                    <span className='text-red-500'> Password is required</span>
-                )}
-            </div>
-            <button
-                className='border bg-blue-700 text-white hover:bg-primary rounded-xl px-5 py-2 w-full mt-5 cursor-pointer hover:text-white duration-300'
-                type='submit'>
-                Sign In
-            </button>
-            <button
-                type='button'
-                className='text-blue-700 hover:text-blue-800 mt-2 cursor-pointer block w-full text-center'>
-                Forgot Password?
-            </button>
-        </form>
+                <button
+                    className='border bg-blue-700 text-white hover:bg-primary rounded-xl px-5 py-2 w-full mt-5 cursor-pointer hover:text-white duration-300'
+                    type='submit'>
+                    Sign In
+                </button>
+                <button
+                onClick={()=> setIsOpenResetModal(true)}
+                    type='button'
+                    className='text-blue-700 hover:text-blue-800 mt-2 cursor-pointer block w-full text-center'>
+                    Forgot Password?
+                </button>
+            </form>
+            <ResetPasswordForm
+                isOpenResetModal={isOpenResetModal}
+                setIsOpenResetModal={setIsOpenResetModal}
+            />
+        </>
     );
 };
 

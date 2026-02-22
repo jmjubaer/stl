@@ -37,6 +37,7 @@ const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
                 <LuArrowDownUp className='inline sm:mr-2 text-xl' />{" "}
                 <span className='hidden sm:inline'>{sortby}</span>
             </button>
+            {/* Dropdown */}
             <div
                 className={`absolute top-10 border border-text/20 rounded-xl right-0 sm:left-0 bg-background shadow-md dark:shadow-white/20 sm:w-60 w-52 z-10 ${
                     openSort ? "block" : "hidden"
