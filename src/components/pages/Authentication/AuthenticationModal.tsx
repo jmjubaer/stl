@@ -4,6 +4,7 @@ import { Modal } from "antd";
 import Image from "next/image";
 import { useState } from "react";
 import LoginForm from "./LoginForm";
+import SingUpForm from "./SingUpForm";
 
 type TProps = {
     isOpenAuthModal: boolean;
@@ -56,10 +57,10 @@ const AuthenticationModal = ({
                             setIsOpenAuthModal={setIsOpenAuthModal}
                         />
                     ) : (
-                        <div className='text-center mt-5'>
-                            {" "}
-                            Sign Up Form Coming Soon...
-                        </div>
+                        <SingUpForm
+                            isOpenAuthModal={isOpenAuthModal}
+                            setIsOpenAuthModal={setIsOpenAuthModal}
+                        />
                     )}
                 </div>
             </Modal>

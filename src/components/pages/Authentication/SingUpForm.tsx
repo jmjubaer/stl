@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { CiUser } from "react-icons/ci";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
 import { TbLockPassword } from "react-icons/tb";
 type TInputs = {
+    name: string;
     email: string;
     password: string;
 };
@@ -10,21 +12,41 @@ type TProps = {
     isOpenAuthModal: boolean;
     setIsOpenAuthModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
+const SingUpForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
     const {
         reset,
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
-    const handleLogin: SubmitHandler<TInputs> = (data) => {
+    const handleSignUp: SubmitHandler<TInputs> = (data) => {
         console.log(data);
         setIsOpenAuthModal(false);
         reset();
     };
 
     return (
-        <form onSubmit={handleSubmit(handleLogin)}>
+        <form onSubmit={handleSubmit(handleSignUp)}>
+            {/* Display Name */}
+            <div className='mt-3 '>
+                <label className='block mb-1 text-s font-medium text-text/80'>
+                    Display Name :
+                </label>
+                <div className='relative mt-2'>
+                    <CiUser className='absolute left-3.5 bottom-2.5 text-text text-xl' />
+                    <input
+                        {...register("name", {
+                            required: true,
+                        })}
+                        type='text'
+                        className={`border w-full px-4 py-2 rounded-2xl pl-10 outline-0 ${errors.name ? "border-red-500" : "border-text/50"}`}
+                        placeholder='Enter Your Name ....'
+                    />
+                </div>
+                {errors.name && (
+                    <span className='text-red-500'> Name is required</span>
+                )}
+            </div>{" "}
             {/* Email */}
             <div className='mt-3 '>
                 <label className='block mb-1 text-s font-medium text-text/80'>
@@ -37,7 +59,7 @@ const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
                             required: true,
                         })}
                         type='text'
-                        className={`border w-full px-4 py-2 rounded-2xl pl-10 outline-0 ${errors.email ? "border-red-500" : "border-text/50"}`}
+                        className={`border w-full px-4 py-2 rounded-2xl pl-10 outline-0 ${errors.name ? "border-red-500" : "border-text/50"}`}
                         placeholder='Enter Email ....'
                     />
                 </div>
@@ -45,6 +67,7 @@ const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
                     <span className='text-red-500'> Email is required</span>
                 )}
             </div>{" "}
+            {/* Password */}
             <div className='mt-3 '>
                 <label className='block mb-1 text-s font-medium text-text/80'>
                     Password :
@@ -67,15 +90,10 @@ const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
             <button
                 className='border bg-blue-700 text-white hover:bg-primary rounded-xl px-5 py-2 w-full mt-5 cursor-pointer hover:text-white duration-300'
                 type='submit'>
-                Sign In
-            </button>
-            <button
-                type='button'
-                className='text-blue-700 hover:text-blue-800 mt-2 cursor-pointer block w-full text-center'>
-                Forgot Password?
+                Sign Up
             </button>
         </form>
     );
 };
 
-export default LoginForm;
+export default SingUpForm;
