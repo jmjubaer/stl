@@ -26,7 +26,7 @@ const SelectLinkControl = ({ selectLink, setSelectLink }: TProps) => {
             }
         };
         document.addEventListener("mousedown", handleOutSideClick);
-        return () => document.addEventListener("mousedown", handleOutSideClick);
+        return () => document.removeEventListener("mousedown", handleOutSideClick);
     }, []);
     return (
         <div ref={folderRef}>

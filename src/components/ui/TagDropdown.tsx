@@ -90,7 +90,7 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 <div className='p-1 px-1.5 border-t border-text/20'>
                     <button
                         onClick={() => setIsOpenTagModal(true)}
-                        className='px-3 py-1 rounded-xl text-sm hover:bg-primary/50 cursor-pointer flex items-center gap-3 w-full'>
+                        className='px-3 py-1 rounded-xl text-sm hover:bg-primary hover:text-white cursor-pointer flex items-center gap-3 w-full'>
                         <GoPlus className='text-2xl' />
                         Add Tag
                     </button>

@@ -20,6 +20,7 @@ const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
     } = useForm<TInputs>();
     const handleCreateFolder: SubmitHandler<TInputs> = (data) => {
         console.log(data);
+        setIsOpenTagModal(false);
         reset();
     };
 
