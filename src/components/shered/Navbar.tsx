@@ -9,11 +9,14 @@ import { Avatar } from "antd";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
+import ProfileModal from "../pages/Authentication/ProfileModal";
 const Navbar = () => {
     const userOptionRef = useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = useState(false);
     const [isOpenAuthModal, setIsOpenAuthModal] = useState(false);
     const [isOpenUserOption, setIsOpenUserOption] = useState(false);
+    const [isOpenProfileModal, setIsOpenProfileModal] = useState(false);
+
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.scrollY;
@@ -69,9 +72,10 @@ const Navbar = () => {
                             <div
                                 className={`bg-background absolute rounded-lg shadow-lg p-1 w-40 z-10 border border-text/30 top-10 right-0`}>
                                 <button
-                                    // onClick={() =>
-                                    //     setIsOpenUserOption(!isOpenUserOption)
-                                    // }
+                                    onClick={() => {
+                                        setIsOpenProfileModal((prev) => !prev);
+                                        setIsOpenUserOption(false)
+                                    }}
                                     className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
                                     <FaUser className='text-xl' /> Profile
                                 </button>{" "}
@@ -90,6 +94,10 @@ const Navbar = () => {
             <AuthenticationModal
                 isOpenAuthModal={isOpenAuthModal}
                 setIsOpenAuthModal={setIsOpenAuthModal}
+            />
+            <ProfileModal
+                isOpenProfileModal={isOpenProfileModal}
+                setIsOpenProfileModal={setIsOpenProfileModal}
             />
         </nav>
     );
