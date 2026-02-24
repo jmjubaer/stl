@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "antd";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
 import OtpForm from "./OtpForm";
 import logo from "@/src/assets/logo/stl-logo-dark.png";
 import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
+import NewPasswordForm from "./NewPasswordForm";
 type TInputs = {
     email: string;
 };
@@ -34,7 +35,9 @@ const ResetPasswordForm = ({
         setForm("email");
         reset();
     };
-
+    useEffect(() => {
+        reset();
+    }, [isOpenResetModal]);
     return (
         <>
             <Modal
@@ -89,8 +92,13 @@ const ResetPasswordForm = ({
                                 </button>
                             </div>
                         </form>
-                    ) : (
+                    ) : form === "otp" ? (
                         <OtpForm setForm={setForm} />
+                    ) : (
+                        <NewPasswordForm
+                            setForm={setForm}
+                            setIsOpenResetModal={setIsOpenResetModal}
+                        />
                     )}
                 </div>
             </Modal>
