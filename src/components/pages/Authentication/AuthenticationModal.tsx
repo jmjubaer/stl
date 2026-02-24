@@ -1,7 +1,7 @@
 "use client";
 import logo from "@/src/assets/logo/stl-logo-dark.png";
-import { Modal } from "antd";
 import Image from "next/image";
+import { Modal } from "antd";
 import { useState } from "react";
 import LoginForm from "./LoginForm";
 import SingUpForm from "./SingUpForm";

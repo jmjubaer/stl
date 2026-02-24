@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import React, { SetStateAction } from "react";
-import { FaRegEnvelope, FaRegUser, FaUser } from "react-icons/fa6";
+import { FaRegEnvelope, FaRegUser } from "react-icons/fa6";
 type TProps = {
     isOpenProfileModal: boolean;
     setIsOpenProfileModal: React.Dispatch<SetStateAction<boolean>>;

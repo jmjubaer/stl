@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
 import { TbLockPassword } from "react-icons/tb";
-import ResetPasswordForm from "./ResetPasswordForm";
+import ResetPasswordForm from "./ResetPassword/ResetPasswordForm";
 type TInputs = {
     email: string;
     password: string;
@@ -78,7 +78,7 @@ const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
                     Sign In
                 </button>
                 <button
-                onClick={()=> setIsOpenResetModal(true)}
+                    onClick={() => setIsOpenResetModal(true)}
                     type='button'
                     className='text-blue-700 hover:text-blue-800 mt-2 cursor-pointer block w-full text-center'>
                     Forgot Password?
