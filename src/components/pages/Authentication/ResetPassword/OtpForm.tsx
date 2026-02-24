@@ -87,7 +87,7 @@ const OtpForm = ({ setForm }: TProps) => {
                         disabled={timeLeft > 0}
                         type='button'
                         onClick={handleResend}
-                        className='text-blue-700 cursor-pointer font-semibold hover:underline disabled:cursor-not-allowed'>
+                        className='text-blue-700 cursor-pointer font-semibold hover:underline disabled:cursor-not-allowed disabled:opacity-80'>
                         Resend OTP
                     </button>
                 </Tooltip>

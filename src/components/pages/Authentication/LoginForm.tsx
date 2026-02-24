@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
 import { TbLockPassword } from "react-icons/tb";
 import ResetPasswordForm from "./ResetPassword/ResetPasswordForm";
+import PasswordInput from "./PasswordInput";
 type TInputs = {
     email: string;
     password: string;
@@ -54,23 +55,11 @@ const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
                     <label className='block mb-1 text-s font-medium text-text/80'>
                         Password :
                     </label>
-                    <div className='relative mt-2'>
-                        <TbLockPassword className='absolute left-3.5 bottom-2.5 text-text text-xl' />
-                        <input
-                            {...register("password", {
-                                required: true,
-                            })}
-                            type='password'
-                            className={`border w-full px-4 py-2 rounded-2xl pl-10 outline-0 ${errors.password ? "border-red-500" : "border-text/50"}`}
-                            placeholder='Enter Password ....'
-                        />
-                    </div>
-                    {errors.password && (
-                        <span className='text-red-500'>
-                            {" "}
-                            Password is required
-                        </span>
-                    )}
+                    <PasswordInput
+                        register={register}
+                        name='password'
+                        errors={errors}
+                    />
                 </div>
                 <button
                     className='border bg-blue-700 text-white hover:bg-primary rounded-xl px-5 py-2 w-full mt-5 cursor-pointer hover:text-white duration-300'
