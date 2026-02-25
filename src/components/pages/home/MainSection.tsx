@@ -14,6 +14,7 @@ import { TbColumns1 } from "react-icons/tb";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
 import SelectLinkControl from "../../ui/LInk/SelectLinkControl";
+import TopNav from "../../shered/TopNav";
 const MainSection = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [selectLink, setSelectLink] = useState<string[]>([]);
@@ -31,17 +32,7 @@ const MainSection = () => {
     return (
         <section className=''>
             {/* Top Navigation */}
-            <div className='container flex items-center gap-1'>
-                <button className='flex items-center px-3 text-sm py-1.5 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-full mt-2  bg-text/10 duration-300'>
-                    <IoHomeOutline className='' />
-                    Home
-                </button>
-                <TfiAngleRight className="mt-2 text-xs"/>
-                <button className='flex items-center px-3 text-sm py-1.5 gap-1.5 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-full mt-2 '>
-                    <FaFolder className='text-lg text-[#FED862]' />
-                    Development
-                </button>
-            </div>
+            <TopNav folderName="Development"/>
 
             {/* Filter section likely section header */}
             <div className='md:py-3 py-2 shadow-sm dark:shadow-md dark:shadow-text/10 bg-background'>
