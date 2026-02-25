@@ -15,6 +15,7 @@ import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
 import SelectLinkControl from "../../ui/LInk/SelectLinkControl";
 import TopNav from "../../shered/TopNav";
+import LayoutControl from "../../shered/LayoutControl";
 const MainSection = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [selectLink, setSelectLink] = useState<string[]>([]);
@@ -32,7 +33,7 @@ const MainSection = () => {
     return (
         <section className=''>
             {/* Top Navigation */}
-            <TopNav folderName="Development"/>
+            <TopNav folderName='Development' />
 
             {/* Filter section likely section header */}
             <div className='md:py-3 py-2 shadow-sm dark:shadow-md dark:shadow-text/10 bg-background'>
@@ -52,91 +53,15 @@ const MainSection = () => {
                         {/* Sort by */}
                         <SortDropdown sortby={sortby} setSortby={setSortby} />
                     </div>
-                    {/* grid control section */}
-                    <div className='flex gap-3'>
-                        {/* Grid change section */}
-                        <div className=''>
-                            <button
-                                onClick={() => {
-                                    setLayout("list");
-                                    setColumns(1);
-                                }}
-                                className={`px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
-                                    layout === "list" &&
-                                    "bg-text text-background border-text"
-                                }`}>
-                                <FaList />
-                            </button>
-                            <button
-                                onClick={() => {
-                                    setLayout("grid");
-                                    setColumns(3);
-                                }}
-                                className={`px-5 border py-2 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
-                                    layout === "grid" &&
-                                    "bg-text text-background border-text"
-                                }`}>
-                                <IoGrid className='tex' />
-                            </button>
-                        </div>
 
-                        {/* Grid column quantity change section */}
-                        {layout === "grid" ? (
-                            <div className=''>
-                                <button
-                                    onClick={() => setColumns(1)}
-                                    className={`inline xs:hidden border-r-0 px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
-                                        columns === 1 &&
-                                        "bg-text text-background border-text"
-                                    }`}>
-                                    <TbColumns1 />
-                                </button>
-                                <button
-                                    onClick={() => setColumns(2)}
-                                    className={`px-5 border py-2 xs:rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
-                                        columns === 2 &&
-                                        "bg-text text-background border-text"
-                                    }`}>
-                                    <LuColumns2 />
-                                </button>
-                                <button
-                                    onClick={() => setColumns(3)}
-                                    className={`px-5 border py-2 hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary rounded-r-2xl md:rounded-r-none ${
-                                        columns === 3 &&
-                                        "bg-text text-background border-text"
-                                    }`}>
-                                    <LuColumns3 className='tex' />
-                                </button>
-                                <button
-                                    onClick={() => setColumns(4)}
-                                    className={`hidden  md:inline-block px-5 border py-2 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
-                                        columns === 4 &&
-                                        "bg-text text-background border-text"
-                                    }`}>
-                                    <LuColumns4 className='tex' />
-                                </button>
-                            </div>
-                        ) : (
-                            <div className='flex'>
-                                <button
-                                    onClick={() => setColumns(1)}
-                                    className={`px-5 border py-2 rounded-s-2xl hover:bg-primary hover:text-white cursor-pointer hover:border-primary ${
-                                        columns === 1 &&
-                                        "bg-text text-background border-text"
-                                    }`}>
-                                    <TfiLayoutColumn4Alt className='rotate-90' />
-                                </button>
-                                <button
-                                    onClick={() => setColumns(2)}
-                                    className={`px-4 border py-1 rounded-r-2xl hover:bg-primary hover:text-white border-s-0 cursor-pointer hover:border-primary ${
-                                        columns === 2 &&
-                                        "bg-text text-background border-text"
-                                    }`}>
-                                    <PiTextColumnsBold className='text-2xl' />
-                                </button>
-                            </div>
-                        )}
-                    </div>
+                    {/* Layout control section */}
+                   
+                    <LayoutControl
+                        columns={columns}
+                        layout={layout}
+                        setColumns={setColumns}
+                        setLayout={setLayout}
+                    />
                 </div>
             </div>
 
