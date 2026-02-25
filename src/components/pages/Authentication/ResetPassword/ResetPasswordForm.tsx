@@ -48,12 +48,18 @@ const ResetPasswordForm = ({
                 <div className='text-base'>
                     <Image src={logo} alt='Logo' className='w-24 mx-auto' />
                     <h2 className='text-2xl font-bold text-center'>
-                        {form === "email" ? "Reset Password" : "Enter OTP"}
+                        {form === "email"
+                            ? "Reset Password"
+                            : form === "otp"
+                              ? "Enter OTP"
+                              : "New Password"}
                     </h2>
                     <p className='text-center'>
                         {form === "email"
                             ? "Enter your email to receive a reset code"
-                            : "Enter the 6-digit code sent to your email"}
+                            : form === "otp"
+                              ? "Enter the 6-digit code sent to your email"
+                              : "Enter your new password for change"}
                     </p>
                     {form === "email" ? (
                         <form onSubmit={handleSubmit(handleSendOtp)}>
