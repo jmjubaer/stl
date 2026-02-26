@@ -18,8 +18,8 @@ import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
 const MainSection = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
-    const [selectLink, setSelectLink] = useState<string[]>([]);
     const [columns, setColumns] = useState<number>(3);
+    const [selectLink, setSelectLink] = useState<string[]>([]);
     const [tag, setTag] = useState<TTag[]>([]);
     const [sortby, setSortby] = useState<string>("Newest First");
     const tagList = [
@@ -33,7 +33,9 @@ const MainSection = () => {
     return (
         <section className=''>
             {/* Top Navigation */}
-            <TopNav folderName='Development' />
+            <div className='mt-2'>
+                <TopNav folderName='Development' />
+            </div>
 
             {/* Filter section likely section header */}
             <div className='md:py-3 py-2 shadow-sm dark:shadow-md dark:shadow-text/10 bg-background'>
@@ -55,7 +57,7 @@ const MainSection = () => {
                     </div>
 
                     {/* Layout control section */}
-                   
+
                     <LayoutControl
                         columns={columns}
                         layout={layout}
@@ -115,7 +117,6 @@ const MainSection = () => {
                     <FolderCard columns={columns} layout={layout} />
                 </div>
             </div>
-
             {/* bookmark section` */}
             <div className='container my-2'>
                 <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>

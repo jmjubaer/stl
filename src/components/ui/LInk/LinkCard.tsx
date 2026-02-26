@@ -11,8 +11,8 @@ type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";
     columns: number;
-    selectLink: string[];
-    setSelectLink: React.Dispatch<React.SetStateAction<string[]>>;
+    selectLink?: string[];
+    setSelectLink?: React.Dispatch<React.SetStateAction<string[]>>;
 };
 const LinkCard = ({
     tagList,
@@ -24,8 +24,10 @@ const LinkCard = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSelectLink = (e: any) => {
         console.log(e.target.checked);
-        if (e.target.checked) {
-            setSelectLink([...selectLink, "linkId"]);
+        if (selectLink && setSelectLink) {
+            if (e.target.checked) {
+                setSelectLink([...selectLink, "linkId"]);
+            }
         }
         //  else {
         //     setSelectLink(selectLink.filter((id) => id !== "linkId"));
@@ -36,11 +38,13 @@ const LinkCard = ({
             className={`overflow-hidden rounded-xl border border-text/20 shadow-md dark:shadow-white/10 bg-white/50 dark:bg-background group ${layout === "list" && columns === 2 ? "flex items-center p-2 sm:p-4 gap-0 xs:gap-2 relative" : layout === "list" ? "flex items-center p-2 sm:p-4 gap-2 relative" : ""}`}>
             <div
                 className={`overflow-hidden flex items-center gap-2  ${layout === "list" ? "" : "relative"}`}>
-                <input
-                    onChange={(e) => handleSelectLink(e)}
-                    type='checkbox'
-                    className={` z-10 w-9 cursor-pointer accent-primary ${columns === 3 ? "absolute top-3 sm:top-5 left-0 sm:left-2 sm:scale-200 scale-150" : layout === "list" && columns === 2 ? "sm:static absolute top-4 right-1 sm:scale-170 scale-150" : layout === "list" ? "static sm:scale-200 scale-150" : "absolute top-4 left-1 sm:scale-200 scale-150"}`}
-                />
+                {setSelectLink && (
+                    <input
+                        onChange={(e) => handleSelectLink(e)}
+                        type='checkbox'
+                        className={` z-10 w-9 cursor-pointer accent-primary ${columns === 3 ? "absolute top-3 sm:top-5 left-0 sm:left-2 sm:scale-200 scale-150" : layout === "list" && columns === 2 ? "sm:static absolute top-4 right-1 sm:scale-170 scale-150" : layout === "list" ? "static sm:scale-200 scale-150" : "absolute top-4 left-1 sm:scale-200 scale-150"}`}
+                    />
+                )}
                 <div
                     className={`overflow-hidden flex  ${layout === "list" ? "rounded-lg" : "relative"}`}>
                     <Image
