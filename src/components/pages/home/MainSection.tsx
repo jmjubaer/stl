@@ -33,7 +33,7 @@ const MainSection = () => {
     return (
         <section className=''>
             {/* Top Navigation */}
-            <div className='mt-2'>
+            <div className='mt-2 container'>
                 <TopNav folderName='Development' />
             </div>
 
