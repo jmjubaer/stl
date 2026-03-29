@@ -1,11 +1,9 @@
+"use client";
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 
-
-const MainProvider = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+const MainProvider = ({ children }: { children: React.ReactNode }) => {
+    return <Provider store={store}>{children}</Provider>;
 };
 
 export default MainProvider;

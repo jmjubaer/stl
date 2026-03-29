@@ -1,16 +1,10 @@
 "use client";
 import { useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import { FaAngleRight, FaFolder, FaList } from "react-icons/fa6";
-import { IoGrid, IoHomeOutline } from "react-icons/io5";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
 import { TTag } from "@/src/types";
 import LinkCard from "../../ui/LInk/LinkCard";
-import { LuColumns2, LuColumns3, LuColumns4 } from "react-icons/lu";
-import { PiTextColumnsBold } from "react-icons/pi";
-import { TfiAngleRight, TfiLayoutColumn4Alt } from "react-icons/tfi";
-import { TbColumns1 } from "react-icons/tb";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
 import SelectLinkControl from "../../ui/LInk/SelectLinkControl";
@@ -29,7 +23,6 @@ const MainSection = () => {
         { name: "Marketing", color: "#F97A1F" },
         { name: "Inspiration", color: "#1DBAC9" },
     ];
-
     return (
         <section className=''>
             {/* Top Navigation */}

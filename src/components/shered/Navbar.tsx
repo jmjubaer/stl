@@ -10,7 +10,10 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 import ProfileModal from "../pages/Authentication/ProfileModal";
+import { useAppSelector } from "@/src/redux/hook";
+import { selectUser } from "@/src/redux/features/authSlice";
 const Navbar = () => {
+    const user = useAppSelector(selectUser);
     const userOptionRef = useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = useState(false);
     const [isOpenAuthModal, setIsOpenAuthModal] = useState(false);
@@ -74,7 +77,7 @@ const Navbar = () => {
                                 <button
                                     onClick={() => {
                                         setIsOpenProfileModal((prev) => !prev);
-                                        setIsOpenUserOption(false)
+                                        setIsOpenUserOption(false);
                                     }}
                                     className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
                                     <FaUser className='text-xl' /> Profile
