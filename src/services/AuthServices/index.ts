@@ -4,7 +4,7 @@ import { TRegister } from "@/src/types";
 export const registerUser = async (userData: TRegister) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/auth/register`,
+            `${process.env.NEXT_PUBLIC_BASE_API}/user/create`,
             {
                 method: "POST",
                 headers: {
