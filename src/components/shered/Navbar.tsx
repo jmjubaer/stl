@@ -10,10 +10,12 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 import ProfileModal from "../pages/Authentication/ProfileModal";
-import { useAppSelector } from "@/src/redux/hook";
-import { selectUser } from "@/src/redux/features/authSlice";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
+import { logout, selectUser } from "@/src/redux/features/authSlice";
+import Swal from "sweetalert2";
 const Navbar = () => {
     const user = useAppSelector(selectUser);
+    const dispatch = useAppDispatch();
     const userOptionRef = useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = useState(false);
     const [isOpenAuthModal, setIsOpenAuthModal] = useState(false);
@@ -47,7 +49,28 @@ const Navbar = () => {
         return () =>
             document.removeEventListener("mousedown", handleOutsideClick);
     }, []);
-    console.log(isOpenAuthModal);
+    const handleLogout = () => {
+        setIsOpenUserOption(false);
+        Swal.fire({
+            title: "Warning",
+            text: "Are you want to log out?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Log Out",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(logout());
+                setIsOpenUserOption(false);
+                Swal.fire({
+                    title: "Logged out!",
+                    text: "You have been logged out.",
+                    icon: "success",
+                });
+            }
+        });
+    };
     return (
         <nav
             className={`glass-effect backdrop-blur-3xl sticky
@@ -82,9 +105,7 @@ const Navbar = () => {
                                         <FaUser className='text-xl' /> Profile
                                     </button>{" "}
                                     <button
-                                        // onClick={() =>
-                                        //     setIsOpenUserOption(!isOpenUserOption)
-                                        // }
+                                        onClick={handleLogout}
                                         className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
                                         <CiLogout className='text-xl' /> Log Out
                                     </button>{" "}
