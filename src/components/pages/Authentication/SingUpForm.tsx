@@ -3,12 +3,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { CiUser } from "react-icons/ci";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
 import PasswordInput from "./PasswordInput";
-import { registerUser } from "@/src/services/AuthServices";
+import { getMe, registerUser } from "@/src/services/AuthServices";
 import Swal from "sweetalert2";
 import { useAppDispatch } from "@/src/redux/hook";
 import { setUser } from "@/src/redux/features/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { TAuthUser } from "@/src/types";
+import ShowAlert from "@/src/utils/ShowAlert";
 type TInputs = {
     name: string;
     email: string;
@@ -27,43 +28,28 @@ const SingUpForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
     } = useForm<TInputs>();
     const dispatch = useAppDispatch();
     const handleSignUp: SubmitHandler<TInputs> = async (data) => {
-        console.log(data);
-
         try {
             const res = await registerUser(data);
             if (res.success) {
-                Swal.fire({
-                    title: "Success",
-                    icon: "success",
-                    text: "User registered successfully",
-                    draggable: true,
-                });
+                ShowAlert("Success", "success", "User registered successfully");
                 setIsOpenAuthModal(false);
-                const decoded = jwtDecode(res.data) as TAuthUser;
+                const userData = await getMe(res.token);
                 const user = {
-                    ...decoded,
-                    name: data.name,
+                    ...userData.data.userInfo,
                 };
                 dispatch(setUser({ token: res.data, user }));
                 reset();
             } else {
-                Swal.fire({
-                    title: "Error",
-                    icon: "error",
-                    text: res.message,
-                    draggable: true,
-                });
+                ShowAlert("Error", "error", res.message);
             }
         } catch (error) {
-            Swal.fire({
-                title: "Error",
-                icon: "error",
-                text:
-                    error instanceof Error
-                        ? error.message
-                        : "An unknown error occurred",
-                draggable: true,
-            });
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
         }
     };
 

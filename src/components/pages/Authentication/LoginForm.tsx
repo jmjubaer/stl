@@ -4,6 +4,13 @@ import { PiEnvelopeSimpleLight } from "react-icons/pi";
 import { TbLockPassword } from "react-icons/tb";
 import ResetPasswordForm from "./ResetPassword/ResetPasswordForm";
 import PasswordInput from "./PasswordInput";
+import { getMe, loginUser } from "@/src/services/AuthServices";
+import Swal from "sweetalert2";
+import { jwtDecode } from "jwt-decode";
+import { TAuthUser } from "@/src/types";
+import { setUser } from "@/src/redux/features/authSlice";
+import { useAppDispatch } from "@/src/redux/hook";
+import ShowAlert from "@/src/utils/ShowAlert";
 type TInputs = {
     email: string;
     password: string;
@@ -21,10 +28,32 @@ const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
-    const handleLogin: SubmitHandler<TInputs> = (data) => {
-        console.log(data);
-        setIsOpenAuthModal(false);
-        reset();
+    const dispatch = useAppDispatch();
+    const handleLogin: SubmitHandler<TInputs> = async (data) => {
+        try {
+            Swal.showLoading();
+            const res = await loginUser(data);
+            if (res.success) {
+                ShowAlert("Success", "success", "User logged in successfully");
+                setIsOpenAuthModal(false);
+                const userData = await getMe(res.token);
+                const user = {
+                    ...userData.data.userInfo,
+                };
+                dispatch(setUser({ token: res.data, user }));
+                reset();
+            } else {
+                ShowAlert("Error", "error", res.message);
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
     };
 
     return (
