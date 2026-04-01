@@ -1,14 +1,14 @@
-import React, { use, useEffect } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CiUser } from "react-icons/ci";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
-import { TbLockPassword } from "react-icons/tb";
 import PasswordInput from "./PasswordInput";
 import { registerUser } from "@/src/services/AuthServices";
 import Swal from "sweetalert2";
 import { useAppDispatch } from "@/src/redux/hook";
 import { setUser } from "@/src/redux/features/authSlice";
 import { jwtDecode } from "jwt-decode";
+import { TAuthUser } from "@/src/types";
 type TInputs = {
     name: string;
     email: string;
@@ -35,13 +35,17 @@ const SingUpForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
                 Swal.fire({
                     title: "Success",
                     icon: "success",
-                    text: res.message,
+                    text: "User registered successfully",
                     draggable: true,
                 });
                 setIsOpenAuthModal(false);
+                const decoded = jwtDecode(res.data) as TAuthUser;
+                const user = {
+                    ...decoded,
+                    name: data.name,
+                };
+                dispatch(setUser({ token: res.data, user }));
                 reset();
-                const user = jwtDecode(res.data);
-                dispatch(setUser({ token: res.data, user}));
             } else {
                 Swal.fire({
                     title: "Error",
@@ -50,7 +54,6 @@ const SingUpForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
                     draggable: true,
                 });
             }
-            console.log(res);
         } catch (error) {
             Swal.fire({
                 title: "Error",

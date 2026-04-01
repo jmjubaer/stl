@@ -3,3 +3,13 @@ export type TRegister = {
     email: string;
     password: string;
 }
+export type TAuthUser = {
+    id: string;
+    email: string;
+    name: string;
+}
+
+export type TLogin = {
+    email: string;
+    password: string;
+}

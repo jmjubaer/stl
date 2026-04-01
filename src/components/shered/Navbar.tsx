@@ -19,7 +19,7 @@ const Navbar = () => {
     const [isOpenAuthModal, setIsOpenAuthModal] = useState(false);
     const [isOpenUserOption, setIsOpenUserOption] = useState(false);
     const [isOpenProfileModal, setIsOpenProfileModal] = useState(false);
-
+    console.log(user);
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.scrollY;
@@ -58,40 +58,46 @@ const Navbar = () => {
                 </Link>
                 <div className='flex items-center gap-4'>
                     <ThemeToggle />
-                    <button
-                        onClick={() => setIsOpenAuthModal(!isOpenAuthModal)}
-                        className='px-5 py-2 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-xl border border-text/30 duration-300'>
-                        Login
-                    </button>
-
-                    <div className='relative' ref={userOptionRef}>
-                        <Avatar
-                            onClick={() => setIsOpenUserOption((prev) => !prev)}
-                            className='cursor-pointer'
-                            // style={{ backgroundColor: "#87d068" }}
-                            icon={<FaRegCircleUser className='text-4xl' />}
-                        />
-                        {isOpenUserOption && (
-                            <div
-                                className={`bg-background absolute rounded-lg shadow-lg p-1 w-40 z-10 border border-text/30 top-10 right-0`}>
-                                <button
-                                    onClick={() => {
-                                        setIsOpenProfileModal((prev) => !prev);
-                                        setIsOpenUserOption(false);
-                                    }}
-                                    className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
-                                    <FaUser className='text-xl' /> Profile
-                                </button>{" "}
-                                <button
-                                    // onClick={() =>
-                                    //     setIsOpenUserOption(!isOpenUserOption)
-                                    // }
-                                    className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
-                                    <CiLogout className='text-xl' /> Log Out
-                                </button>{" "}
-                            </div>
-                        )}
-                    </div>
+                    {user ? (
+                        <div className='relative' ref={userOptionRef}>
+                            <Avatar
+                                onClick={() =>
+                                    setIsOpenUserOption((prev) => !prev)
+                                }
+                                className='cursor-pointer'
+                                // style={{ backgroundColor: "#87d068" }}
+                                icon={<FaRegCircleUser className='text-4xl' />}
+                            />
+                            {isOpenUserOption && (
+                                <div
+                                    className={`bg-background absolute rounded-lg shadow-lg p-1 w-40 z-10 border border-text/30 top-10 right-0`}>
+                                    <button
+                                        onClick={() => {
+                                            setIsOpenProfileModal(
+                                                (prev) => !prev,
+                                            );
+                                            setIsOpenUserOption(false);
+                                        }}
+                                        className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
+                                        <FaUser className='text-xl' /> Profile
+                                    </button>{" "}
+                                    <button
+                                        // onClick={() =>
+                                        //     setIsOpenUserOption(!isOpenUserOption)
+                                        // }
+                                        className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
+                                        <CiLogout className='text-xl' /> Log Out
+                                    </button>{" "}
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <button
+                            onClick={() => setIsOpenAuthModal(!isOpenAuthModal)}
+                            className='px-5 py-2 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-xl border border-text/30 duration-300'>
+                            Login
+                        </button>
+                    )}
                 </div>
             </div>
             <AuthenticationModal
