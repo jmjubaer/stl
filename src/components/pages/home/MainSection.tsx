@@ -1,21 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
-import { TTag } from "@/src/types";
+import { TData, TTag } from "@/src/types";
 import LinkCard from "../../ui/LInk/LinkCard";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
 import SelectLinkControl from "../../ui/LInk/SelectLinkControl";
 import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
+import { getBookmarks } from "@/src/services/BookmarkServices";
+import { useAppSelector } from "@/src/redux/hook";
+import { selectToken } from "@/src/redux/features/authSlice";
 const MainSection = () => {
+    const token = useAppSelector(selectToken);
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
     const [selectLink, setSelectLink] = useState<string[]>([]);
     const [tag, setTag] = useState<TTag[]>([]);
     const [sortby, setSortby] = useState<string>("Newest First");
+    const [selectedFolder, setSelectedFolder] = useState<string>("");
+    const [selectedFolderName, setSelectedFolderName] = useState<string>("");
+    const [allData, setAllData] = useState<TData>({
+        bookmarks: [],
+        folders: [],
+        pinnedBookmarks: [],
+    });
     const tagList = [
         { name: "Design", color: "#9952E0" },
         { name: "Development", color: "#1A8CFF" },
@@ -23,11 +34,33 @@ const MainSection = () => {
         { name: "Marketing", color: "#F97A1F" },
         { name: "Inspiration", color: "#1DBAC9" },
     ];
+    useEffect(() => {
+        (async () => {
+            const res = await getBookmarks(token as string);
+            console.log(res);
+            if (res?.success) {
+                setAllData(res.data);
+            }
+        })();
+    }, [token]);
+    const displayData = useMemo(() => {
+        if (!selectedFolder) return allData;
+        const folder = allData?.folders?.find((f) => f._id === selectedFolder);
+        return {
+            bookmarks: folder?.bookmarks || [],
+            folders: [],
+            pinnedBookmarks: [],
+        };
+    }, [allData, selectedFolder]);
     return (
         <section className=''>
             {/* Top Navigation */}
             <div className='mt-2 container'>
-                <TopNav folderName='Development' />
+                <TopNav
+                    selectedFolder={selectedFolder}
+                    folderName={selectedFolderName}
+                    setSelectedFolder={setSelectedFolder}
+                />
             </div>
 
             {/* Filter section likely section header */}
@@ -90,72 +123,66 @@ const MainSection = () => {
             </div>
 
             {/* Folder Section  */}
-            <div className='container my-2'>
-                <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
-                    Folders
-                </h2>
-                <div
-                    className={`grid gap-2 md:gap-3 ${
-                        columns === 1
-                            ? "grid-cols-1"
-                            : columns === 2
-                              ? "grid-cols-2"
-                              : columns === 3
-                                ? "grid-cols-3"
-                                : "grid-cols-4"
-                    }`}>
-                    <FolderCard columns={columns} layout={layout} />
-                    <FolderCard columns={columns} layout={layout} />
-                    <FolderCard columns={columns} layout={layout} />
-                    <FolderCard columns={columns} layout={layout} />
+            {displayData?.folders?.length > 0 && (
+                <div className='container my-2'>
+                    <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
+                        Folders
+                    </h2>
+                    <div
+                        className={`grid gap-2 md:gap-3 ${
+                            columns === 1
+                                ? "grid-cols-1"
+                                : columns === 2
+                                  ? "grid-cols-2"
+                                  : columns === 3
+                                    ? "grid-cols-3"
+                                    : "grid-cols-4"
+                        }`}>
+                        {displayData?.folders?.map((folder) => (
+                            <FolderCard
+                                key={folder._id}
+                                columns={columns}
+                                layout={layout}
+                                data={folder}
+                                setSelectedFolder={setSelectedFolder}
+                                setSelectedFolderName={setSelectedFolderName}
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
             {/* bookmark section` */}
-            <div className='container my-2'>
-                <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
-                    Bookmarks
-                </h2>
-                <div
-                    className={`grid gap-2 md:gap-3 ${
-                        columns === 1
-                            ? "grid-cols-1"
-                            : columns === 2
-                              ? "grid-cols-2"
-                              : columns === 3
-                                ? "grid-cols-3"
-                                : "grid-cols-4"
-                    }`}>
-                    {/* card */}
-                    <LinkCard
-                        columns={columns}
-                        tagList={tagList}
-                        layout={layout}
-                        selectLink={selectLink}
-                        setSelectLink={setSelectLink}
-                    />{" "}
-                    <LinkCard
-                        columns={columns}
-                        tagList={tagList}
-                        layout={layout}
-                        selectLink={selectLink}
-                        setSelectLink={setSelectLink}
-                    />{" "}
-                    <LinkCard
-                        columns={columns}
-                        tagList={tagList}
-                        layout={layout}
-                        selectLink={selectLink}
-                        setSelectLink={setSelectLink}
-                    />{" "}
-                    <LinkCard
-                        columns={columns}
-                        tagList={tagList}
-                        selectLink={selectLink}
-                        layout={layout}
-                        setSelectLink={setSelectLink}
-                    />
+            {displayData?.bookmarks?.length > 0 && (
+                <div className='container my-2'>
+                    <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
+                        Bookmarks
+                    </h2>
+                    <div
+                        className={`grid gap-2 md:gap-3 ${
+                            columns === 1
+                                ? "grid-cols-1"
+                                : columns === 2
+                                  ? "grid-cols-2"
+                                  : columns === 3
+                                    ? "grid-cols-3"
+                                    : "grid-cols-4"
+                        }`}>
+                        {/* card */}
+
+                        {displayData?.bookmarks?.map((bookmark) => (
+                            <LinkCard
+                                key={bookmark._id}
+                                columns={columns}
+                                tagList={tagList}
+                                layout={layout}
+                                selectLink={selectLink}
+                                setSelectLink={setSelectLink}
+                                data={bookmark}
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* Card Select Option */}
             <SelectLinkControl

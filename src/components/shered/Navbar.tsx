@@ -21,7 +21,6 @@ const Navbar = () => {
     const [isOpenAuthModal, setIsOpenAuthModal] = useState(false);
     const [isOpenUserOption, setIsOpenUserOption] = useState(false);
     const [isOpenProfileModal, setIsOpenProfileModal] = useState(false);
-    console.log(user);
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.scrollY;

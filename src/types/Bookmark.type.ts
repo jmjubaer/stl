@@ -1,7 +1,11 @@
 import { TTag } from "./Tag.type";
-
-export interface TLink {
-    id: string;
+export interface TData {
+    bookmarks: TBookmark[];
+    folders: TFolder[];
+    pinnedBookmarks: TBookmark[];
+}
+export interface TBookmark {
+    _id: string;
     url: string;
     domain?: string;
     title: string;
@@ -13,7 +17,7 @@ export interface TLink {
     tags: TTag[];
     createdAt: string;
     updatedAt: Date;
-    
+
     // optional
     isFavorite: boolean;
     visitCount: number;
@@ -21,7 +25,8 @@ export interface TLink {
     isPublic: boolean;
 }
 export interface TFolder {
-    id: string;
+    _id: string;
     userId: string;
     name: string;
+    bookmarks?: TBookmark[];
 }

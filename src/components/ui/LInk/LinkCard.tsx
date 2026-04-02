@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import { FaPenAlt, FaTrashAlt } from "react-icons/fa";
 import { FaRegCopy } from "react-icons/fa6";
 import image from "@/src/assets/img_1.jpg";
-import { TTag } from "@/src/types";
+import { TBookmark, TTag } from "@/src/types";
 import { MdUpdate } from "react-icons/md";
 import { RiMenuAddLine } from "react-icons/ri";
 import { LuExternalLink } from "react-icons/lu";
@@ -13,6 +14,7 @@ type TProps = {
     columns: number;
     selectLink?: string[];
     setSelectLink?: React.Dispatch<React.SetStateAction<string[]>>;
+    data: TBookmark;
 };
 const LinkCard = ({
     tagList,
@@ -20,8 +22,8 @@ const LinkCard = ({
     columns,
     setSelectLink,
     selectLink,
+    data,
 }: TProps) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSelectLink = (e: any) => {
         console.log(e.target.checked);
         if (selectLink && setSelectLink) {
@@ -47,8 +49,9 @@ const LinkCard = ({
                 )}
                 <div
                     className={`overflow-hidden flex  ${layout === "list" ? "rounded-lg" : "relative"}`}>
+                    {/* todo: alternatve image */}
                     <Image
-                        src={image}
+                        src={data?.image || image}
                         alt='Link image'
                         className={`group-hover:scale-110  transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-36 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
                     />
@@ -107,15 +110,14 @@ const LinkCard = ({
                         <h2
                             className={` font-semibold line-clamp-1 ${(layout === "list" && columns === 2) || columns === 4 ? "xs:text-md text-sm" : "xs:text-lg sm:text-xl"}`}
                             title=' Unsplash - Free Photos'>
-                            Unsplash - Free Photos
+                            {data.title}
                         </h2>
                     </div>
                     <p
                         className={`xs:text-sm text-xs text-text/80 line-clamp-1 ${layout === "list" || columns === 2 ? "line-clamp-2" : "line-clamp-1"}`}
                         title='Beautiful, free images and photos for any project. High
                         resolution.'>
-                        Beautiful, free images and photos for any project. High
-                        resolution.
+                    {data?.description}
                     </p>
                     <div
                         className={`items-center flex-wrap gap-1 md:gap-2 mt-1 ${columns === 4 ? "flex" : layout === "list" && columns === 2 ? "hidden md:flex" : "flex"}`}>

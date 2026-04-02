@@ -33,12 +33,20 @@ const SingUpForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
             if (res.success) {
                 ShowAlert("Success", "success", "User registered successfully");
                 setIsOpenAuthModal(false);
-                const userData = await getMe(res.token);
-                const user = {
-                    ...userData.data.userInfo,
-                };
-                dispatch(setUser({ token: res.data, user }));
                 reset();
+                try {
+                    const userData = await getMe(res.data);
+                    const user = {
+                        ...userData.data.userInfo,
+                    };
+                    dispatch(setUser({ token: res.data, user }));
+                } catch (error) {
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        "Failed to fetch user data, please try again",
+                    );
+                }
             } else {
                 ShowAlert("Error", "error", res.message);
             }

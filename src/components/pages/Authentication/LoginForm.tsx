@@ -36,11 +36,19 @@ const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
             if (res.success) {
                 ShowAlert("Success", "success", "User logged in successfully");
                 setIsOpenAuthModal(false);
-                const userData = await getMe(res.token);
-                const user = {
-                    ...userData.data.userInfo,
-                };
-                dispatch(setUser({ token: res.data, user }));
+                try {
+                    const userData = await getMe(res.data);
+                    const user = {
+                        ...userData.data.userInfo,
+                    };
+                    dispatch(setUser({ token: res.data, user }));
+                } catch (error) {
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        "Failed to fetch user data, please try again",
+                    );
+                }
                 reset();
             } else {
                 ShowAlert("Error", "error", res.message);
