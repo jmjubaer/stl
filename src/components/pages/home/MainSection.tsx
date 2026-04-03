@@ -62,7 +62,6 @@ const MainSection = () => {
                     setSelectedFolder={setSelectedFolder}
                 />
             </div>
-
             {/* Filter section likely section header */}
             <div className='md:py-3 py-2 shadow-sm dark:shadow-md dark:shadow-text/10 bg-background'>
                 <div className='flex flex-wrap items-center gap-2 md:gap-3 justify-center lg:justify-between container'>
@@ -92,7 +91,6 @@ const MainSection = () => {
                     />
                 </div>
             </div>
-
             {/* Show Filter Tag */}
             <div
                 className={`pt-3 flex flex-wrap items-center gap-2 container ${
@@ -121,7 +119,6 @@ const MainSection = () => {
                     </span>
                 ))}
             </div>
-
             {/* Folder Section  */}
             {displayData?.folders?.length > 0 && (
                 <div className='container my-2'>
@@ -151,6 +148,39 @@ const MainSection = () => {
                     </div>
                 </div>
             )}
+            {/* Pin bookmark section` */}
+            {displayData?.pinnedBookmarks?.length > 0 && (
+                <div className='container my-2'>
+                    <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
+                        Pinned Bookmarks
+                    </h2>
+                    <div
+                        className={`grid gap-2 md:gap-3 ${
+                            columns === 1
+                                ? "grid-cols-1"
+                                : columns === 2
+                                  ? "grid-cols-2"
+                                  : columns === 3
+                                    ? "grid-cols-3"
+                                    : "grid-cols-4"
+                        }`}>
+                        {/* card */}
+
+                        {displayData?.pinnedBookmarks?.map((bookmark) => (
+                            <BookmarkCard
+                                key={bookmark._id}
+                                columns={columns}
+                                tagList={tagList}
+                                layout={layout}
+                                selectBookmark={selectBookmark}
+                                setSelectBookmark={setSelectBookmark}
+                                data={bookmark}
+                                isPinned
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}{" "}
             {/* bookmark section` */}
             {displayData?.bookmarks?.length > 0 && (
                 <div className='container my-2'>
@@ -183,13 +213,11 @@ const MainSection = () => {
                     </div>
                 </div>
             )}
-
             {/* Card Select Option */}
             <SelectLinkControl
                 selectLink={selectBookmark}
                 setSelectLink={setSelectBookmark}
             />
-
             {/* Add button section */}
             <div className=''>
                 <AddButton />

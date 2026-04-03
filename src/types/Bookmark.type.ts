@@ -17,7 +17,8 @@ export interface TBookmark {
     tags: TTag[];
     createdAt: string;
     updatedAt: Date;
-
+    isPinned: boolean;
+    pinnedAt?: Date;
     // optional
     isFavorite: boolean;
     visitCount: number;

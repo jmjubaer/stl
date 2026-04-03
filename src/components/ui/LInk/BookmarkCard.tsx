@@ -8,6 +8,7 @@ import { MdUpdate } from "react-icons/md";
 import { RiMenuAddLine } from "react-icons/ri";
 import { LuExternalLink } from "react-icons/lu";
 import { CiGlobe } from "react-icons/ci";
+import pin from "@/src/assets/pin.png";
 type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";
@@ -15,6 +16,7 @@ type TProps = {
     selectBookmark?: string[];
     setSelectBookmark?: React.Dispatch<React.SetStateAction<string[]>>;
     data: TBookmark;
+    isPinned?: boolean;
 };
 const BookmarkCard = ({
     tagList,
@@ -23,6 +25,7 @@ const BookmarkCard = ({
     setSelectBookmark,
     selectBookmark,
     data,
+    isPinned,
 }: TProps) => {
     const handleSelectLink = (e: any) => {
         console.log(e.target.checked);
@@ -40,12 +43,20 @@ const BookmarkCard = ({
             className={`overflow-hidden rounded-xl border border-text/20 shadow-md dark:shadow-white/10 bg-white/50 dark:bg-background group ${layout === "list" && columns === 2 ? "flex items-center p-2 sm:p-4 gap-0 xs:gap-2 relative" : layout === "list" ? "flex items-center p-2 sm:p-4 gap-2 relative" : ""}`}>
             <div
                 className={`overflow-hidden flex items-center gap-2  ${layout === "list" ? "" : "relative"}`}>
-                {setSelectBookmark && (
+                {isPinned ? (
+                    <Image
+                        src={pin}
+                        alt='Pin'
+                        className={` z-10 w-4 shadow-3xl cursor-pointer accent-primary text-red-500 ${columns === 3 ? "absolute top-3 sm:top-5 left-0 sm:left-5 sm:scale-200 scale-150" : layout === "list" && columns === 2 ? "sm:static absolute top-4 right-2 sm:scale-170 scale-150" : layout === "list" ? "static sm:scale-200 scale-150" : "absolute top-4 left-5 sm:scale-200 scale-150"}`}
+                    />
+                ) : setSelectBookmark ? (
                     <input
                         onChange={(e) => handleSelectLink(e)}
                         type='checkbox'
                         className={` z-10 w-9 cursor-pointer accent-primary ${columns === 3 ? "absolute top-3 sm:top-5 left-0 sm:left-2 sm:scale-200 scale-150" : layout === "list" && columns === 2 ? "sm:static absolute top-4 right-1 sm:scale-170 scale-150" : layout === "list" ? "static sm:scale-200 scale-150" : "absolute top-4 left-1 sm:scale-200 scale-150"}`}
                     />
+                ) : (
+                    ""
                 )}
                 <div
                     className={`overflow-hidden flex  ${layout === "list" ? "rounded-lg" : "relative"}`}>
