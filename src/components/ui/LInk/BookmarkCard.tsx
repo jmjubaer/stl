@@ -12,23 +12,23 @@ type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";
     columns: number;
-    selectLink?: string[];
-    setSelectLink?: React.Dispatch<React.SetStateAction<string[]>>;
+    selectBookmark?: string[];
+    setSelectBookmark?: React.Dispatch<React.SetStateAction<string[]>>;
     data: TBookmark;
 };
-const LinkCard = ({
+const BookmarkCard = ({
     tagList,
     layout,
     columns,
-    setSelectLink,
-    selectLink,
+    setSelectBookmark,
+    selectBookmark,
     data,
 }: TProps) => {
     const handleSelectLink = (e: any) => {
         console.log(e.target.checked);
-        if (selectLink && setSelectLink) {
+        if (selectBookmark && setSelectBookmark) {
             if (e.target.checked) {
-                setSelectLink([...selectLink, "linkId"]);
+                setSelectBookmark([...selectBookmark, "linkId"]);
             }
         }
         //  else {
@@ -40,7 +40,7 @@ const LinkCard = ({
             className={`overflow-hidden rounded-xl border border-text/20 shadow-md dark:shadow-white/10 bg-white/50 dark:bg-background group ${layout === "list" && columns === 2 ? "flex items-center p-2 sm:p-4 gap-0 xs:gap-2 relative" : layout === "list" ? "flex items-center p-2 sm:p-4 gap-2 relative" : ""}`}>
             <div
                 className={`overflow-hidden flex items-center gap-2  ${layout === "list" ? "" : "relative"}`}>
-                {setSelectLink && (
+                {setSelectBookmark && (
                     <input
                         onChange={(e) => handleSelectLink(e)}
                         type='checkbox'
@@ -117,7 +117,7 @@ const LinkCard = ({
                         className={`xs:text-sm text-xs text-text/80 line-clamp-1 ${layout === "list" || columns === 2 ? "line-clamp-2" : "line-clamp-1"}`}
                         title='Beautiful, free images and photos for any project. High
                         resolution.'>
-                    {data?.description}
+                        {data?.description}
                     </p>
                     <div
                         className={`items-center flex-wrap gap-1 md:gap-2 mt-1 ${columns === 4 ? "flex" : layout === "list" && columns === 2 ? "hidden md:flex" : "flex"}`}>
@@ -159,4 +159,4 @@ const LinkCard = ({
     );
 };
 
-export default LinkCard;
+export default BookmarkCard;

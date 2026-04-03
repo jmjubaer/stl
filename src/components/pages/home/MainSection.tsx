@@ -4,7 +4,7 @@ import { FaSearch, FaTimes } from "react-icons/fa";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
 import { TData, TTag } from "@/src/types";
-import LinkCard from "../../ui/LInk/LinkCard";
+import BookmarkCard from "../../ui/LInk/BookmarkCard";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
 import SelectLinkControl from "../../ui/LInk/SelectLinkControl";
@@ -17,7 +17,7 @@ const MainSection = () => {
     const token = useAppSelector(selectToken);
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
-    const [selectLink, setSelectLink] = useState<string[]>([]);
+    const [selectBookmark, setSelectBookmark] = useState<string[]>([]);
     const [tag, setTag] = useState<TTag[]>([]);
     const [sortby, setSortby] = useState<string>("Newest First");
     const [selectedFolder, setSelectedFolder] = useState<string>("");
@@ -170,13 +170,13 @@ const MainSection = () => {
                         {/* card */}
 
                         {displayData?.bookmarks?.map((bookmark) => (
-                            <LinkCard
+                            <BookmarkCard
                                 key={bookmark._id}
                                 columns={columns}
                                 tagList={tagList}
                                 layout={layout}
-                                selectLink={selectLink}
-                                setSelectLink={setSelectLink}
+                                selectBookmark={selectBookmark}
+                                setSelectBookmark={setSelectBookmark}
                                 data={bookmark}
                             />
                         ))}
@@ -186,8 +186,8 @@ const MainSection = () => {
 
             {/* Card Select Option */}
             <SelectLinkControl
-                selectLink={selectLink}
-                setSelectLink={setSelectLink}
+                selectLink={selectBookmark}
+                setSelectLink={setSelectBookmark}
             />
 
             {/* Add button section */}

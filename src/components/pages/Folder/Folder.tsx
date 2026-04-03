@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import LinkCard from "../../ui/LInk/LinkCard";
+import BookmarkCard from "../../ui/LInk/BookmarkCard";
 import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
 const tagList = [
@@ -15,17 +15,17 @@ const Folder = () => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
     return (
-        <div className="container">
+        <div className='container'>
             <div className='flex items-center gap-3 justify-between py-3 shadow-sm dark:shadow-md dark:shadow-text/10 bg-background   '>
-                <TopNav folderName="test"/>
+                <TopNav folderName='test' />
 
-                <div className="w-auto">
+                <div className='w-auto'>
                     <LayoutControl
-                    columns={columns}
-                    layout={layout}
-                    setColumns={setColumns}
-                    setLayout={setLayout}
-                />
+                        columns={columns}
+                        layout={layout}
+                        setColumns={setColumns}
+                        setLayout={setLayout}
+                    />
                 </div>
             </div>
             {/* bookmark section` */}
@@ -44,22 +44,22 @@ const Folder = () => {
                                 : "grid-cols-4"
                     }`}>
                     {/* card */}
-                    <LinkCard
+                    <BookmarkCard
                         columns={columns}
                         tagList={tagList}
                         layout={layout}
                     />{" "}
-                    <LinkCard
+                    <BookmarkCard
                         columns={columns}
                         tagList={tagList}
                         layout={layout}
                     />{" "}
-                    <LinkCard
+                    <BookmarkCard
                         columns={columns}
                         tagList={tagList}
                         layout={layout}
                     />{" "}
-                    <LinkCard
+                    <BookmarkCard
                         columns={columns}
                         tagList={tagList}
                         layout={layout}
