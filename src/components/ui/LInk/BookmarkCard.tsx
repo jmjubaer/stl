@@ -47,7 +47,8 @@ const BookmarkCard = ({
                     <Image
                         src={pin}
                         alt='Pin'
-                        className={` z-10 w-4 shadow-3xl cursor-pointer accent-primary text-red-500 ${columns === 3 ? "absolute top-3 sm:top-5 left-0 sm:left-5 sm:scale-200 scale-150" : layout === "list" && columns === 2 ? "sm:static absolute top-4 right-2 sm:scale-170 scale-150" : layout === "list" ? "static sm:scale-200 scale-150" : "absolute top-4 left-5 sm:scale-200 scale-150"}`}
+                        width={16}
+                        className={` z-10 w-10 shadow-3xl object-contain cursor-pointer accent-primary text-red-500 ${columns === 3 ? "absolute top-3 left-0 sm:left-2" : layout === "list" && columns === 2 ? "sm:static absolute top-2 right-1" : layout === "list" ? "static " : "absolute top-2 left-2 "}`}
                     />
                 ) : setSelectBookmark ? (
                     <input

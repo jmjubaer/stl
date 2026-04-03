@@ -32,7 +32,7 @@ const OptionDropdown = ({ columns }: TProps) => {
             ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`cursor-pointer`}>
+                className={`cursor-pointer  z-10`}>
                 <BsThreeDotsVertical />
             </button>
             {isOpen && (
