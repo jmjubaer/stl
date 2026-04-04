@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../store";
 const initialState = {
-    loginModalOpen: false,
+    authModalOpen: false,
     bookmarkModalOpen: false,
     folderModalOpen: false,
 };
@@ -9,11 +10,11 @@ const modalSlice = createSlice({
     initialState,
     reducers: {
         // login modal
-        openLoginModal: (state) => {
-            state.loginModalOpen = true;
+        openAuthModal: (state) => {
+            state.authModalOpen = true;
         },
-        closeLoginModal: (state) => {
-            state.loginModalOpen = false;
+        closeAuthModal: (state) => {
+            state.authModalOpen = false;
         },
         // Bookmark modal
         openBookmarkModal: (state) => {
@@ -32,12 +33,18 @@ const modalSlice = createSlice({
     },
 });
 
-export default modalSlice.reducer;
 export const {
-    openLoginModal,
-    closeLoginModal,
+    openAuthModal,
+    closeAuthModal,
     openBookmarkModal,
     closeBookmarkModal,
     openFolderModal,
     closeFolderModal,
 } = modalSlice.actions;
+export const selectOpenAuthModal = (state: RootState) =>
+    state.modal.authModalOpen;
+export const selectOpenBookmarkModal = (state: RootState) =>
+    state.modal.bookmarkModalOpen;
+export const selectOpenFolderModal = (state: RootState) =>
+    state.modal.folderModalOpen;
+export default modalSlice.reducer;

@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./features/auth/authSlice";
+import modalSlice from "./features/modal/modalSlice";
 import storage from "redux-persist/lib/storage";
 import {
     FLUSH,
@@ -19,6 +20,7 @@ const persistedAuthReducer = persistReducer(persistConfig, authSlice);
 export const store = configureStore({
     reducer: {
         auth: persistedAuthReducer,
+        modal: modalSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

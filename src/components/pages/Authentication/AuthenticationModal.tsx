@@ -5,21 +5,23 @@ import { Modal } from "antd";
 import { useState } from "react";
 import LoginForm from "./LoginForm";
 import SingUpForm from "./SingUpForm";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
+import {
+    closeAuthModal,
+    selectOpenAuthModal,
+} from "@/src/redux/features/modal/modalSlice";
 
 type TProps = {
     isOpenAuthModal: boolean;
     setIsOpenAuthModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const AuthenticationModal = ({
-    isOpenAuthModal,
-    setIsOpenAuthModal,
-}: TProps) => {
+const AuthenticationModal = ({ setIsOpenAuthModal }: TProps) => {
     const [authMode, setAuthMode] = useState("signin");
-
+    const dispatch = useAppDispatch();
+    const isOpenAuthModal = useAppSelector(selectOpenAuthModal);
     const handleCancel = () => {
-        setIsOpenAuthModal(false);
+        dispatch(closeAuthModal());
     };
-
     return (
         <>
             <Modal
