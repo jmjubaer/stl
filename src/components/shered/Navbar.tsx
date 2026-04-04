@@ -13,6 +13,7 @@ import ProfileModal from "../pages/Authentication/ProfileModal";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { logout, selectUser } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
+import { openAuthModal } from "@/src/redux/features/modal/modalSlice";
 const Navbar = () => {
     const user = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
@@ -21,6 +22,7 @@ const Navbar = () => {
     const [isOpenAuthModal, setIsOpenAuthModal] = useState(false);
     const [isOpenUserOption, setIsOpenUserOption] = useState(false);
     const [isOpenProfileModal, setIsOpenProfileModal] = useState(false);
+
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.scrollY;
@@ -35,6 +37,7 @@ const Navbar = () => {
 
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
     useEffect(() => {
         const handleOutsideClick = (e: MouseEvent) => {
             if (
@@ -48,6 +51,7 @@ const Navbar = () => {
         return () =>
             document.removeEventListener("mousedown", handleOutsideClick);
     }, []);
+
     const handleLogout = () => {
         setIsOpenUserOption(false);
         Swal.fire({
@@ -70,6 +74,7 @@ const Navbar = () => {
             }
         });
     };
+
     return (
         <nav
             className={`glass-effect backdrop-blur-3xl sticky
@@ -113,17 +118,14 @@ const Navbar = () => {
                         </div>
                     ) : (
                         <button
-                            onClick={() => setIsOpenAuthModal(!isOpenAuthModal)}
+                            onClick={() => dispatch(openAuthModal())}
                             className='px-5 py-2 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-xl border border-text/30 duration-300'>
                             Login
                         </button>
                     )}
                 </div>
             </div>
-            <AuthenticationModal
-                isOpenAuthModal={isOpenAuthModal}
-                setIsOpenAuthModal={setIsOpenAuthModal}
-            />
+            <AuthenticationModal />
             <ProfileModal
                 isOpenProfileModal={isOpenProfileModal}
                 setIsOpenProfileModal={setIsOpenProfileModal}

@@ -1,25 +1,19 @@
-import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CiUser } from "react-icons/ci";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
 import PasswordInput from "./PasswordInput";
 import { getMe, registerUser } from "@/src/services/AuthServices";
-import Swal from "sweetalert2";
 import { useAppDispatch } from "@/src/redux/hook";
 import { setUser } from "@/src/redux/features/auth/authSlice";
-import { jwtDecode } from "jwt-decode";
-import { TAuthUser } from "@/src/types";
 import ShowAlert from "@/src/utils/ShowAlert";
+import { closeAuthModal } from "@/src/redux/features/modal/modalSlice";
 type TInputs = {
     name: string;
     email: string;
     password: string;
 };
-type TProps = {
-    isOpenAuthModal: boolean;
-    setIsOpenAuthModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
-const SingUpForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
+
+const SingUpForm = () => {
     const {
         reset,
         register,
@@ -32,7 +26,7 @@ const SingUpForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
             const res = await registerUser(data);
             if (res.success) {
                 ShowAlert("Success", "success", "User registered successfully");
-                setIsOpenAuthModal(false);
+                dispatch(closeAuthModal());
                 reset();
                 try {
                     const userData = await getMe(res.data);

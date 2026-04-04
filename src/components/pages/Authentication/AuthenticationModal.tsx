@@ -11,11 +11,7 @@ import {
     selectOpenAuthModal,
 } from "@/src/redux/features/modal/modalSlice";
 
-type TProps = {
-    isOpenAuthModal: boolean;
-    setIsOpenAuthModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
-const AuthenticationModal = ({ setIsOpenAuthModal }: TProps) => {
+const AuthenticationModal = () => {
     const [authMode, setAuthMode] = useState("signin");
     const dispatch = useAppDispatch();
     const isOpenAuthModal = useAppSelector(selectOpenAuthModal);
@@ -53,17 +49,7 @@ const AuthenticationModal = ({ setIsOpenAuthModal }: TProps) => {
                     </div>
 
                     {/* Form Section */}
-                    {authMode === "signin" ? (
-                        <LoginForm
-                            isOpenAuthModal={isOpenAuthModal}
-                            setIsOpenAuthModal={setIsOpenAuthModal}
-                        />
-                    ) : (
-                        <SingUpForm
-                            isOpenAuthModal={isOpenAuthModal}
-                            setIsOpenAuthModal={setIsOpenAuthModal}
-                        />
-                    )}
+                    {authMode === "signin" ? <LoginForm /> : <SingUpForm />}
                 </div>
             </Modal>
         </>

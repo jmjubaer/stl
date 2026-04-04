@@ -1,27 +1,21 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
-import { TbLockPassword } from "react-icons/tb";
 import ResetPasswordForm from "./ResetPassword/ResetPasswordForm";
 import PasswordInput from "./PasswordInput";
 import { getMe, loginUser } from "@/src/services/AuthServices";
 import Swal from "sweetalert2";
-import { jwtDecode } from "jwt-decode";
-import { TAuthUser } from "@/src/types";
 import { setUser } from "@/src/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/src/redux/hook";
 import ShowAlert from "@/src/utils/ShowAlert";
+import { closeAuthModal } from "@/src/redux/features/modal/modalSlice";
 type TInputs = {
     email: string;
     password: string;
 };
-type TProps = {
-    isOpenAuthModal: boolean;
-    setIsOpenAuthModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
-const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
-    const [isOpenResetModal, setIsOpenResetModal] = useState(false);
 
+const LoginForm = () => {
+    const [isOpenResetModal, setIsOpenResetModal] = useState(false);
     const {
         reset,
         register,
@@ -35,7 +29,7 @@ const LoginForm = ({ isOpenAuthModal, setIsOpenAuthModal }: TProps) => {
             const res = await loginUser(data);
             if (res.success) {
                 ShowAlert("Success", "success", "User logged in successfully");
-                setIsOpenAuthModal(false);
+                dispatch(closeAuthModal());
                 try {
                     const userData = await getMe(res.data);
                     const user = {
