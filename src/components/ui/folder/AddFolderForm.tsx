@@ -2,6 +2,8 @@
 import React from "react";
 import { Modal } from "antd";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
+import { closeFolderModal, selectOpenFolderModal } from "@/src/redux/features/modal/modalSlice";
 
 type TInputs = {
     folderName: string;
@@ -10,7 +12,9 @@ type TProps = {
     isOpenFolderModal: boolean;
     setIsOpenFolderModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const AddFolderForm = ({ isOpenFolderModal, setIsOpenFolderModal }: TProps) => {
+const AddFolderForm = () => {
+    const dispatch = useAppDispatch();
+    const  isOpenFolderModal = useAppSelector(selectOpenFolderModal)
     const {
         reset,
         register,
@@ -19,12 +23,12 @@ const AddFolderForm = ({ isOpenFolderModal, setIsOpenFolderModal }: TProps) => {
     } = useForm<TInputs>();
     const handleCreateFolder: SubmitHandler<TInputs> = (data) => {
         console.log(data);
-        setIsOpenFolderModal(false);
+        dispatch(closeFolderModal());
         reset();
     };
 
     const handleCancel = () => {
-        setIsOpenFolderModal(false);
+        dispatch(closeFolderModal());
         reset();
     };
 
@@ -34,7 +38,7 @@ const AddFolderForm = ({ isOpenFolderModal, setIsOpenFolderModal }: TProps) => {
                 open={isOpenFolderModal}
                 onCancel={handleCancel}
                 footer={false}
-                className='modal'>
+                className='modal z-50'>
                 <div className='text-base'>
                     <h2 className='text-2xl font-bold mb-4 text-center'>
                         {" "}

@@ -3,12 +3,13 @@ import Image from "next/image";
 import { FaChevronDown, FaRegFolderOpen } from "react-icons/fa";
 import folder from "@/src/assets/folder.png";
 import { useState } from "react";
-import { FaCheck, FaPlus } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa6";
 import { MdCreateNewFolder } from "react-icons/md";
-type TProps = {
-    setIsOpenFolderModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
-const FolderDropdown = ({ setIsOpenFolderModal }: TProps) => {
+import { useAppDispatch } from "@/src/redux/hook";
+import { openFolderModal } from "@/src/redux/features/modal/modalSlice";
+
+const FolderDropdown = () => {
+    const dispatch = useAppDispatch();
     const [openDropdown, setOpenDropdown] = useState(false);
     const [selectFolder, setSelectFolder] = useState<string>("No Folder");
     const handleSelectFolder = (folder: string) => {
@@ -16,7 +17,7 @@ const FolderDropdown = ({ setIsOpenFolderModal }: TProps) => {
         setOpenDropdown(false);
     };
     const handleOpenNewFolder = () => {
-        setIsOpenFolderModal(true);
+        dispatch(openFolderModal());
         setOpenDropdown(false);
     };
     return (

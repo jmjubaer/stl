@@ -5,12 +5,14 @@ import { RiFolderAddLine } from "react-icons/ri";
 import AddBookmarkForm from "./Bookmark/AddBookmarkForm";
 import AddFolderForm from "./folder/AddFolderForm";
 import { useAppDispatch } from "@/src/redux/hook";
-import { openBookmarkModal, openFolderModal } from "@/src/redux/features/modal/modalSlice";
+import {
+    openBookmarkModal,
+    openFolderModal,
+} from "@/src/redux/features/modal/modalSlice";
 
 const AddButton = () => {
     const dispatch = useAppDispatch();
     const [isOpenOption, setIsOpenOption] = useState(false);
-    const [isOpenFolderModal, setIsOpenFolderModal] = useState(false);
     const handleOpenLinkModal = () => {
         dispatch(openBookmarkModal());
         setIsOpenOption(false);
@@ -61,11 +63,8 @@ const AddButton = () => {
                 </div>
             )}
             {/* Add Link Modal  */}
-            <AddBookmarkForm setIsOpenFolderModal={setIsOpenFolderModal} />
-            <AddFolderForm
-                isOpenFolderModal={isOpenFolderModal}
-                setIsOpenFolderModal={setIsOpenFolderModal}
-            />
+            <AddBookmarkForm />
+            <AddFolderForm />
         </div>
     );
 };

@@ -11,9 +11,7 @@ import {
     closeBookmarkModal,
     selectOpenBookmarkModal,
 } from "@/src/redux/features/modal/modalSlice";
-type TProps = {
-    setIsOpenFolderModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import AddFolderForm from "../folder/AddFolderForm";
 type TInputs = {
     title: string;
     url: string;
@@ -27,9 +25,7 @@ const tagList = [
     { name: "Marketing", color: "#F97A1F" },
     { name: "Inspiration", color: "#1DBAC9" },
 ];
-const AddBookmarkForm = ({
-    setIsOpenFolderModal,
-}: TProps) => {
+const AddBookmarkForm = () => {
     const dispatch = useAppDispatch();
     const [tag, setTag] = useState<TTag[]>([]);
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
@@ -126,9 +122,7 @@ const AddBookmarkForm = ({
                         </div>
 
                         {/* Folder */}
-                        <FolderDropdown
-                            setIsOpenFolderModal={setIsOpenFolderModal}
-                        />
+                        <FolderDropdown />
 
                         {/* Notes */}
                         <div className='mt-5'>
@@ -215,6 +209,7 @@ const AddBookmarkForm = ({
                     setIsOpenTagModal={setIsOpenTagModal}
                 />
             </Modal>
+            <AddFolderForm />
         </>
     );
 };
