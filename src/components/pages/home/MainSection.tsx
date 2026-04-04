@@ -15,6 +15,7 @@ import { useAppSelector } from "@/src/redux/hook";
 import { selectToken } from "@/src/redux/features/auth/authSlice";
 import EmptyFolder from "../../ui/folder/EmptyFolder";
 import EmptyBookmark from "../../ui/Bookmark/EmptyBookmark";
+import NonUserCard from "../../ui/NonUserCard";
 const MainSection = () => {
     const token = useAppSelector(selectToken);
     console.log(token);
@@ -229,16 +230,20 @@ const MainSection = () => {
             {displayData?.bookmarks?.length === 0 &&
             displayData?.folders?.length === 0 &&
             displayData?.pinnedBookmarks?.length === 0 &&
-            !selectedFolder ? (
+            !selectedFolder &&
+            token ? (
                 <EmptyBookmark />
             ) : displayData?.bookmarks?.length === 0 &&
               displayData?.folders?.length === 0 &&
               displayData?.pinnedBookmarks?.length === 0 &&
-              selectedFolder ? (
+              selectedFolder &&
+              token ? (
                 <EmptyFolder />
             ) : (
                 ""
             )}
+            {/* If the use not login */}
+            {!token && <NonUserCard />}
             {/* Card Select Option */}
             <SelectLinkControl
                 selectLink={selectBookmark}
