@@ -16,15 +16,14 @@ const FolderCard = ({
     setSelectedFolderName,
 }: TProps) => {
     return (
-
         <div
-            className={`cursor-pointer   rounded-lg border border-text/20 relative flex items-center justify-between  ${columns === 4 ? "sm:p-2 p-1" : columns === 3 ? "p-2 flex-col sm:flex-row text-center sm:text-left relative" : "p-2"}`}>
+            className={`rounded-lg border border-text/20 relative flex items-center justify-between  ${columns === 4 ? "sm:pr-2 pr-1" : columns === 3 ? "pr-2 flex-col sm:flex-row text-center sm:text-left relative" : "pr-2"}`}>
             <div
                 onClick={() => {
                     setSelectedFolder(data?._id);
                     setSelectedFolderName(data?.name || "");
                 }}
-                className={`flex w-full items-center ${columns === 4 ? "lg:gap-3 gap-2" : columns === 3 ? "gap-2 flex-col sm:flex-row" : columns === 2 ? "gap-1 xs:gap-3" : "gap-3"}`}>
+                className={`flex cursor-pointer  w-full items-center ${columns === 4 ? "lg:gap-3 gap-2" : columns === 3 ? "gap-2 flex-col sm:flex-row" : columns === 2 ? "gap-1 xs:gap-3" : "gap-3"} ${columns === 4 ? "sm:p-2 p-1" : columns === 3 ? "p-2" : "p-2"}`}>
                 <Image
                     src={folder}
                     alt='Folder image'

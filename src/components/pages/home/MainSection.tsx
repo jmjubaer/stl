@@ -4,17 +4,20 @@ import { FaSearch, FaTimes } from "react-icons/fa";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
 import { TData, TTag } from "@/src/types";
-import BookmarkCard from "../../ui/LInk/BookmarkCard";
+import BookmarkCard from "../../ui/Bookmark/BookmarkCard";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
-import SelectLinkControl from "../../ui/LInk/SelectLinkControl";
+import SelectLinkControl from "../../ui/Bookmark/SelectLinkControl";
 import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
 import { getBookmarks } from "@/src/services/BookmarkServices";
 import { useAppSelector } from "@/src/redux/hook";
-import { selectToken } from "@/src/redux/features/authSlice";
+import { selectToken } from "@/src/redux/features/auth/authSlice";
+import EmptyFolder from "../../ui/folder/EmptyFolder";
+import EmptyBookmark from "../../ui/Bookmark/EmptyBookmark";
 const MainSection = () => {
     const token = useAppSelector(selectToken);
+    console.log(token);
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
     const [selectBookmark, setSelectBookmark] = useState<string[]>([]);
@@ -36,13 +39,22 @@ const MainSection = () => {
     ];
     useEffect(() => {
         (async () => {
-            const res = await getBookmarks(token as string);
-            console.log(res);
-            if (res?.success) {
-                setAllData(res.data);
+            if (token) {
+                const res = await getBookmarks(token as string);
+                console.log(res);
+                if (res?.success) {
+                    setAllData(res.data);
+                }
+            } else {
+                setAllData({
+                    bookmarks: [],
+                    folders: [],
+                    pinnedBookmarks: [],
+                });
             }
         })();
     }, [token]);
+
     const displayData = useMemo(() => {
         if (!selectedFolder) return allData;
         const folder = allData?.folders?.find((f) => f._id === selectedFolder);
@@ -212,6 +224,20 @@ const MainSection = () => {
                         ))}
                     </div>
                 </div>
+            )}
+            {/* Empty data section */}
+            {displayData?.bookmarks?.length === 0 &&
+            displayData?.folders?.length === 0 &&
+            displayData?.pinnedBookmarks?.length === 0 &&
+            !selectedFolder ? (
+                <EmptyBookmark />
+            ) : displayData?.bookmarks?.length === 0 &&
+              displayData?.folders?.length === 0 &&
+              displayData?.pinnedBookmarks?.length === 0 &&
+              selectedFolder ? (
+                <EmptyFolder />
+            ) : (
+                ""
             )}
             {/* Card Select Option */}
             <SelectLinkControl

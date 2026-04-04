@@ -1,4 +1,4 @@
-import { selectUser } from "@/src/redux/features/authSlice";
+import { selectUser } from "@/src/redux/features/auth/authSlice";
 import { useAppSelector } from "@/src/redux/hook";
 import { TAuthUser } from "@/src/types";
 import { Modal } from "antd";

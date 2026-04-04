@@ -48,7 +48,7 @@ const BookmarkCard = ({
                         src={pin}
                         alt='Pin'
                         width={16}
-                        className={` z-10 w-10 shadow-3xl object-contain cursor-pointer accent-primary text-red-500 ${columns === 3 ? "absolute top-3 left-0 sm:left-2" : layout === "list" && columns === 2 ? "sm:static absolute top-2 right-1" : layout === "list" ? "static " : "absolute top-2 left-2 "}`}
+                        className={` z-10 w-8 shadow-3xl object-contain cursor-pointer  accent-primary text-red-500 ${columns === 3 ? "absolute top-2 left-0 sm:left-2" : layout === "list" && columns === 2 ? "sm:static absolute top-2 right-1" : layout === "list" ? "static " : "absolute top-2 left-2 "}`}
                     />
                 ) : setSelectBookmark ? (
                     <input

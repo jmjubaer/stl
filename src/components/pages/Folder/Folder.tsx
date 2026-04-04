@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import BookmarkCard from "../../ui/LInk/BookmarkCard";
+import BookmarkCard from "../../ui/Bookmark/BookmarkCard";
 import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
 const tagList = [

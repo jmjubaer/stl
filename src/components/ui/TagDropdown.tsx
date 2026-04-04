@@ -4,7 +4,7 @@ import { CiFilter } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 import { GoPlus } from "react-icons/go";
 import { TiPlus } from "react-icons/ti";
-import AddTagForm from "./LInk/AddTagForm";
+import AddTagForm from "./Bookmark/AddTagForm";
 type TagDropdownProps = {
     tag: TTag[];
     setTag: React.Dispatch<React.SetStateAction<TTag[]>>;

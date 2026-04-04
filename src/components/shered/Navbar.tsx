@@ -11,7 +11,7 @@ import { CiLogout } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 import ProfileModal from "../pages/Authentication/ProfileModal";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
-import { logout, selectUser } from "@/src/redux/features/authSlice";
+import { logout, selectUser } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 const Navbar = () => {
     const user = useAppSelector(selectUser);

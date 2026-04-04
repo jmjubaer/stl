@@ -6,7 +6,7 @@ import PasswordInput from "./PasswordInput";
 import { getMe, registerUser } from "@/src/services/AuthServices";
 import Swal from "sweetalert2";
 import { useAppDispatch } from "@/src/redux/hook";
-import { setUser } from "@/src/redux/features/authSlice";
+import { setUser } from "@/src/redux/features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { TAuthUser } from "@/src/types";
 import ShowAlert from "@/src/utils/ShowAlert";

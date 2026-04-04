@@ -8,7 +8,7 @@ import { getMe, loginUser } from "@/src/services/AuthServices";
 import Swal from "sweetalert2";
 import { jwtDecode } from "jwt-decode";
 import { TAuthUser } from "@/src/types";
-import { setUser } from "@/src/redux/features/authSlice";
+import { setUser } from "@/src/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/src/redux/hook";
 import ShowAlert from "@/src/utils/ShowAlert";
 type TInputs = {

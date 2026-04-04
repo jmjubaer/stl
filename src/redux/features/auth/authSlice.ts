@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import { TAuthUser } from "@/src/types";
 type TAuthState = {
     token: string | null;

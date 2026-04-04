@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authSlice from "./features/authSlice";
+import authSlice from "./features/auth/authSlice";
 import storage from "redux-persist/lib/storage";
 import {
     FLUSH,
