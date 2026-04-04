@@ -2,19 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { LuLink } from "react-icons/lu";
 import { RiFolderAddLine } from "react-icons/ri";
-import AddLinkForm from "./Bookmark/AddBookmarkForm";
+import AddBookmarkForm from "./Bookmark/AddBookmarkForm";
 import AddFolderForm from "./folder/AddFolderForm";
+import { useAppDispatch } from "@/src/redux/hook";
+import { openBookmarkModal, openFolderModal } from "@/src/redux/features/modal/modalSlice";
 
 const AddButton = () => {
+    const dispatch = useAppDispatch();
     const [isOpenOption, setIsOpenOption] = useState(false);
-    const [isOpenLinkModal, setIsOpenLinkModal] = useState(false);
     const [isOpenFolderModal, setIsOpenFolderModal] = useState(false);
     const handleOpenLinkModal = () => {
-        setIsOpenLinkModal(true);
+        dispatch(openBookmarkModal());
         setIsOpenOption(false);
     };
     const handleOpenFolderModal = () => {
-        setIsOpenFolderModal(true);
+        dispatch(openFolderModal());
         setIsOpenOption(false);
     };
 
@@ -48,21 +50,18 @@ const AddButton = () => {
                     <button
                         onClick={handleOpenLinkModal}
                         className='text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 z-50'>
-                        <LuLink className='text-xl' /> Add Link
+                        <LuLink className='text-xl' />
+                        Add Bookmark
                     </button>{" "}
                     <button
                         onClick={handleOpenFolderModal}
                         className=' text-left py-2 px-3 bg-primary shadow-2xl w-40 hover:bg-primary text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/20 z-20 mt-5'>
-                        <RiFolderAddLine className='text-xl' /> Add Folder
+                        <RiFolderAddLine className='text-xl' /> Create Folder
                     </button>{" "}
                 </div>
             )}
             {/* Add Link Modal  */}
-            <AddLinkForm
-                setIsOpenFolderModal={setIsOpenFolderModal}
-                isOpenLinkModal={isOpenLinkModal}
-                setIsOpenLinkModal={setIsOpenLinkModal}
-            />
+            <AddBookmarkForm setIsOpenFolderModal={setIsOpenFolderModal} />
             <AddFolderForm
                 isOpenFolderModal={isOpenFolderModal}
                 setIsOpenFolderModal={setIsOpenFolderModal}

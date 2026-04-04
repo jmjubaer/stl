@@ -7,6 +7,7 @@ import { useAppDispatch } from "@/src/redux/hook";
 import { setUser } from "@/src/redux/features/auth/authSlice";
 import ShowAlert from "@/src/utils/ShowAlert";
 import { closeAuthModal } from "@/src/redux/features/modal/modalSlice";
+import Swal from "sweetalert2";
 type TInputs = {
     name: string;
     email: string;
@@ -23,6 +24,7 @@ const SingUpForm = () => {
     const dispatch = useAppDispatch();
     const handleSignUp: SubmitHandler<TInputs> = async (data) => {
         try {
+            Swal.showLoading();
             const res = await registerUser(data);
             if (res.success) {
                 ShowAlert("Success", "success", "User registered successfully");

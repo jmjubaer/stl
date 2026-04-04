@@ -6,9 +6,12 @@ import { FaTimes } from "react-icons/fa";
 import { TTag } from "@/src/types";
 import { TiPlus } from "react-icons/ti";
 import AddTagForm from "./AddTagForm";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
+import {
+    closeBookmarkModal,
+    selectOpenBookmarkModal,
+} from "@/src/redux/features/modal/modalSlice";
 type TProps = {
-    isOpenLinkModal: boolean;
-    setIsOpenLinkModal: React.Dispatch<React.SetStateAction<boolean>>;
     setIsOpenFolderModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 type TInputs = {
@@ -24,14 +27,13 @@ const tagList = [
     { name: "Marketing", color: "#F97A1F" },
     { name: "Inspiration", color: "#1DBAC9" },
 ];
-const AddLinkForm = ({
-    isOpenLinkModal,
-    setIsOpenLinkModal,
+const AddBookmarkForm = ({
     setIsOpenFolderModal,
 }: TProps) => {
+    const dispatch = useAppDispatch();
     const [tag, setTag] = useState<TTag[]>([]);
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
-
+    const isOpenBookmarkModal = useAppSelector(selectOpenBookmarkModal);
     const {
         reset,
         register,
@@ -47,16 +49,16 @@ const AddLinkForm = ({
     };
     const handleCreateBookmark: SubmitHandler<TInputs> = (data) => {
         console.log(data);
-        setIsOpenLinkModal(false);
+        dispatch(closeBookmarkModal());
         reset();
     };
     const handleCancel = () => {
-        setIsOpenLinkModal(false);
+        dispatch(closeBookmarkModal());
     };
     return (
         <>
             <Modal
-                open={isOpenLinkModal}
+                open={isOpenBookmarkModal}
                 onCancel={handleCancel}
                 footer={false}>
                 <div className='text-base'>
@@ -207,6 +209,7 @@ const AddLinkForm = ({
                         </div>
                     </form>
                 </div>
+
                 <AddTagForm
                     isOpenTagModal={isOpenTagModal}
                     setIsOpenTagModal={setIsOpenTagModal}
@@ -216,4 +219,4 @@ const AddLinkForm = ({
     );
 };
 
-export default AddLinkForm;
+export default AddBookmarkForm;
