@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import { FaPenAlt, FaTrashAlt } from "react-icons/fa";
-import { FaRegCopy } from "react-icons/fa6";
+import { FaCheck, FaRegCopy } from "react-icons/fa6";
 import image from "@/src/assets/img_1.jpg";
 import { TBookmark, TTag } from "@/src/types";
 import { MdUpdate } from "react-icons/md";
@@ -9,6 +9,7 @@ import { RiMenuAddLine } from "react-icons/ri";
 import { LuExternalLink } from "react-icons/lu";
 import { CiGlobe } from "react-icons/ci";
 import pin from "@/src/assets/pin.png";
+import { useEffect, useState } from "react";
 type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";
@@ -27,6 +28,7 @@ const BookmarkCard = ({
     data,
     isPinned,
 }: TProps) => {
+    const [isCopied, setIsCopied] = useState(false);
     const handleSelectLink = (e: any) => {
         console.log(e.target.checked);
         if (selectBookmark && setSelectBookmark) {
@@ -37,6 +39,26 @@ const BookmarkCard = ({
         //  else {
         //     setSelectLink(selectLink.filter((id) => id !== "linkId"));
         // }
+    };
+    const handleCopy = async () => {
+        try {
+            // Try modern API first
+            await navigator.clipboard.writeText(data.url);
+        } catch {
+            // Fallback for old browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = data.url;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+        }
+
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
     };
     return (
         <div
@@ -72,7 +94,10 @@ const BookmarkCard = ({
                 <div
                     className={`absolute p-1 flex items-center gap-1 md:gap-2  ${columns === 3 ? "flex-wrap-reverse md:flex-nowrap w-full h-4/5 sm:h-fit bottom-0 right-0 justify-center sm:justify-between" : layout === "list" && columns === 2 ? "bottom-0 sm:bottom-auto sm:top-0 right-0 w-full xs:w-fit justify-between" : layout === "list" ? " top-0 right-0 w-full xs:w-fit justify-between" : "bottom-0 left-0 w-full justify-between"}`}>
                     <div className='w-fit flex items-center gap-2 text-black'>
-                        <button
+                        <a
+                            href={data?.url}
+                            target='_blank'
+                            rel='noopener noreferrer'
                             className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
                             <LuExternalLink
                                 className={`inline  ${columns === 3 ? "text-lg sm:text-xl" : layout === "list" ? "text-lg" : "text-xl"}`}
@@ -81,15 +106,22 @@ const BookmarkCard = ({
                                 className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : columns === 3 ? "hidden lg:inline" : "md:inline  hidden"}`}>
                                 Open
                             </span>
-                        </button>{" "}
+                        </a>{" "}
                         <button
+                            onClick={handleCopy}
                             className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
-                            <FaRegCopy
-                                className={`inline ${columns === 3 ? "" : "text-lg"}`}
-                            />{" "}
+                            {isCopied ? (
+                                <FaCheck
+                                    className={`inline text-green-500 ${columns === 3 ? "" : "text-lg"}`}
+                                />
+                            ) : (
+                                <FaRegCopy
+                                    className={`inline ${columns === 3 ? "" : "text-lg"}`}
+                                />
+                            )}
                             <span
                                 className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : columns === 3 ? "hidden lg:inline" : "md:inline hidden"}`}>
-                                Copy
+                                {isCopied ? "Copied" : "Copy"}
                             </span>
                         </button>{" "}
                     </div>

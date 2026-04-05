@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CiUser } from "react-icons/ci";
 import { PiEnvelopeSimpleLight } from "react-icons/pi";
