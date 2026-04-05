@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
@@ -16,9 +16,10 @@ import { selectToken } from "@/src/redux/features/auth/authSlice";
 import EmptyFolder from "../../ui/folder/EmptyFolder";
 import EmptyBookmark from "../../ui/Bookmark/EmptyBookmark";
 import NonUserCard from "../../ui/NonUserCard";
+import { Spin } from "antd";
 const MainSection = () => {
     const token = useAppSelector(selectToken);
-    console.log(token);
+    const [isPending, startTransition] = useTransition();
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
     const [selectBookmark, setSelectBookmark] = useState<string[]>([]);
@@ -39,7 +40,7 @@ const MainSection = () => {
         { name: "Inspiration", color: "#1DBAC9" },
     ];
     useEffect(() => {
-        (async () => {
+        startTransition(async () => {
             if (token) {
                 const res = await getBookmarks(token as string);
                 console.log(res);
@@ -53,7 +54,7 @@ const MainSection = () => {
                     pinnedBookmarks: [],
                 });
             }
-        })();
+        });
     }, [token]);
 
     const displayData = useMemo(() => {
@@ -65,6 +66,8 @@ const MainSection = () => {
             pinnedBookmarks: [],
         };
     }, [allData, selectedFolder]);
+
+    console.log(isPending);
     return (
         <section className=''>
             {/* Top Navigation */}
@@ -132,123 +135,127 @@ const MainSection = () => {
                     </span>
                 ))}
             </div>
-            {/* Folder Section  */}
-            {displayData?.folders?.length > 0 && (
-                <div className='container my-2'>
-                    <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
-                        Folders
-                    </h2>
-                    <div
-                        className={`grid gap-2 md:gap-3 ${
-                            columns === 1
-                                ? "grid-cols-1"
-                                : columns === 2
-                                  ? "grid-cols-2"
-                                  : columns === 3
-                                    ? "grid-cols-3"
-                                    : "grid-cols-4"
-                        }`}>
-                        {displayData?.folders?.map((folder) => (
-                            <FolderCard
-                                key={folder._id}
-                                columns={columns}
-                                layout={layout}
-                                data={folder}
-                                setSelectedFolder={setSelectedFolder}
-                                setSelectedFolderName={setSelectedFolderName}
-                            />
-                        ))}
+            <Spin size="large" tip="Loading..." spinning={isPending} className="my-10">
+                {/* Folder Section  */}
+                {displayData?.folders?.length > 0 && (
+                    <div className='container my-2'>
+                        <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
+                            Folders
+                        </h2>
+                        <div
+                            className={`grid gap-2 md:gap-3 ${
+                                columns === 1
+                                    ? "grid-cols-1"
+                                    : columns === 2
+                                      ? "grid-cols-2"
+                                      : columns === 3
+                                        ? "grid-cols-3"
+                                        : "grid-cols-4"
+                            }`}>
+                            {displayData?.folders?.map((folder) => (
+                                <FolderCard
+                                    key={folder._id}
+                                    columns={columns}
+                                    layout={layout}
+                                    data={folder}
+                                    setSelectedFolder={setSelectedFolder}
+                                    setSelectedFolderName={
+                                        setSelectedFolderName
+                                    }
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            )}
-            {/* Pin bookmark section` */}
-            {displayData?.pinnedBookmarks?.length > 0 && (
-                <div className='container my-2'>
-                    <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
-                        Pinned Bookmarks
-                    </h2>
-                    <div
-                        className={`grid gap-2 md:gap-3 ${
-                            columns === 1
-                                ? "grid-cols-1"
-                                : columns === 2
-                                  ? "grid-cols-2"
-                                  : columns === 3
-                                    ? "grid-cols-3"
-                                    : "grid-cols-4"
-                        }`}>
-                        {/* card */}
+                )}
+                {/* Pin bookmark section` */}
+                {displayData?.pinnedBookmarks?.length > 0 && (
+                    <div className='container my-2'>
+                        <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
+                            Pinned Bookmarks
+                        </h2>
+                        <div
+                            className={`grid gap-2 md:gap-3 ${
+                                columns === 1
+                                    ? "grid-cols-1"
+                                    : columns === 2
+                                      ? "grid-cols-2"
+                                      : columns === 3
+                                        ? "grid-cols-3"
+                                        : "grid-cols-4"
+                            }`}>
+                            {/* card */}
 
-                        {displayData?.pinnedBookmarks?.map((bookmark) => (
-                            <BookmarkCard
-                                key={bookmark._id}
-                                columns={columns}
-                                tagList={tagList}
-                                layout={layout}
-                                selectBookmark={selectBookmark}
-                                setSelectBookmark={setSelectBookmark}
-                                data={bookmark}
-                                isPinned
-                            />
-                        ))}
+                            {displayData?.pinnedBookmarks?.map((bookmark) => (
+                                <BookmarkCard
+                                    key={bookmark._id}
+                                    columns={columns}
+                                    tagList={tagList}
+                                    layout={layout}
+                                    selectBookmark={selectBookmark}
+                                    setSelectBookmark={setSelectBookmark}
+                                    data={bookmark}
+                                    isPinned
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            )}{" "}
-            {/* bookmark section` */}
-            {displayData?.bookmarks?.length > 0 && (
-                <div className='container my-2'>
-                    <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
-                        Bookmarks
-                    </h2>
-                    <div
-                        className={`grid gap-2 md:gap-3 ${
-                            columns === 1
-                                ? "grid-cols-1"
-                                : columns === 2
-                                  ? "grid-cols-2"
-                                  : columns === 3
-                                    ? "grid-cols-3"
-                                    : "grid-cols-4"
-                        }`}>
-                        {/* card */}
+                )}{" "}
+                {/* bookmark section` */}
+                {displayData?.bookmarks?.length > 0 && (
+                    <div className='container my-2'>
+                        <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
+                            Bookmarks
+                        </h2>
+                        <div
+                            className={`grid gap-2 md:gap-3 ${
+                                columns === 1
+                                    ? "grid-cols-1"
+                                    : columns === 2
+                                      ? "grid-cols-2"
+                                      : columns === 3
+                                        ? "grid-cols-3"
+                                        : "grid-cols-4"
+                            }`}>
+                            {/* card */}
 
-                        {displayData?.bookmarks?.map((bookmark) => (
-                            <BookmarkCard
-                                key={bookmark._id}
-                                columns={columns}
-                                tagList={tagList}
-                                layout={layout}
-                                selectBookmark={selectBookmark}
-                                setSelectBookmark={setSelectBookmark}
-                                data={bookmark}
-                            />
-                        ))}
+                            {displayData?.bookmarks?.map((bookmark) => (
+                                <BookmarkCard
+                                    key={bookmark._id}
+                                    columns={columns}
+                                    tagList={tagList}
+                                    layout={layout}
+                                    selectBookmark={selectBookmark}
+                                    setSelectBookmark={setSelectBookmark}
+                                    data={bookmark}
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            )}
-            {/* Empty data section */}
-            {displayData?.bookmarks?.length === 0 &&
-            displayData?.folders?.length === 0 &&
-            displayData?.pinnedBookmarks?.length === 0 &&
-            !selectedFolder &&
-            token ? (
-                <EmptyBookmark />
-            ) : displayData?.bookmarks?.length === 0 &&
-              displayData?.folders?.length === 0 &&
-              displayData?.pinnedBookmarks?.length === 0 &&
-              selectedFolder &&
-              token ? (
-                <EmptyFolder />
-            ) : (
-                ""
-            )}
-            {/* If the use not login */}
-            {!token && <NonUserCard />}
-            {/* Card Select Option */}
-            <SelectLinkControl
-                selectLink={selectBookmark}
-                setSelectLink={setSelectBookmark}
-            />
+                )}
+                {/* Empty data section */}
+                {displayData?.bookmarks?.length === 0 &&
+                displayData?.folders?.length === 0 &&
+                displayData?.pinnedBookmarks?.length === 0 &&
+                !selectedFolder &&
+                token ? (
+                    <EmptyBookmark />
+                ) : displayData?.bookmarks?.length === 0 &&
+                  displayData?.folders?.length === 0 &&
+                  displayData?.pinnedBookmarks?.length === 0 &&
+                  selectedFolder &&
+                  token ? (
+                    <EmptyFolder />
+                ) : (
+                    ""
+                )}
+                {/* If the use not login */}
+                {!token && <NonUserCard />}
+                {/* Card Select Option */}
+                <SelectLinkControl
+                    selectLink={selectBookmark}
+                    setSelectLink={setSelectBookmark}
+                />
+            </Spin>
             {/* Add button section */}
             <div className=''>
                 <AddButton />
