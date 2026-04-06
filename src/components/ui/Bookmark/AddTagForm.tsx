@@ -2,15 +2,21 @@
 import React, { useState } from "react";
 import { Modal } from "antd";
 import { useForm, SubmitHandler } from "react-hook-form";
+import ShowAlert from "@/src/utils/ShowAlert";
+import Swal from "sweetalert2";
+import { createTags } from "@/src/services/TagServices";
+import { useAppSelector } from "@/src/redux/hook";
+import { selectToken } from "@/src/redux/features/auth/authSlice";
 
 type TInputs = {
-    folderName: string;
+    tagName: string;
 };
 type TProps = {
     isOpenTagModal: boolean;
     setIsOpenTagModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
+    const token = useAppSelector(selectToken);
     const [color, setColor] = useState<string>("");
     const {
         reset,
@@ -18,10 +24,31 @@ const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
-    const handleCreateFolder: SubmitHandler<TInputs> = (data) => {
+    const handleCreateTag: SubmitHandler<TInputs> = async (data) => {
         console.log(data);
         setIsOpenTagModal(false);
         reset();
+        try {
+            Swal.showLoading();
+            const res = await createTags(token as string, {
+                name: data.tagName,
+                color,
+            });
+            if (res.success) {
+                ShowAlert("Success", "success", "Tag created successfully");
+                reset();
+            } else {
+                ShowAlert("Error", "error", res.message);
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
     };
 
     const handleCancel = () => {
@@ -41,19 +68,19 @@ const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
                         {" "}
                         New Tag
                     </h2>
-                    <form onSubmit={handleSubmit(handleCreateFolder)}>
+                    <form onSubmit={handleSubmit(handleCreateTag)}>
                         {/* Tag Name */}
                         <div className=''>
                             <label className='block mb-2 text-s font-medium text-text/80'>
                                 Tag Name :
                             </label>
                             <input
-                                {...register("folderName", { required: true })}
+                                {...register("tagName", { required: true })}
                                 type='text'
-                                className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 ${errors.folderName ? "border-red-500" : "border-text/50"}`}
+                                className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 ${errors.tagName ? "border-red-500" : "border-text/50"}`}
                                 placeholder='Enter tag name ....'
                             />
-                            {errors.folderName && (
+                            {errors.tagName && (
                                 <span className='text-red-500'>
                                     {" "}
                                     Tag name is required
