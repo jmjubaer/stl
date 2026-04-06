@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, useTransition } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
-import { TData, TTag } from "@/src/types";
+import { TData, TSortBy, TTag } from "@/src/types";
 import BookmarkCard from "../../ui/Bookmark/BookmarkCard";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
@@ -24,7 +24,11 @@ const MainSection = () => {
     const [columns, setColumns] = useState<number>(3);
     const [selectBookmark, setSelectBookmark] = useState<string[]>([]);
     const [tag, setTag] = useState<TTag[]>([]);
-    const [sortby, setSortby] = useState<string>("Newest First");
+    const [sortby, setSortby] = useState<TSortBy>({
+        name: "Newest First",
+        value: "",
+    });
+    const [searchText, setSearchText] = useState<string>("");
     const [selectedFolder, setSelectedFolder] = useState<string>("");
     const [selectedFolderName, setSelectedFolderName] = useState<string>("");
     const [allData, setAllData] = useState<TData>({
@@ -42,7 +46,10 @@ const MainSection = () => {
     useEffect(() => {
         startTransition(async () => {
             if (token) {
-                const res = await getBookmarks(token as string);
+                const res = await getBookmarks(token as string, [
+                    { name: "searchTerm", value: searchText },
+                    { name: "sort", value: sortby.value },
+                ]);
                 console.log(res);
                 if (res?.success) {
                     setAllData(res.data);
@@ -55,7 +62,7 @@ const MainSection = () => {
                 });
             }
         });
-    }, [token]);
+    }, [token, searchText, sortby]);
 
     const displayData = useMemo(() => {
         if (!selectedFolder) return allData;
@@ -87,6 +94,7 @@ const MainSection = () => {
                             <FaSearch className='absolute text-sm sm:text-base top-2.5   sm:top-3 left-3 text-text/50' />
                             <input
                                 type='search'
+                                onChange={(e) => setSearchText(e.target.value)}
                                 placeholder='Search for products...'
                                 className='sm:px-4 px-3 py-1 sm:py-1.5 border border-text/20 sm:rounded-xl rounded-md w-full sm:w-80 outline-none pl-8 sm:pl-9'
                             />
@@ -135,7 +143,11 @@ const MainSection = () => {
                     </span>
                 ))}
             </div>
-            <Spin size="large" tip="Loading..." spinning={isPending} className="my-10">
+            <Spin
+                size='large'
+                tip='Loading...'
+                spinning={isPending}
+                className='my-10'>
                 {/* Folder Section  */}
                 {displayData?.folders?.length > 0 && (
                     <div className='container my-2'>

@@ -4,6 +4,10 @@ export interface TData {
     folders: TFolder[];
     pinnedBookmarks: TBookmark[];
 }
+export interface TSortBy {
+    name: string;
+    value: string;
+}
 export interface TBookmark {
     _id: string;
     url: string;

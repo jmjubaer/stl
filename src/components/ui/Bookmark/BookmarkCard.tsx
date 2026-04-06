@@ -10,7 +10,6 @@ import { LuExternalLink } from "react-icons/lu";
 import { CiGlobe } from "react-icons/ci";
 import pin from "@/src/assets/pin.png";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 type TProps = {
     tagList: TTag[];
     layout: "grid" | "list";

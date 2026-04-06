@@ -1,18 +1,21 @@
+import { TSortBy } from "@/src/types";
 import { useEffect, useRef, useState } from "react";
 import { LuArrowDownUp } from "react-icons/lu";
 type TagDropdownProps = {
-    sortby: string;
-    setSortby: React.Dispatch<React.SetStateAction<string>>;
+    sortby: TSortBy;
+    setSortby: React.Dispatch<React.SetStateAction<TSortBy>>;
 };
 const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
     const [openSort, setOpenSort] = useState(false);
 
     const sortbyRef = useRef<HTMLDivElement>(null);
 
-    const handleSetSortBy = (sortby: string) => {
+    const handleSetSortBy = (sortby: TSortBy) => {
         setSortby(sortby);
+
         setOpenSort(false);
     };
+
     // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -35,7 +38,7 @@ const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
                 onClick={() => setOpenSort(!openSort)}
                 className={`sm:px-5 px-4 py-1.5 border whitespace-nowrap border-text/20 sm:rounded-xl rounded-md outline-none cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500  ${openSort && "bg-primary text-white border-primary"}`}>
                 <LuArrowDownUp className='inline sm:mr-2 text-xl' />{" "}
-                <span className='hidden sm:inline'>{sortby}</span>
+                <span className='hidden sm:inline'>{sortby.name}</span>
             </button>
             {/* Dropdown */}
             <div
@@ -47,38 +50,67 @@ const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
                 </h3>
                 <div className='p-1 px-1.5'>
                     <button
-                        onClick={() => handleSetSortBy("Newest First")}
+                        onClick={() =>
+                            handleSetSortBy({
+                                name: "Newest First",
+                                value: "-createdAt",
+                            })
+                        }
                         className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full ${
-                            sortby === "Newest First" && "bg-primary text-white"
+                            sortby.name === "Newest First" &&
+                            "bg-primary text-white"
                         }`}>
                         Newest First
                     </button>{" "}
                     <button
-                        onClick={() => handleSetSortBy("Oldest First")}
+                        onClick={() =>
+                            handleSetSortBy({
+                                name: "Oldest First",
+                                value: "createdAt",
+                            })
+                        }
                         className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
-                            sortby === "Oldest First" && "bg-primary text-white"
+                            sortby.name === "Oldest First" &&
+                            "bg-primary text-white"
                         }`}>
                         Oldest First
                     </button>
                     <button
-                        onClick={() => handleSetSortBy("Recently Updated")}
+                        onClick={() =>
+                            handleSetSortBy({
+                                name: "Recently Updated",
+                                value: "-updatedAt",
+                            })
+                        }
                         className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
-                            sortby === "Recently Updated" &&
+                            sortby.name === "Recently Updated" &&
                             "bg-primary text-white"
                         }`}>
                         Recently Updated
                     </button>
                     <button
-                        onClick={() => handleSetSortBy("Title A to Z")}
+                        onClick={() =>
+                            handleSetSortBy({
+                                name: "Title A to Z",
+                                value: "title",
+                            })
+                        }
                         className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
-                            sortby === "Title A to Z" && "bg-primary text-white"
+                            sortby.name === "Title A to Z" &&
+                            "bg-primary text-white"
                         }`}>
                         Title A to Z
                     </button>
                     <button
-                        onClick={() => handleSetSortBy("Title Z to A")}
+                        onClick={() =>
+                            handleSetSortBy({
+                                name: "Title Z to A",
+                                value: "-title",
+                            })
+                        }
                         className={`px-3 sm:py-2 py-1.5 rounded-xl text-sm sm:text-[15px] hover:bg-primary hover:text-white cursor-pointer flex items-center w-full mt-0.5 ${
-                            sortby === "Title Z to A" && "bg-primary text-white"
+                            sortby.name === "Title Z to A" &&
+                            "bg-primary text-white"
                         }`}>
                         Title Z to A
                     </button>
