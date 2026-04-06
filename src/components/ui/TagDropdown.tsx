@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 import { GoPlus } from "react-icons/go";
-import { TiPlus } from "react-icons/ti";
 import AddTagForm from "./Bookmark/AddTagForm";
 type TagDropdownProps = {
     tag: TTag[];
@@ -34,11 +33,15 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
     const tagList = [
-        { name: "Design", color: "#9952E0" },
-        { name: "Development", color: "#1A8CFF" },
-        { name: "Tutorial", color: "#28BD66" },
-        { name: "Marketing", color: "#F97A1F" },
-        { name: "Inspiration", color: "#1DBAC9" },
+        { _id: "1", name: "Design", color: "#9952E0" },
+        {
+            _id: "69ce89cc9499ffff87f6cde3",
+            name: "Development",
+            color: "#1A8CFF",
+        },
+        { _id: "69ce89b39499ffff87f6cddc", name: "Tutorial", color: "#28BD66" },
+        { _id: "4", name: "Marketing", color: "#F97A1F" },
+        { _id: "5", name: "Inspiration", color: "#1DBAC9" },
     ];
     return (
         <div className='relative' ref={tagRef}>

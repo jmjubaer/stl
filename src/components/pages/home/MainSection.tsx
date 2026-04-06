@@ -37,11 +37,15 @@ const MainSection = () => {
         pinnedBookmarks: [],
     });
     const tagList = [
-        { name: "Design", color: "#9952E0" },
-        { name: "Development", color: "#1A8CFF" },
-        { name: "Tutorial", color: "#28BD66" },
-        { name: "Marketing", color: "#F97A1F" },
-        { name: "Inspiration", color: "#1DBAC9" },
+        { _id: "1", name: "Design", color: "#9952E0" },
+        {
+            _id: "69ce89cc9499ffff87f6cde3",
+            name: "Development",
+            color: "#1A8CFF",
+        },
+        { _id: "69ce89b39499ffff87f6cddc", name: "Tutorial", color: "#28BD66" },
+        { _id: "4", name: "Marketing", color: "#F97A1F" },
+        { _id: "5", name: "Inspiration", color: "#1DBAC9" },
     ];
     useEffect(() => {
         startTransition(async () => {
@@ -49,6 +53,14 @@ const MainSection = () => {
                 const res = await getBookmarks(token as string, [
                     { name: "searchTerm", value: searchText },
                     { name: "sort", value: sortby.value },
+                    ...(tag.length > 0
+                        ? [
+                              {
+                                  name: "tags",
+                                  value: tag.map((t) => t._id).join(","),
+                              },
+                          ]
+                        : []),
                 ]);
                 console.log(res);
                 if (res?.success) {
@@ -62,7 +74,7 @@ const MainSection = () => {
                 });
             }
         });
-    }, [token, searchText, sortby]);
+    }, [token, searchText, sortby, tag]);
 
     const displayData = useMemo(() => {
         if (!selectedFolder) return allData;
