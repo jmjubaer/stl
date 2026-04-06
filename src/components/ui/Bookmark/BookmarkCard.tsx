@@ -10,8 +10,18 @@ import { LuExternalLink } from "react-icons/lu";
 import { CiGlobe } from "react-icons/ci";
 import pin from "@/src/assets/pin.png";
 import { useState } from "react";
+const tagList = [
+    { _id: "1", name: "Design", color: "#9952E0" },
+    {
+        _id: "69ce89cc9499ffff87f6cde3",
+        name: "Development",
+        color: "#1A8CFF",
+    },
+    { _id: "69ce89b39499ffff87f6cddc", name: "Tutorial", color: "#28BD66" },
+    { _id: "4", name: "Marketing", color: "#F97A1F" },
+    { _id: "5", name: "Inspiration", color: "#1DBAC9" },
+];
 type TProps = {
-    tagList: TTag[];
     layout: "grid" | "list";
     columns: number;
     selectBookmark?: string[];
@@ -20,7 +30,6 @@ type TProps = {
     isPinned?: boolean;
 };
 const BookmarkCard = ({
-    tagList,
     layout,
     columns,
     setSelectBookmark,

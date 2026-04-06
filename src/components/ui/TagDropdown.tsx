@@ -1,16 +1,23 @@
 import { TTag } from "@/src/types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 import { GoPlus } from "react-icons/go";
 import AddTagForm from "./Bookmark/AddTagForm";
+import { useAppSelector } from "@/src/redux/hook";
+import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { getTags } from "@/src/services/TagServices";
+import { Spin } from "antd";
 type TagDropdownProps = {
     tag: TTag[];
     setTag: React.Dispatch<React.SetStateAction<TTag[]>>;
 };
 const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
+    const token = useAppSelector(selectToken);
+    const [isPending, startTransition] = useTransition();
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const [openTag, setOpenTag] = useState(false);
+    const [tagList, setTagList] = useState<TTag[]>([]);
     const handleToggleTag = (tag: TTag) => {
         setTag((prevTag) =>
             prevTag.some((t) => t.name === tag.name)
@@ -32,17 +39,30 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
         return () =>
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-    const tagList = [
-        { _id: "1", name: "Design", color: "#9952E0" },
-        {
-            _id: "69ce89cc9499ffff87f6cde3",
-            name: "Development",
-            color: "#1A8CFF",
-        },
-        { _id: "69ce89b39499ffff87f6cddc", name: "Tutorial", color: "#28BD66" },
-        { _id: "4", name: "Marketing", color: "#F97A1F" },
-        { _id: "5", name: "Inspiration", color: "#1DBAC9" },
-    ];
+    // const tagList = [
+    //     { _id: "1", name: "Design", color: "#9952E0" },
+    //     {
+    //         _id: "69ce89cc9499ffff87f6cde3",
+    //         name: "Development",
+    //         color: "#1A8CFF",
+    //     },
+    //     { _id: "69ce89b39499ffff87f6cddc", name: "Tutorial", color: "#28BD66" },
+    //     { _id: "4", name: "Marketing", color: "#F97A1F" },
+    //     { _id: "5", name: "Inspiration", color: "#1DBAC9" },
+    // ];
+    useEffect(() => {
+        startTransition(async () => {
+            if (token) {
+                const res = await getTags(token as string);
+                console.log(res);
+                if (res?.success) {
+                    setTagList(res.data);
+                }
+            } else {
+                setTagList([]);
+            }
+        });
+    }, [token]);
     return (
         <div className='relative' ref={tagRef}>
             {/* Tag button */}
@@ -59,46 +79,53 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 </span>
             </button>
             {/* Dropdown */}
-            <ul
-                className={`absolute top-10 border border-text/20  rounded-xl sm:left-0 right-0 bg-background shadow-md dark:shadow-white/20 w-48 z-20 ${
-                    openTag ? "visible" : "hidden"
-                }`}>
-                {/* all tag */}
-                <div className='p-1 px-1.5'>
-                    {tagList.map((tagItem) => (
-                        <li
-                            key={tagItem.name}
-                            onClick={() => handleToggleTag(tagItem)}
-                            className='px-3 py-1.5 rounded-xl text-xs hover:bg-text/5 cursor-pointer flex items-center gap-3'>
-                            <FaCheck
-                                className={`text-sm ${
-                                    tag.some((t) => t.name === tagItem.name)
-                                        ? "block"
-                                        : "invisible"
-                                }`}
-                            />
+            {
+                <ul
+                    className={`absolute top-10 border border-text/20  rounded-xl sm:left-0 right-0 bg-background shadow-md dark:shadow-white/20 w-48 z-20 ${
+                        openTag ? "visible" : "hidden"
+                    }`}>
+                    {/* all tag */}
+                    <Spin size='small' tip='Loading...' spinning={isPending}>
+                        <div className='p-1 px-1.5'>
+                            {tagList.map((tagItem) => (
+                                <li
+                                    key={tagItem.name}
+                                    onClick={() => handleToggleTag(tagItem)}
+                                    className='px-3 py-1.5 rounded-xl text-xs hover:bg-text/5 cursor-pointer flex items-center gap-3'>
+                                    <FaCheck
+                                        className={`text-sm ${
+                                            tag.some(
+                                                (t) => t.name === tagItem.name,
+                                            )
+                                                ? "block"
+                                                : "invisible"
+                                        }`}
+                                    />
 
-                            <span
-                                style={{
-                                    backgroundColor: tagItem.color + "20",
-                                    color: tagItem.color,
-                                }}
-                                className='p-1  font-bold px-3  rounded-full'>
-                                {tagItem.name}
-                            </span>
-                        </li>
-                    ))}
-                </div>
-                {/* Add tag */}
-                <div className='p-1 px-1.5 border-t border-text/20'>
-                    <button
-                        onClick={() => setIsOpenTagModal(true)}
-                        className='px-3 py-1 rounded-xl text-sm hover:bg-primary hover:text-white cursor-pointer flex items-center gap-3 w-full'>
-                        <GoPlus className='text-2xl' />
-                        Add Tag
-                    </button>
-                </div>
-            </ul>
+                                    <span
+                                        style={{
+                                            backgroundColor:
+                                                tagItem.color + "20",
+                                            color: tagItem.color,
+                                        }}
+                                        className='p-1  font-bold px-3 capitalize rounded-full'>
+                                        {tagItem.name}
+                                    </span>
+                                </li>
+                            ))}
+                        </div>
+                    </Spin>
+                    {/* Add tag */}
+                    <div className='p-1 px-1.5 border-t border-text/20'>
+                        <button
+                            onClick={() => setIsOpenTagModal(true)}
+                            className='px-3 py-1 rounded-xl text-sm hover:bg-primary hover:text-white cursor-pointer flex items-center gap-3 w-full'>
+                            <GoPlus className='text-2xl' />
+                            Add Tag
+                        </button>
+                    </div>
+                </ul>
+            }
             <AddTagForm
                 isOpenTagModal={isOpenTagModal}
                 setIsOpenTagModal={setIsOpenTagModal}

@@ -36,17 +36,6 @@ const MainSection = () => {
         folders: [],
         pinnedBookmarks: [],
     });
-    const tagList = [
-        { _id: "1", name: "Design", color: "#9952E0" },
-        {
-            _id: "69ce89cc9499ffff87f6cde3",
-            name: "Development",
-            color: "#1A8CFF",
-        },
-        { _id: "69ce89b39499ffff87f6cddc", name: "Tutorial", color: "#28BD66" },
-        { _id: "4", name: "Marketing", color: "#F97A1F" },
-        { _id: "5", name: "Inspiration", color: "#1DBAC9" },
-    ];
     useEffect(() => {
         startTransition(async () => {
             if (token) {
@@ -213,7 +202,6 @@ const MainSection = () => {
                                 <BookmarkCard
                                     key={bookmark._id}
                                     columns={columns}
-                                    tagList={tagList}
                                     layout={layout}
                                     selectBookmark={selectBookmark}
                                     setSelectBookmark={setSelectBookmark}
@@ -246,7 +234,6 @@ const MainSection = () => {
                                 <BookmarkCard
                                     key={bookmark._id}
                                     columns={columns}
-                                    tagList={tagList}
                                     layout={layout}
                                     selectBookmark={selectBookmark}
                                     setSelectBookmark={setSelectBookmark}
