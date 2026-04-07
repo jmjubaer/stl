@@ -39,15 +39,15 @@ const BookmarkCard = ({
 }: TProps) => {
     const [isCopied, setIsCopied] = useState(false);
     const handleSelectLink = (e: any) => {
-        console.log(e.target.checked);
         if (selectBookmark && setSelectBookmark) {
             if (e.target.checked) {
-                setSelectBookmark([...selectBookmark, "linkId"]);
+                setSelectBookmark([...selectBookmark, data._id]);
+            } else {
+                setSelectBookmark(
+                    selectBookmark.filter((id) => id !== data._id),
+                );
             }
         }
-        //  else {
-        //     setSelectLink(selectLink.filter((id) => id !== "linkId"));
-        // }
     };
     const handleCopy = async () => {
         try {
@@ -88,6 +88,7 @@ const BookmarkCard = ({
                     <input
                         onChange={(e) => handleSelectLink(e)}
                         type='checkbox'
+                        checked={selectBookmark?.includes(data._id) || false}
                         className={` z-10 w-9 cursor-pointer accent-primary ${columns === 3 ? "absolute top-3 sm:top-5 left-0 sm:left-2 sm:scale-200 scale-150" : layout === "list" && columns === 2 ? "sm:static absolute top-4 right-1 sm:scale-170 scale-150" : layout === "list" ? "static sm:scale-200 scale-150" : "absolute top-4 left-1 sm:scale-200 scale-150"}`}
                     />
                 ) : (

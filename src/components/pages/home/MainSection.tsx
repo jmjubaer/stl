@@ -7,7 +7,7 @@ import { TData, TSortBy, TTag } from "@/src/types";
 import BookmarkCard from "../../ui/Bookmark/BookmarkCard";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
-import SelectLinkControl from "../../ui/Bookmark/SelectLinkControl";
+import SelectBookmarkControl from "../../ui/Bookmark/SelectBookmarkControl";
 import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
 import { getBookmarks } from "@/src/services/BookmarkServices";
@@ -75,7 +75,6 @@ const MainSection = () => {
         };
     }, [allData, selectedFolder]);
 
-    console.log(isPending);
     return (
         <section className=''>
             {/* Top Navigation */}
@@ -213,34 +212,40 @@ const MainSection = () => {
                     </div>
                 )}{" "}
                 {/* bookmark section` */}
-                {displayData?.bookmarks?.length > 0 && (
+                {(displayData?.bookmarks?.length > 0 ||
+                    displayData?.pinnedBookmarks?.length > 0 ||
+                    displayData?.folders?.length > 0) && (
                     <div className='container my-2'>
                         <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
                             Bookmarks
                         </h2>
-                        <div
-                            className={`grid gap-2 md:gap-3 ${
-                                columns === 1
-                                    ? "grid-cols-1"
-                                    : columns === 2
-                                      ? "grid-cols-2"
-                                      : columns === 3
-                                        ? "grid-cols-3"
-                                        : "grid-cols-4"
-                            }`}>
-                            {/* card */}
+                        {displayData?.bookmarks?.length > 0 ? (
+                            <div
+                                className={`grid gap-2 md:gap-3 ${
+                                    columns === 1
+                                        ? "grid-cols-1"
+                                        : columns === 2
+                                          ? "grid-cols-2"
+                                          : columns === 3
+                                            ? "grid-cols-3"
+                                            : "grid-cols-4"
+                                }`}>
+                                {/* card */}
 
-                            {displayData?.bookmarks?.map((bookmark) => (
-                                <BookmarkCard
-                                    key={bookmark._id}
-                                    columns={columns}
-                                    layout={layout}
-                                    selectBookmark={selectBookmark}
-                                    setSelectBookmark={setSelectBookmark}
-                                    data={bookmark}
-                                />
-                            ))}
-                        </div>
+                                {displayData?.bookmarks?.map((bookmark) => (
+                                    <BookmarkCard
+                                        key={bookmark._id}
+                                        columns={columns}
+                                        layout={layout}
+                                        selectBookmark={selectBookmark}
+                                        setSelectBookmark={setSelectBookmark}
+                                        data={bookmark}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <EmptyBookmark />
+                        )}
                     </div>
                 )}
                 {/* Empty data section */}
@@ -262,9 +267,9 @@ const MainSection = () => {
                 {/* If the use not login */}
                 {!token && <NonUserCard />}
                 {/* Card Select Option */}
-                <SelectLinkControl
-                    selectLink={selectBookmark}
-                    setSelectLink={setSelectBookmark}
+                <SelectBookmarkControl
+                    selectBookmark={selectBookmark}
+                    setSelectBookmark={setSelectBookmark}
                 />
             </Spin>
             {/* Add button section */}

@@ -6,14 +6,17 @@ import { MdDriveFileMoveOutline } from "react-icons/md";
 import folder from "@/src/assets/folder.png";
 import Image from "next/image";
 type TProps = {
-    selectLink: string[];
-    setSelectLink: React.Dispatch<React.SetStateAction<string[]>>;
+    selectBookmark: string[];
+    setSelectBookmark: React.Dispatch<React.SetStateAction<string[]>>;
 };
-const SelectLinkControl = ({ selectLink, setSelectLink }: TProps) => {
+const SelectBookmarkControl = ({
+    selectBookmark,
+    setSelectBookmark,
+}: TProps) => {
     const [openFolderSelect, setOpenFolderSelect] = useState<boolean>(false);
     const folderRef = useRef<HTMLDivElement>(null);
     const handleRemoveSelectLink = () => {
-        setSelectLink([]);
+        setSelectBookmark([]);
         setOpenFolderSelect(false);
     };
     useEffect(() => {
@@ -26,15 +29,16 @@ const SelectLinkControl = ({ selectLink, setSelectLink }: TProps) => {
             }
         };
         document.addEventListener("mousedown", handleOutSideClick);
-        return () => document.removeEventListener("mousedown", handleOutSideClick);
+        return () =>
+            document.removeEventListener("mousedown", handleOutSideClick);
     }, []);
     return (
         <div ref={folderRef}>
-            {selectLink?.length > 0 && (
+            {selectBookmark?.length > 0 && (
                 <div className='fixed bottom-5 left-1/2 -translate-x-1/2 bg-background shadow-2xl border border-text/50 rounded-full py-2 px-5 text-sm flex items-center gap-3 z-10'>
                     <button className='flex items-center gap-1 cursor-pointer border-r pr-3'>
                         <FaRegCheckSquare className='text-lg' />
-                        <span>{selectLink?.length}</span> Selected
+                        <span>{selectBookmark?.length}</span> Selected
                     </button>
                     <button
                         onClick={() => setOpenFolderSelect(!openFolderSelect)}
@@ -98,4 +102,4 @@ const SelectLinkControl = ({ selectLink, setSelectLink }: TProps) => {
     );
 };
 
-export default SelectLinkControl;
+export default SelectBookmarkControl;
