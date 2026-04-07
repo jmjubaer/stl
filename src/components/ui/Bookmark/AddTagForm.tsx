@@ -27,7 +27,6 @@ const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
     const handleCreateTag: SubmitHandler<TInputs> = async (data) => {
         console.log(data);
         setIsOpenTagModal(false);
-        reset();
         try {
             Swal.showLoading();
             const res = await createTags(token as string, {
@@ -37,6 +36,7 @@ const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
             if (res.success) {
                 ShowAlert("Success", "success", "Tag created successfully");
                 reset();
+                setColor('')
             } else {
                 ShowAlert("Error", "error", res.message);
             }

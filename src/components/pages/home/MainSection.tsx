@@ -268,6 +268,7 @@ const MainSection = () => {
                 {!token && <NonUserCard />}
                 {/* Card Select Option */}
                 <SelectBookmarkControl
+                    folderList={displayData.folders}
                     selectBookmark={selectBookmark}
                     setSelectBookmark={setSelectBookmark}
                 />

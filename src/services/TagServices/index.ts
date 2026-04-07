@@ -1,6 +1,6 @@
 "use server";
 
-import { TTag } from "@/src/types";
+import { revalidateTag } from "next/cache";
 
 export const getTags = async (token: string) => {
     try {
@@ -11,6 +11,9 @@ export const getTags = async (token: string) => {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `${token}`,
+                },
+                next: {
+                    tags: ["Tags"],
                 },
             },
         );
@@ -37,6 +40,7 @@ export const createTags = async (
                 body: JSON.stringify(payload),
             },
         );
+        revalidateTag("Tags", "everything");
         const data = await response.json();
         return data;
     } catch (error) {

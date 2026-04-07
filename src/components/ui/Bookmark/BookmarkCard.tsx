@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FaPenAlt, FaTrashAlt } from "react-icons/fa";
 import { FaCheck, FaRegCopy } from "react-icons/fa6";
 import image from "@/src/assets/img_1.jpg";
-import { TBookmark, TTag } from "@/src/types";
+import { TBookmark } from "@/src/types";
 import { MdUpdate } from "react-icons/md";
 import { RiMenuAddLine } from "react-icons/ri";
 import { LuExternalLink } from "react-icons/lu";

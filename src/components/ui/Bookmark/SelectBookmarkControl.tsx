@@ -3,18 +3,30 @@ import { useEffect, useRef, useState } from "react";
 import { FaRegCheckSquare, FaRegFolderOpen } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { MdDriveFileMoveOutline } from "react-icons/md";
-import folder from "@/src/assets/folder.png";
+import folderImage from "@/src/assets/folder.png";
 import Image from "next/image";
+import { TFolder } from "@/src/types";
+import { RiFolderAddLine } from "react-icons/ri";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
+import { openFolderModal } from "@/src/redux/features/modal/modalSlice";
+import ShowAlert from "@/src/utils/ShowAlert";
+import Swal from "sweetalert2";
+import { AddToFolder } from "@/src/services/BookmarkServices";
+import { selectToken } from "@/src/redux/features/auth/authSlice";
 type TProps = {
+    folderList: TFolder[];
     selectBookmark: string[];
     setSelectBookmark: React.Dispatch<React.SetStateAction<string[]>>;
 };
 const SelectBookmarkControl = ({
+    folderList,
     selectBookmark,
     setSelectBookmark,
 }: TProps) => {
+    const token = useAppSelector(selectToken);
     const [openFolderSelect, setOpenFolderSelect] = useState<boolean>(false);
     const folderRef = useRef<HTMLDivElement>(null);
+    const dispatch = useAppDispatch();
     const handleRemoveSelectLink = () => {
         setSelectBookmark([]);
         setOpenFolderSelect(false);
@@ -32,6 +44,30 @@ const SelectBookmarkControl = ({
         return () =>
             document.removeEventListener("mousedown", handleOutSideClick);
     }, []);
+    const handleMoveToFolder = async (folderId: string) => {
+        try {
+            Swal.showLoading();
+            const res = await AddToFolder(token as string, {
+                bookmarkIds: selectBookmark,
+                folderId,
+            });
+            if (res.success) {
+                ShowAlert("Success", "success", "Move to folder successfully");
+                setOpenFolderSelect(false);
+                setSelectBookmark([]);
+            } else {
+                ShowAlert("Error", "error", res.message);
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
+    };
     return (
         <div ref={folderRef}>
             {selectBookmark?.length > 0 && (
@@ -65,36 +101,27 @@ const SelectBookmarkControl = ({
                             <FaRegFolderOpen className='text-2xl' />
                             <span>Uncategorized</span>
                         </button>
-                        <button className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
-                            <Image
-                                src={folder}
-                                alt='Folder image'
-                                width={25}
-                                height={20}
-                                className={``}
-                            />
-                            <span>Work</span>
-                        </button>
-                        <button className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
-                            <Image
-                                src={folder}
-                                alt='Folder image'
-                                width={25}
-                                height={20}
-                                className={``}
-                            />
-                            <span>Design</span>
-                        </button>
-                        <button className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
-                            <Image
-                                src={folder}
-                                alt='Folder image'
-                                width={25}
-                                height={20}
-                                className={``}
-                            />
-                            <span>Tutorials</span>
-                        </button>
+                        <button
+                            onClick={() => dispatch(openFolderModal())}
+                            className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
+                            <RiFolderAddLine className='text-2xl' />
+                            <span>New Folder</span>
+                        </button>{" "}
+                        {folderList.map((folder) => (
+                            <button
+                                onClick={() => handleMoveToFolder(folder._id)}
+                                key={folder._id}
+                                className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
+                                <Image
+                                    src={folderImage}
+                                    alt='Folder image'
+                                    width={25}
+                                    height={20}
+                                    className={``}
+                                />
+                                <span>{folder.name}</span>
+                            </button>
+                        ))}
                     </div>
                 </div>
             )}
