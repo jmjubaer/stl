@@ -2,35 +2,35 @@
 
 import { revalidateTag } from "next/cache";
 
-// export const getFolder = async (token: string) => {
-//     try {
-//         const response = await fetch(
-//             `${process.env.NEXT_PUBLIC_BASE_API}/tag`,
-//             {
-//                 method: "GET",
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     Authorization: `${token}`,
-//                 },
-//                 next: {
-//                     tags: ["Folders"],
-//                 },
-//             },
-//         );
-//         const data = await response.json();
-//         return data;
-//     } catch (error) {
-//         console.error("Error fetching tags:", error);
-//         throw new Error("Failed to fetch tags");
-//     }
-// };
-export const createTags = async (
+export const getFolder = async (token: string) => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/folder`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${token}`,
+                },
+                next: {
+                    tags: ["Folders"],
+                },
+            },
+        );
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching folders:", error);
+        throw new Error("Failed to fetch folders");
+    }
+};
+export const createFolder = async (
     token: string,
-    payload: { name: string; color: string },
+    payload: { name: string },
 ) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/tag/create`,
+            `${process.env.NEXT_PUBLIC_BASE_API}/folder/create`,
             {
                 method: "POST",
                 headers: {
@@ -45,7 +45,7 @@ export const createTags = async (
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("Error creating tags:", error);
-        throw new Error("Failed to creating tags");
+        console.error("Error creating folders:", error);
+        throw new Error("Failed to creating folders");
     }
 };

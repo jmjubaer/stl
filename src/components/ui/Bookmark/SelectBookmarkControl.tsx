@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { FaRegCheckSquare, FaRegFolderOpen } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { MdDriveFileMoveOutline } from "react-icons/md";
@@ -13,19 +13,23 @@ import ShowAlert from "@/src/utils/ShowAlert";
 import Swal from "sweetalert2";
 import { AddToFolder } from "@/src/services/BookmarkServices";
 import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { getFolder } from "@/src/services/FolderServices";
+import { Spin } from "antd";
 type TProps = {
-    folderList: TFolder[];
+    refetchFolder: number;
     selectBookmark: string[];
     setSelectBookmark: React.Dispatch<React.SetStateAction<string[]>>;
     setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
 const SelectBookmarkControl = ({
-    folderList,
+    refetchFolder,
     selectBookmark,
     setSelectBookmark,
     setRefetchBookmark,
 }: TProps) => {
     const token = useAppSelector(selectToken);
+    const [isPending, startTransition] = useTransition();
+    const [data, setData] = useState<TFolder[]>([]);
     const [openFolderSelect, setOpenFolderSelect] = useState<boolean>(false);
     const folderRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch();
@@ -46,6 +50,19 @@ const SelectBookmarkControl = ({
         return () =>
             document.removeEventListener("mousedown", handleOutSideClick);
     }, []);
+    useEffect(() => {
+        startTransition(async () => {
+            if (token) {
+                const res = await getFolder(token as string);
+                console.log(res);
+                if (res?.success) {
+                    setData(res.data);
+                }
+            } else {
+                setData([]);
+            }
+        });
+    }, [token, refetchFolder]);
     const handleMoveToFolder = async (folderId: string) => {
         try {
             Swal.showLoading();
@@ -95,36 +112,48 @@ const SelectBookmarkControl = ({
                 </div>
             )}
             {openFolderSelect && (
-                <div className='fixed bottom-16 left-1/2 -translate-x-1/2 border border-text/40 rounded-2xl text-sm z-10 w-60 bg-background shadow'>
+                <div className='fixed bottom-16 left-1/2 -translate-x-1/2 border border-text/40 rounded-2xl text-sm z-10 w-60 bg-background shadow '>
                     <h2 className='font-semibold text-center border-b border-text/20 dark:border-text/50 py-1.5 '>
                         Choose destination
                     </h2>
-                    <div className='m-2 text-sm'>
-                        <button className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
-                            <FaRegFolderOpen className='text-2xl' />
-                            <span>Uncategorized</span>
-                        </button>
-                        <button
-                            onClick={() => dispatch(openFolderModal())}
-                            className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
-                            <RiFolderAddLine className='text-2xl' />
-                            <span>New Folder</span>
-                        </button>{" "}
-                        {folderList.map((folder) => (
+
+                    <div className='m-2 text-sm max-h-[200px] overflow-y-auto'>
+                        <Spin
+                            size='small'
+                            tip='Loading...'
+                            spinning={isPending}>
                             <button
-                                onClick={() => handleMoveToFolder(folder._id)}
-                                key={folder._id}
+                                onClick={() =>
+                                    handleMoveToFolder("uncategorized")
+                                }
                                 className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
-                                <Image
-                                    src={folderImage}
-                                    alt='Folder image'
-                                    width={25}
-                                    height={20}
-                                    className={``}
-                                />
-                                <span>{folder.name}</span>
+                                <FaRegFolderOpen className='text-2xl' />
+                                <span>Uncategorized</span>
                             </button>
-                        ))}
+                            <button
+                                onClick={() => dispatch(openFolderModal())}
+                                className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
+                                <RiFolderAddLine className='text-2xl' />
+                                <span>New Folder</span>
+                            </button>{" "}
+                            {data?.map((folder) => (
+                                <button
+                                    onClick={() =>
+                                        handleMoveToFolder(folder._id)
+                                    }
+                                    key={folder._id}
+                                    className='flex items-center px-4 py-2 hover:bg-primary rounded-full hover:text-white gap-2 w-full cursor-pointer'>
+                                    <Image
+                                        src={folderImage}
+                                        alt='Folder image'
+                                        width={25}
+                                        height={20}
+                                        className={``}
+                                    />
+                                    <span>{folder.name}</span>
+                                </button>
+                            ))}
+                        </Spin>
                     </div>
                 </div>
             )}

@@ -10,7 +10,11 @@ import {
     openFolderModal,
 } from "@/src/redux/features/modal/modalSlice";
 
-const AddButton = () => {
+const AddButton = ({
+    setRefetchFolder,
+}: {
+    setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
+}) => {
     const dispatch = useAppDispatch();
     const [isOpenOption, setIsOpenOption] = useState(false);
     const handleOpenLinkModal = () => {
@@ -64,7 +68,7 @@ const AddButton = () => {
             )}
             {/* Add Link Modal  */}
             <AddBookmarkForm />
-            <AddFolderForm />
+            <AddFolderForm setRefetchFolder={setRefetchFolder} />
         </div>
     );
 };

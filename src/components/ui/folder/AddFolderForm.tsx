@@ -3,28 +3,55 @@ import React from "react";
 import { Modal } from "antd";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
-import { closeFolderModal, selectOpenFolderModal } from "@/src/redux/features/modal/modalSlice";
+import {
+    closeFolderModal,
+    selectOpenFolderModal,
+} from "@/src/redux/features/modal/modalSlice";
+import ShowAlert from "@/src/utils/ShowAlert";
+import Swal from "sweetalert2";
+import { createFolder } from "@/src/services/FolderServices";
+import { selectToken } from "@/src/redux/features/auth/authSlice";
 
 type TInputs = {
     folderName: string;
 };
-// type TProps = {
-//     isOpenFolderModal: boolean;
-//     setIsOpenFolderModal: React.Dispatch<React.SetStateAction<boolean>>;
-// };
-const AddFolderForm = () => {
+type TProps = {
+    setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
+};
+const AddFolderForm = ({ setRefetchFolder }: TProps) => {
+    const token = useAppSelector(selectToken);
     const dispatch = useAppDispatch();
-    const  isOpenFolderModal = useAppSelector(selectOpenFolderModal)
+    const isOpenFolderModal = useAppSelector(selectOpenFolderModal);
     const {
         reset,
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
-    const handleCreateFolder: SubmitHandler<TInputs> = (data) => {
+    const handleCreateFolder: SubmitHandler<TInputs> = async (data) => {
         console.log(data);
-        dispatch(closeFolderModal());
-        reset();
+        try {
+            Swal.showLoading();
+            const res = await createFolder(token as string, {
+                name: data.folderName,
+            });
+            if (res.success) {
+                ShowAlert("Success", "success", "Folder created successfully");
+                reset();
+                setRefetchFolder((prev) => prev + 1);
+                dispatch(closeFolderModal());
+            } else {
+                ShowAlert("Error", "error", res.message);
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
     };
 
     const handleCancel = () => {

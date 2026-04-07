@@ -32,6 +32,7 @@ const MainSection = () => {
     const [selectedFolder, setSelectedFolder] = useState<string>("");
     const [selectedFolderName, setSelectedFolderName] = useState<string>("");
     const [refetchBookmark, setRefetchBookmark] = useState(0);
+    const [refetchFolder, setRefetchFolder] = useState(0);
     const [allData, setAllData] = useState<TData>({
         bookmarks: [],
         folders: [],
@@ -145,7 +146,6 @@ const MainSection = () => {
                 ))}
             </div>
 
-            
             <Spin
                 size='large'
                 tip='Loading...'
@@ -271,7 +271,7 @@ const MainSection = () => {
                 {!token && <NonUserCard />}
                 {/* Card Select Option */}
                 <SelectBookmarkControl
-                    folderList={displayData.folders}
+                    refetchFolder={refetchFolder}
                     selectBookmark={selectBookmark}
                     setSelectBookmark={setSelectBookmark}
                     setRefetchBookmark={setRefetchBookmark}
@@ -279,7 +279,7 @@ const MainSection = () => {
             </Spin>
             {/* Add button section */}
             <div className=''>
-                <AddButton />
+                <AddButton setRefetchFolder={setRefetchFolder} />
             </div>
         </section>
     );
