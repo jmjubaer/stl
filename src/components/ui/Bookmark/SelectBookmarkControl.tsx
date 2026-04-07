@@ -17,11 +17,13 @@ type TProps = {
     folderList: TFolder[];
     selectBookmark: string[];
     setSelectBookmark: React.Dispatch<React.SetStateAction<string[]>>;
+    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
 const SelectBookmarkControl = ({
     folderList,
     selectBookmark,
     setSelectBookmark,
+    setRefetchBookmark,
 }: TProps) => {
     const token = useAppSelector(selectToken);
     const [openFolderSelect, setOpenFolderSelect] = useState<boolean>(false);
@@ -55,6 +57,7 @@ const SelectBookmarkControl = ({
                 ShowAlert("Success", "success", "Move to folder successfully");
                 setOpenFolderSelect(false);
                 setSelectBookmark([]);
+                setRefetchBookmark((prev) => prev + 1);
             } else {
                 ShowAlert("Error", "error", res.message);
             }

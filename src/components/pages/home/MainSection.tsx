@@ -31,6 +31,7 @@ const MainSection = () => {
     const [searchText, setSearchText] = useState<string>("");
     const [selectedFolder, setSelectedFolder] = useState<string>("");
     const [selectedFolderName, setSelectedFolderName] = useState<string>("");
+    const [refetchBookmark, setRefetchBookmark] = useState(0);
     const [allData, setAllData] = useState<TData>({
         bookmarks: [],
         folders: [],
@@ -63,7 +64,7 @@ const MainSection = () => {
                 });
             }
         });
-    }, [token, searchText, sortby, tag]);
+    }, [token, searchText, sortby, tag, refetchBookmark]);
 
     const displayData = useMemo(() => {
         if (!selectedFolder) return allData;
@@ -143,6 +144,8 @@ const MainSection = () => {
                     </span>
                 ))}
             </div>
+
+            
             <Spin
                 size='large'
                 tip='Loading...'
@@ -271,6 +274,7 @@ const MainSection = () => {
                     folderList={displayData.folders}
                     selectBookmark={selectBookmark}
                     setSelectBookmark={setSelectBookmark}
+                    setRefetchBookmark={setRefetchBookmark}
                 />
             </Spin>
             {/* Add button section */}

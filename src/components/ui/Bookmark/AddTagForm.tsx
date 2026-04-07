@@ -14,8 +14,13 @@ type TInputs = {
 type TProps = {
     isOpenTagModal: boolean;
     setIsOpenTagModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
-const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
+const AddTagForm = ({
+    isOpenTagModal,
+    setIsOpenTagModal,
+    setRefetchBookmark,
+}: TProps) => {
     const token = useAppSelector(selectToken);
     const [color, setColor] = useState<string>("");
     const {
@@ -25,7 +30,6 @@ const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
         formState: { errors },
     } = useForm<TInputs>();
     const handleCreateTag: SubmitHandler<TInputs> = async (data) => {
-        console.log(data);
         setIsOpenTagModal(false);
         try {
             Swal.showLoading();
@@ -36,7 +40,8 @@ const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
             if (res.success) {
                 ShowAlert("Success", "success", "Tag created successfully");
                 reset();
-                setColor('')
+                setColor("");
+                setRefetchBookmark((prev) => prev + 1);
             } else {
                 ShowAlert("Error", "error", res.message);
             }
@@ -130,7 +135,7 @@ const AddTagForm = ({ isOpenTagModal, setIsOpenTagModal }: TProps) => {
                             <button
                                 className='border bg-blue-700 text-white hover:bg-primary rounded-xl px-5 py-2 cursor-pointer hover:text-white'
                                 type='submit'>
-                                Create Folder
+                                Add Tag
                             </button>
                         </div>
                     </form>

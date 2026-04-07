@@ -8,10 +8,10 @@ import { closeFolderModal, selectOpenFolderModal } from "@/src/redux/features/mo
 type TInputs = {
     folderName: string;
 };
-type TProps = {
-    isOpenFolderModal: boolean;
-    setIsOpenFolderModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
+// type TProps = {
+//     isOpenFolderModal: boolean;
+//     setIsOpenFolderModal: React.Dispatch<React.SetStateAction<boolean>>;
+// };
 const AddFolderForm = () => {
     const dispatch = useAppDispatch();
     const  isOpenFolderModal = useAppSelector(selectOpenFolderModal)

@@ -18,6 +18,8 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const [openTag, setOpenTag] = useState(false);
     const [tagList, setTagList] = useState<TTag[]>([]);
+    const [refetchBookmark, setRefetchBookmark] = useState(0);
+
     const handleToggleTag = (tag: TTag) => {
         setTag((prevTag) =>
             prevTag.some((t) => t.name === tag.name)
@@ -62,7 +64,7 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 setTagList([]);
             }
         });
-    }, [token]);
+    }, [token, refetchBookmark]);
     return (
         <div className='relative' ref={tagRef}>
             {/* Tag button */}
@@ -127,6 +129,7 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 </ul>
             }
             <AddTagForm
+                setRefetchBookmark={setRefetchBookmark}
                 isOpenTagModal={isOpenTagModal}
                 setIsOpenTagModal={setIsOpenTagModal}
             />
