@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import { Modal } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import FolderDropdown from "./FolderDropdown";
@@ -11,22 +11,24 @@ import {
     closeBookmarkModal,
     selectOpenBookmarkModal,
 } from "@/src/redux/features/modal/modalSlice";
-import AddFolderForm from "../folder/AddFolderForm";
 type TInputs = {
     title: string;
     url: string;
     image?: string;
     notes: string;
 };
-const tagList = [
-    { name: "Design", color: "#9952E0" },
-    { name: "Development", color: "#1A8CFF" },
-    { name: "Tutorial", color: "#28BD66" },
-    { name: "Marketing", color: "#F97A1F" },
-    { name: "Inspiration", color: "#1DBAC9" },
-];
-const AddBookmarkForm = () => {
+type TProps = {
+    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
+    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
+    tagList: TTag[];
+};
+const AddBookmarkForm = ({
+    setRefetchBookmark,
+    setRefetchTags,
+    tagList,
+}: TProps) => {
     const dispatch = useAppDispatch();
+
     const [tag, setTag] = useState<TTag[]>([]);
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const isOpenBookmarkModal = useAppSelector(selectOpenBookmarkModal);
@@ -36,6 +38,7 @@ const AddBookmarkForm = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
+
     const handleToggleTag = (tag: TTag) => {
         setTag((prevTag) =>
             prevTag.some((t) => t.name === tag.name)
@@ -205,11 +208,11 @@ const AddBookmarkForm = () => {
                 </div>
 
                 <AddTagForm
+                    setRefetchTags={setRefetchTags}
                     isOpenTagModal={isOpenTagModal}
                     setIsOpenTagModal={setIsOpenTagModal}
                 />
             </Modal>
-            <AddFolderForm />
         </>
     );
 };

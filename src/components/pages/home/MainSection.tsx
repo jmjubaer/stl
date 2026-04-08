@@ -17,13 +17,16 @@ import EmptyFolder from "../../ui/folder/EmptyFolder";
 import EmptyBookmark from "../../ui/Bookmark/EmptyBookmark";
 import NonUserCard from "../../ui/NonUserCard";
 import { Spin } from "antd";
+import { getTags } from "@/src/services/TagServices";
 const MainSection = () => {
     const token = useAppSelector(selectToken);
     const [isPending, startTransition] = useTransition();
+    const [isTagPending, startTagTransition] = useTransition();
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
     const [selectBookmark, setSelectBookmark] = useState<string[]>([]);
     const [tag, setTag] = useState<TTag[]>([]);
+    const [tagList, setTagList] = useState<TTag[]>([]);
     const [sortby, setSortby] = useState<TSortBy>({
         name: "Newest First",
         value: "",
@@ -33,6 +36,8 @@ const MainSection = () => {
     const [selectedFolderName, setSelectedFolderName] = useState<string>("");
     const [refetchBookmark, setRefetchBookmark] = useState(0);
     const [refetchFolder, setRefetchFolder] = useState(0);
+    const [refetchTags, setRefetchTags] = useState(0);
+
     const [allData, setAllData] = useState<TData>({
         bookmarks: [],
         folders: [],
@@ -76,7 +81,19 @@ const MainSection = () => {
             pinnedBookmarks: [],
         };
     }, [allData, selectedFolder]);
-
+    useEffect(() => {
+        startTagTransition(async () => {
+            if (token) {
+                const res = await getTags(token as string);
+                console.log(res);
+                if (res?.success) {
+                    setTagList(res.data);
+                }
+            } else {
+                setTagList([]);
+            }
+        });
+    }, [token, refetchTags]);
     return (
         <section className=''>
             {/* Top Navigation */}
@@ -102,7 +119,13 @@ const MainSection = () => {
                             />
                         </div>
                         {/* Tag filter */}
-                        <TagDropdown tag={tag} setTag={setTag} />
+                        <TagDropdown
+                            isPending={isTagPending}
+                            tagList={tagList}
+                            tag={tag}
+                            setTag={setTag}
+                            setRefetchTags={setRefetchTags}
+                        />
                         {/* Sort by */}
                         <SortDropdown sortby={sortby} setSortby={setSortby} />
                     </div>
@@ -117,6 +140,7 @@ const MainSection = () => {
                     />
                 </div>
             </div>
+
             {/* Show Filter Tag */}
             <div
                 className={`pt-3 flex flex-wrap items-center gap-2 container ${
@@ -279,7 +303,13 @@ const MainSection = () => {
             </Spin>
             {/* Add button section */}
             <div className=''>
-                <AddButton setRefetchFolder={setRefetchFolder} />
+                <AddButton
+                    // isPending={isTagPending}
+                    tagList={tagList}
+                    setRefetchTags={setRefetchTags}
+                    setRefetchFolder={setRefetchFolder}
+                    setRefetchBookmark={setRefetchBookmark}
+                />
             </div>
         </section>
     );

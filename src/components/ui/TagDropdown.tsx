@@ -1,25 +1,27 @@
 import { TTag } from "@/src/types";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 import { GoPlus } from "react-icons/go";
 import AddTagForm from "./Bookmark/AddTagForm";
-import { useAppSelector } from "@/src/redux/hook";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
-import { getTags } from "@/src/services/TagServices";
 import { Spin } from "antd";
 type TagDropdownProps = {
     tag: TTag[];
     setTag: React.Dispatch<React.SetStateAction<TTag[]>>;
+    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
+    isPending: boolean;
+    tagList: TTag[];
 };
-const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
-    const token = useAppSelector(selectToken);
-    const [isPending, startTransition] = useTransition();
+const TagDropdown = ({
+    tag,
+    setTag,
+    setRefetchTags,
+    isPending,
+    tagList,
+}: TagDropdownProps) => {
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const [openTag, setOpenTag] = useState(false);
-    const [tagList, setTagList] = useState<TTag[]>([]);
-    const [refetchBookmark, setRefetchBookmark] = useState(0);
-
+    const tagRef = useRef<HTMLDivElement>(null);
     const handleToggleTag = (tag: TTag) => {
         setTag((prevTag) =>
             prevTag.some((t) => t.name === tag.name)
@@ -27,7 +29,6 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 : [...prevTag, tag],
         );
     };
-    const tagRef = useRef<HTMLDivElement>(null);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -41,30 +42,6 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
         return () =>
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-    // const tagList = [
-    //     { _id: "1", name: "Design", color: "#9952E0" },
-    //     {
-    //         _id: "69ce89cc9499ffff87f6cde3",
-    //         name: "Development",
-    //         color: "#1A8CFF",
-    //     },
-    //     { _id: "69ce89b39499ffff87f6cddc", name: "Tutorial", color: "#28BD66" },
-    //     { _id: "4", name: "Marketing", color: "#F97A1F" },
-    //     { _id: "5", name: "Inspiration", color: "#1DBAC9" },
-    // ];
-    useEffect(() => {
-        startTransition(async () => {
-            if (token) {
-                const res = await getTags(token as string);
-                console.log(res);
-                if (res?.success) {
-                    setTagList(res.data);
-                }
-            } else {
-                setTagList([]);
-            }
-        });
-    }, [token, refetchBookmark]);
     return (
         <div className='relative' ref={tagRef}>
             {/* Tag button */}
@@ -129,7 +106,7 @@ const TagDropdown = ({ tag, setTag }: TagDropdownProps) => {
                 </ul>
             }
             <AddTagForm
-                setRefetchBookmark={setRefetchBookmark}
+                setRefetchTags={setRefetchTags}
                 isOpenTagModal={isOpenTagModal}
                 setIsOpenTagModal={setIsOpenTagModal}
             />

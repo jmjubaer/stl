@@ -17,8 +17,9 @@ type TInputs = {
 };
 type TProps = {
     setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
+    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
-const AddFolderForm = ({ setRefetchFolder }: TProps) => {
+const AddFolderForm = ({ setRefetchFolder, setRefetchBookmark }: TProps) => {
     const token = useAppSelector(selectToken);
     const dispatch = useAppDispatch();
     const isOpenFolderModal = useAppSelector(selectOpenFolderModal);
@@ -39,6 +40,7 @@ const AddFolderForm = ({ setRefetchFolder }: TProps) => {
                 ShowAlert("Success", "success", "Folder created successfully");
                 reset();
                 setRefetchFolder((prev) => prev + 1);
+                setRefetchBookmark((prev) => prev + 1);
                 dispatch(closeFolderModal());
             } else {
                 ShowAlert("Error", "error", res.message);

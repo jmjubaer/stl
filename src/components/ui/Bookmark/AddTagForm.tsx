@@ -14,12 +14,12 @@ type TInputs = {
 type TProps = {
     isOpenTagModal: boolean;
     setIsOpenTagModal: React.Dispatch<React.SetStateAction<boolean>>;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
+    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
 };
 const AddTagForm = ({
     isOpenTagModal,
     setIsOpenTagModal,
-    setRefetchBookmark,
+    setRefetchTags,
 }: TProps) => {
     const token = useAppSelector(selectToken);
     const [color, setColor] = useState<string>("");
@@ -41,7 +41,7 @@ const AddTagForm = ({
                 ShowAlert("Success", "success", "Tag created successfully");
                 reset();
                 setColor("");
-                setRefetchBookmark((prev) => prev + 1);
+                setRefetchTags((prev) => prev + 1);
             } else {
                 ShowAlert("Error", "error", res.message);
             }
