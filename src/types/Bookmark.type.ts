@@ -35,3 +35,19 @@ export interface TFolder {
     name: string;
     bookmarks?: TBookmark[];
 }
+
+
+export interface TLinkMetaInfo {
+    url: string;
+    title: string;
+    siteName?: string;
+    mediaType: string;
+    contentType: string;
+    image: string[] | [];
+    videos: string[] | [];
+    favicon: string[] | [];
+    charset: string;
+    description?: string;
+    author?: string;
+
+}

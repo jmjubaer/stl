@@ -63,3 +63,22 @@ export const AddToFolder = async (
         throw new Error("Failed to add to folder bookmarks");
     }
 };
+
+export const linkPreview = async (url: string) => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/link-preview?url= ${url}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            },
+        );
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error link preview:", error);
+        throw new Error("Failed link preview");
+    }
+};
