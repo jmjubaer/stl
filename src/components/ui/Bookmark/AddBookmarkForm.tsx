@@ -3,10 +3,9 @@ import { Modal, Spin } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import FolderDropdown from "./FolderDropdown";
 import { FaTimes } from "react-icons/fa";
-import { TTag } from "@/src/types";
+import { TFolder, TLinkMetaInfo, TSelectedFolder, TTag } from "@/src/types";
 import { TiPlus } from "react-icons/ti";
 import AddTagForm from "./AddTagForm";
-import { LoadingOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import {
     closeBookmarkModal,
@@ -23,20 +22,30 @@ type TInputs = {
     notes: string;
 };
 type TProps = {
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
-    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
     tagList: TTag[];
+    folderList: TFolder[];
+    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
+    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
 const AddBookmarkForm = ({
     setRefetchBookmark,
     setRefetchTags,
+    folderList,
     tagList,
 }: TProps) => {
     const dispatch = useAppDispatch();
+
     const [isPreviewPending, startPreviewTransition] = useTransition();
-    const [tag, setTag] = useState<TTag[]>([]);
+
+    const [selectTag, setSelectTag] = useState<TTag[]>([]);
+    const [selectFolder, setSelectFolder] = useState<TSelectedFolder>({
+        name: "No Folder",
+        id: "",
+    });
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
-    const [linkMetaInfo, setLinkMetaInfo] = useState(false);
+    const [linkMetaInfo, setLinkMetaInfo] = useState<TLinkMetaInfo | null>(
+        null,
+    );
     const isOpenBookmarkModal = useAppSelector(selectOpenBookmarkModal);
     const {
         reset,
@@ -45,13 +54,25 @@ const AddBookmarkForm = ({
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
-
+    console.log(57, selectTag);
     const handleToggleTag = (tag: TTag) => {
-        setTag((prevTag) =>
-            prevTag.some((t) => t.name === tag.name)
-                ? prevTag.filter((t) => t.name !== tag.name)
-                : [...prevTag, tag],
-        );
+        // Check if already selected OUTSIDE setState
+        const isSelected = selectTag.some((t) => t._id === tag._id);
+
+        // If already selected — remove it (no limit check needed)
+        if (isSelected) {
+            setSelectTag((prevTag) => prevTag.filter((t) => t._id !== tag._id));
+            return;
+        }
+
+        // If not selected — check limit before adding
+        if (selectTag.length >= 3) {
+            ShowAlert("Error", "error", "You can only select up to 3 tags.");
+            return;
+        }
+
+        // Add new tag
+        setSelectTag((prevTag) => [...prevTag, tag]);
     };
     const handleCreateBookmark: SubmitHandler<TInputs> = (data) => {
         console.log(data);
@@ -61,20 +82,27 @@ const AddBookmarkForm = ({
     const handleCancel = () => {
         dispatch(closeBookmarkModal());
     };
+
+    // link preview loading
     const url = watch("url");
     useEffect(() => {
         startPreviewTransition(async () => {
             try {
-                // if (!url) return;
+                if (!url) return;
                 const metaInfo = await linkPreview(url);
                 console.log("link meta info:", metaInfo);
                 if (metaInfo.success) {
                     reset({
                         title: metaInfo.data.title,
-                        image: metaInfo.data.image,
+                        image: metaInfo.data.images[0] || "",
                     });
+                    setLinkMetaInfo(metaInfo.data);
                 } else {
-                    ShowAlert("Error", "error", `${metaInfo.message}. You can still add the bookmark without preview info.`);
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        `${metaInfo.message}. You can still add the bookmark without preview info.`,
+                    );
                 }
             } catch (error) {
                 ShowAlert(
@@ -153,14 +181,17 @@ const AddBookmarkForm = ({
                             </label>
                             <div className='flex items-center gap-2'>
                                 <input
-                                    {...register("image", { required: true })}
+                                    {...register("image")}
                                     type='text'
-                                    className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 ${errors.image ? "border-red-500" : "border-text/50"}`}
+                                    className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 border-text/50`}
                                     placeholder='Enter bookmark image url ....'
                                 />
                                 <div className='border border-text/50 h-10.5 w-24 rounded-2xl overflow-hidden flex items-center justify-center'>
                                     <Image
-                                        src={placeHolderImage}
+                                        src={
+                                            linkMetaInfo?.images[0] ||
+                                            placeHolderImage
+                                        }
                                         alt='Cover image'
                                         width={96}
                                         height={40}
@@ -168,16 +199,14 @@ const AddBookmarkForm = ({
                                     />
                                 </div>
                             </div>
-                            {errors.image && (
-                                <span className='text-red-500'>
-                                    {" "}
-                                    Image URL is required
-                                </span>
-                            )}
                         </div>
 
                         {/* Folder */}
-                        <FolderDropdown />
+                        <FolderDropdown
+                            folderList={folderList}
+                            selectFolder={selectFolder}
+                            setSelectFolder={setSelectFolder}
+                        />
 
                         {/* Notes */}
                         <div className='mt-5'>
@@ -225,13 +254,13 @@ const AddBookmarkForm = ({
                                             color: tagItem.color,
                                         }}
                                         className={`p-1 text-xs font-bold px-3  rounded-full cursor-pointer flex items-center gap-1 ${
-                                            tag.find(
+                                            selectTag.find(
                                                 (t) => t.name === tagItem.name,
                                             ) && "border-2"
                                         }`}>
                                         {tagItem.name}
 
-                                        {tag.find(
+                                        {selectTag.find(
                                             (t) => t.name === tagItem.name,
                                         ) && (
                                             <span className='cursor-pointer'>

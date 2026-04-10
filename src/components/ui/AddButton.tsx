@@ -10,20 +10,25 @@ import {
     openFolderModal,
 } from "@/src/redux/features/modal/modalSlice";
 import { TTag } from "@/src/types/Tag.type";
+import { TFolder } from "@/src/types";
 type TProps = {
+    tagList: TTag[];
+    folderList: TFolder[];
+
     setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
     setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
     setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
-    tagList: TTag[];
 };
 const AddButton = ({
+    tagList,
+    folderList,
+    setRefetchTags,
     setRefetchFolder,
     setRefetchBookmark,
-    setRefetchTags,
-    tagList,
 }: TProps) => {
     const dispatch = useAppDispatch();
     const [isOpenOption, setIsOpenOption] = useState(false);
+
     const handleOpenLinkModal = () => {
         dispatch(openBookmarkModal());
         setIsOpenOption(false);
@@ -75,6 +80,7 @@ const AddButton = ({
             )}
             {/* Add Link Modal  */}
             <AddBookmarkForm
+                folderList={folderList}
                 tagList={tagList}
                 setRefetchTags={setRefetchTags}
                 setRefetchBookmark={setRefetchBookmark}

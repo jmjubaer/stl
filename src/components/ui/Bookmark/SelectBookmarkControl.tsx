@@ -16,20 +16,20 @@ import { selectToken } from "@/src/redux/features/auth/authSlice";
 import { getFolder } from "@/src/services/FolderServices";
 import { Spin } from "antd";
 type TProps = {
-    refetchFolder: number;
+    isPending: boolean;
+    folderList: TFolder[];
     selectBookmark: string[];
     setSelectBookmark: React.Dispatch<React.SetStateAction<string[]>>;
     setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
 const SelectBookmarkControl = ({
-    refetchFolder,
+    isPending,
+    folderList,
     selectBookmark,
     setSelectBookmark,
     setRefetchBookmark,
 }: TProps) => {
     const token = useAppSelector(selectToken);
-    const [isPending, startTransition] = useTransition();
-    const [data, setData] = useState<TFolder[]>([]);
     const [openFolderSelect, setOpenFolderSelect] = useState<boolean>(false);
     const folderRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch();
@@ -37,6 +37,8 @@ const SelectBookmarkControl = ({
         setSelectBookmark([]);
         setOpenFolderSelect(false);
     };
+
+    // close folder select when click outside
     useEffect(() => {
         const handleOutSideClick = (e: MouseEvent) => {
             if (
@@ -50,19 +52,7 @@ const SelectBookmarkControl = ({
         return () =>
             document.removeEventListener("mousedown", handleOutSideClick);
     }, []);
-    useEffect(() => {
-        startTransition(async () => {
-            if (token) {
-                const res = await getFolder(token as string);
-                console.log(res);
-                if (res?.success) {
-                    setData(res.data);
-                }
-            } else {
-                setData([]);
-            }
-        });
-    }, [token, refetchFolder]);
+
     const handleMoveToFolder = async (folderId: string) => {
         try {
             Swal.showLoading();
@@ -88,6 +78,7 @@ const SelectBookmarkControl = ({
             );
         }
     };
+
     return (
         <div ref={folderRef}>
             {selectBookmark?.length > 0 && (
@@ -136,7 +127,7 @@ const SelectBookmarkControl = ({
                                 <RiFolderAddLine className='text-2xl' />
                                 <span>New Folder</span>
                             </button>{" "}
-                            {data?.map((folder) => (
+                            {folderList?.map((folder) => (
                                 <button
                                     onClick={() =>
                                         handleMoveToFolder(folder._id)

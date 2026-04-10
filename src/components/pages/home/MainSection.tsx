@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, useTransition } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
-import { TData, TSortBy, TTag } from "@/src/types";
+import { TData, TFolder, TSortBy, TTag } from "@/src/types";
 import BookmarkCard from "../../ui/Bookmark/BookmarkCard";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
@@ -18,31 +18,48 @@ import EmptyBookmark from "../../ui/Bookmark/EmptyBookmark";
 import NonUserCard from "../../ui/NonUserCard";
 import { Spin } from "antd";
 import { getTags } from "@/src/services/TagServices";
+import { getFolder } from "@/src/services/FolderServices";
 const MainSection = () => {
+    // auth token from redux
     const token = useAppSelector(selectToken);
+
+    // loading mange state
     const [isPending, startTransition] = useTransition();
     const [isTagPending, startTagTransition] = useTransition();
+    const [isFolderPending, startFolderTransition] = useTransition();
+
+    //  layout control state
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
-    const [selectBookmark, setSelectBookmark] = useState<string[]>([]);
+
+    // Filter, sort and search state
+    const [searchText, setSearchText] = useState<string>("");
     const [tag, setTag] = useState<TTag[]>([]);
-    const [tagList, setTagList] = useState<TTag[]>([]);
     const [sortby, setSortby] = useState<TSortBy>({
         name: "Newest First",
         value: "",
     });
-    const [searchText, setSearchText] = useState<string>("");
+
+    // selection state
+    const [selectBookmark, setSelectBookmark] = useState<string[]>([]);
     const [selectedFolder, setSelectedFolder] = useState<string>("");
     const [selectedFolderName, setSelectedFolderName] = useState<string>("");
+
+    // refetch state to trigger useEffect
     const [refetchBookmark, setRefetchBookmark] = useState(0);
     const [refetchFolder, setRefetchFolder] = useState(0);
     const [refetchTags, setRefetchTags] = useState(0);
 
+    // data state
+    const [tagList, setTagList] = useState<TTag[]>([]);
+    const [folderList, setFolderList] = useState<TFolder[]>([]);
     const [allData, setAllData] = useState<TData>({
         bookmarks: [],
         folders: [],
         pinnedBookmarks: [],
     });
+
+    // fetch bookmark, folder and pinned bookmark
     useEffect(() => {
         startTransition(async () => {
             if (token) {
@@ -72,6 +89,7 @@ const MainSection = () => {
         });
     }, [token, searchText, sortby, tag, refetchBookmark]);
 
+    // filter data when select folder
     const displayData = useMemo(() => {
         if (!selectedFolder) return allData;
         const folder = allData?.folders?.find((f) => f._id === selectedFolder);
@@ -81,6 +99,8 @@ const MainSection = () => {
             pinnedBookmarks: [],
         };
     }, [allData, selectedFolder]);
+
+    // fetch tag list
     useEffect(() => {
         startTagTransition(async () => {
             if (token) {
@@ -94,6 +114,23 @@ const MainSection = () => {
             }
         });
     }, [token, refetchTags]);
+
+    // fetch folder list for move to folder option
+    useEffect(() => {
+        startFolderTransition(async () => {
+            if (token) {
+                const res = await getFolder(token as string);
+                console.log(res);
+                if (res?.success) {
+                    setFolderList(res.data);
+                }
+            } else {
+                setFolderList([]);
+            }
+        });
+    }, [token, refetchFolder]);
+
+
     return (
         <section className=''>
             {/* Top Navigation */}
@@ -295,7 +332,8 @@ const MainSection = () => {
                 {!token && <NonUserCard />}
                 {/* Card Select Option */}
                 <SelectBookmarkControl
-                    refetchFolder={refetchFolder}
+                    isPending={isFolderPending}
+                    folderList={folderList}
                     selectBookmark={selectBookmark}
                     setSelectBookmark={setSelectBookmark}
                     setRefetchBookmark={setRefetchBookmark}
@@ -304,7 +342,7 @@ const MainSection = () => {
             {/* Add button section */}
             <div className=''>
                 <AddButton
-                    // isPending={isTagPending}
+                    folderList={folderList}
                     tagList={tagList}
                     setRefetchTags={setRefetchTags}
                     setRefetchFolder={setRefetchFolder}

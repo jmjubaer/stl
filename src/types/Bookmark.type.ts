@@ -36,16 +36,19 @@ export interface TFolder {
     bookmarks?: TBookmark[];
 }
 
-
+export type TSelectedFolder = {
+    name: string;
+    id: string;
+};
 export interface TLinkMetaInfo {
     url: string;
     title: string;
     siteName?: string;
     mediaType: string;
     contentType: string;
-    image: string[] | [];
+    images: string[] | [];
     videos: string[] | [];
-    favicon: string[] | [];
+    favicons: string[] | [];
     charset: string;
     description?: string;
     author?: string;

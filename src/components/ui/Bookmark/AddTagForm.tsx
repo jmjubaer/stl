@@ -43,7 +43,7 @@ const AddTagForm = ({
                 setColor("");
                 setRefetchTags((prev) => prev + 1);
             } else {
-                ShowAlert("Error", "error", res.message);
+              
             }
         } catch (error) {
             ShowAlert(
