@@ -13,6 +13,7 @@ export interface TBookmark {
     url: string;
     domain?: string;
     title: string;
+    notes: string;
     description?: string;
     image?: string;
     favicon?: string;

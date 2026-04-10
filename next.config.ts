@@ -6,13 +6,18 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: "https",
-                hostname: "**", // ✅ allow all domains
+                hostname: "**",
+                port: "",
+                pathname: "**",
             },
             {
                 protocol: "http",
-                hostname: "**", // ✅ allow http too
+                hostname: "**",
+                port: "",
+                pathname: "**",
             },
         ],
+        unoptimized: true,
     },
 };
 
