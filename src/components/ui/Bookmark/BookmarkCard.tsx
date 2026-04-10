@@ -82,6 +82,7 @@ const BookmarkCard = ({
                         src={pin}
                         alt='Pin'
                         width={16}
+                        height={20}
                         className={` z-10 w-8 shadow-3xl object-contain cursor-pointer  accent-primary text-red-500 ${columns === 3 ? "absolute top-2 left-0 sm:left-2" : layout === "list" && columns === 2 ? "sm:static absolute top-2 right-1" : layout === "list" ? "static " : "absolute top-2 left-2 "}`}
                     />
                 ) : setSelectBookmark ? (
@@ -100,7 +101,9 @@ const BookmarkCard = ({
                     <Image
                         src={data?.image || image}
                         alt='Link image'
-                        className={`group-hover:scale-110  transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-36 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
+                        width={700}
+                        height={200}
+                        className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-36 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
                     />
                 </div>
                 {/* Floating button section */}

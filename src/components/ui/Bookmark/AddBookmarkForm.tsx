@@ -11,11 +11,12 @@ import {
     closeBookmarkModal,
     selectOpenBookmarkModal,
 } from "@/src/redux/features/modal/modalSlice";
-import { linkPreview } from "@/src/services/BookmarkServices";
+import { createBookmark, linkPreview } from "@/src/services/BookmarkServices";
 import Image from "next/image";
 import placeHolderImage from "@/src/assets/placeholder.png";
 import ShowAlert from "@/src/utils/ShowAlert";
-import { selectUser } from "@/src/redux/features/auth/authSlice";
+import { selectToken } from "@/src/redux/features/auth/authSlice";
+import Swal from "sweetalert2";
 type TInputs = {
     title: string;
     url: string;
@@ -34,7 +35,7 @@ const AddBookmarkForm = ({
     folderList,
     tagList,
 }: TProps) => {
-    const user = useAppSelector(selectUser);
+    const token = useAppSelector(selectToken);
     const dispatch = useAppDispatch();
 
     const [isPreviewPending, startPreviewTransition] = useTransition();
@@ -76,23 +77,56 @@ const AddBookmarkForm = ({
         // Add new tag
         setSelectTag((prevTag) => [...prevTag, tag]);
     };
-    const handleCreateBookmark: SubmitHandler<TInputs> = (data) => {
-        const bookmarkData = {
-            url: data.url,
-            domain: linkMetaInfo?.domain || "",
-            title: data.title,
-            notes: data.notes,
-            description: linkMetaInfo?.description || "",
-            image: data.image,
-            favicon: linkMetaInfo?.favicons[0] || "",
-            siteName: linkMetaInfo?.siteName || "",
-            tags: selectTag.length > 0 ? selectTag : null,
-            folder: selectFolder.id || null,
-            user: user?._id,
-        };
+    const handleCreateBookmark: SubmitHandler<TInputs> = async (data) => {
+        try {
+            Swal.showLoading();
 
-        // dispatch(closeBookmarkModal());
-        // reset();
+            const bookmarkData = {
+                url: data.url,
+                domain: linkMetaInfo?.domain || "",
+                title: data.title,
+                notes: data.notes,
+                description: linkMetaInfo?.description || "",
+                image: data.image,
+                favicon: linkMetaInfo?.favicons[0] || "",
+                siteName: linkMetaInfo?.siteName || "",
+                tags:
+                    selectTag.length > 0
+                        ? selectTag.map((tag) => tag._id)
+                        : null,
+                folder: selectFolder.id || null,
+            };
+
+            const res = await createBookmark(token as string, bookmarkData);
+            console.log(res);
+            if (res.success) {
+                ShowAlert(
+                    "Success",
+                    "success",
+                    "Bookmark created successfully",
+                );
+                dispatch(closeBookmarkModal());
+                reset();
+                setSelectTag([]);
+                setSelectFolder({ name: "No Folder", id: "" });
+                setLinkMetaInfo(null);
+                setRefetchBookmark((prev) => prev + 1);
+            } else {
+                ShowAlert(
+                    "Error",
+                    "error",
+                    res.message || "Failed to create bookmark",
+                );
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
     };
     const handleCancel = () => {
         dispatch(closeBookmarkModal());
@@ -105,6 +139,7 @@ const AddBookmarkForm = ({
             try {
                 if (!url) return;
                 const metaInfo = await linkPreview(url);
+                console.log("metaInfo", metaInfo);
                 if (metaInfo.success) {
                     reset({
                         title: metaInfo.data.title,

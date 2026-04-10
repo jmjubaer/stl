@@ -1,5 +1,6 @@
 "use server";
 
+import { TBookmark, TBookmarkPayload } from "@/src/types";
 import { revalidateTag } from "next/cache";
 
 type TQueryParams = {
@@ -39,6 +40,27 @@ export const getBookmarks = async (
     }
 };
 
+export const createBookmark = async (token: string, payload: TBookmarkPayload) => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/create`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${token}`,
+                },
+                body: JSON.stringify(payload),
+            },
+        );
+        revalidateTag("Bookmarks", "everything");
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error creating bookmarks:", error);
+        throw new Error("Failed to creating bookmarks");
+    }
+};
 export const AddToFolder = async (
     token: string,
     payload: { bookmarkIds: string[]; folderId: string },

@@ -18,7 +18,9 @@ export interface TBookmark {
     favicon?: string;
     siteName?: string;
     previewStatus: "PENDING" | "SUCCESS" | "FAILED";
-    tags: TTag[];
+    tags: TTag[] | null;
+    folder: TFolder | null;
+    user: string;
     createdAt: string;
     updatedAt: Date;
     isPinned: boolean;
@@ -53,5 +55,15 @@ export interface TLinkMetaInfo {
     description?: string;
     author?: string;
     domain?: string;
-
+}
+export interface TBookmarkPayload {
+    url: string;
+    domain?: string;
+    title: string;
+    description?: string;
+    image?: string;
+    favicon?: string;
+    siteName?: string;
+    tags: string[] | null;
+    folder: string | null;
 }
