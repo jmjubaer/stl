@@ -15,6 +15,7 @@ import { linkPreview } from "@/src/services/BookmarkServices";
 import Image from "next/image";
 import placeHolderImage from "@/src/assets/placeholder.png";
 import ShowAlert from "@/src/utils/ShowAlert";
+import { selectUser } from "@/src/redux/features/auth/authSlice";
 type TInputs = {
     title: string;
     url: string;
@@ -33,6 +34,7 @@ const AddBookmarkForm = ({
     folderList,
     tagList,
 }: TProps) => {
+    const user = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
 
     const [isPreviewPending, startPreviewTransition] = useTransition();
@@ -54,7 +56,7 @@ const AddBookmarkForm = ({
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
-    console.log(57, selectTag);
+
     const handleToggleTag = (tag: TTag) => {
         // Check if already selected OUTSIDE setState
         const isSelected = selectTag.some((t) => t._id === tag._id);
@@ -75,9 +77,22 @@ const AddBookmarkForm = ({
         setSelectTag((prevTag) => [...prevTag, tag]);
     };
     const handleCreateBookmark: SubmitHandler<TInputs> = (data) => {
-        console.log(data);
-        dispatch(closeBookmarkModal());
-        reset();
+        const bookmarkData = {
+            url: data.url,
+            domain: linkMetaInfo?.domain || "",
+            title: data.title,
+            notes: data.notes,
+            description: linkMetaInfo?.description || "",
+            image: data.image,
+            favicon: linkMetaInfo?.favicons[0] || "",
+            siteName: linkMetaInfo?.siteName || "",
+            tags: selectTag.length > 0 ? selectTag : null,
+            folder: selectFolder.id || null,
+            user: user?._id,
+        };
+
+        // dispatch(closeBookmarkModal());
+        // reset();
     };
     const handleCancel = () => {
         dispatch(closeBookmarkModal());
@@ -90,7 +105,6 @@ const AddBookmarkForm = ({
             try {
                 if (!url) return;
                 const metaInfo = await linkPreview(url);
-                console.log("link meta info:", metaInfo);
                 if (metaInfo.success) {
                     reset({
                         title: metaInfo.data.title,
@@ -157,7 +171,8 @@ const AddBookmarkForm = ({
                             <input
                                 {...register("title", { required: true })}
                                 type='text'
-                                className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 ${errors.title ? "border-red-500" : "border-text/50"}`}
+                                disabled={isPreviewPending}
+                                className={`border disabled:cursor-not-allowed w-full px-4 py-2 rounded-2xl mt-1 outline-0 ${errors.title ? "border-red-500" : "border-text/50"}`}
                                 placeholder='Enter bookmark title ....'
                             />
                             {errors.title && (
@@ -183,19 +198,17 @@ const AddBookmarkForm = ({
                                 <input
                                     {...register("image")}
                                     type='text'
-                                    className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 border-text/50`}
+                                    disabled={isPreviewPending}
+                                    className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 border-text/50 disabled:cursor-not-allowed`}
                                     placeholder='Enter bookmark image url ....'
                                 />
                                 <div className='border border-text/50 h-10.5 w-24 rounded-2xl overflow-hidden flex items-center justify-center'>
                                     <Image
-                                        src={
-                                            linkMetaInfo?.images[0] ||
-                                            placeHolderImage
-                                        }
+                                        src={watch("image") || placeHolderImage}
                                         alt='Cover image'
                                         width={96}
                                         height={40}
-                                        className='h-10 w-20 object-contain mt-0.5'
+                                        className={`h-10 w-20 mt-0.5 ${watch("image") ? "object-cover" : "object-contain"}`}
                                     />
                                 </div>
                             </div>

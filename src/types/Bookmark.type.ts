@@ -52,5 +52,6 @@ export interface TLinkMetaInfo {
     charset: string;
     description?: string;
     author?: string;
+    domain?: string;
 
 }

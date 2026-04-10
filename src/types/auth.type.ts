@@ -4,7 +4,7 @@ export type TRegister = {
     password: string;
 }
 export type TAuthUser = {
-    id: string;
+    _id: string;
     email: string;
     name: string;
 }
