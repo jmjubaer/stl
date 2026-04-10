@@ -130,7 +130,6 @@ const MainSection = () => {
         });
     }, [token, refetchFolder]);
 
-
     return (
         <section className=''>
             {/* Top Navigation */}
@@ -268,6 +267,7 @@ const MainSection = () => {
                                     layout={layout}
                                     selectBookmark={selectBookmark}
                                     setSelectBookmark={setSelectBookmark}
+                                    setRefetchBookmark={setRefetchBookmark}
                                     data={bookmark}
                                     isPinned
                                 />
@@ -301,6 +301,7 @@ const MainSection = () => {
                                         key={bookmark._id}
                                         columns={columns}
                                         layout={layout}
+                                        setRefetchBookmark={setRefetchBookmark}
                                         selectBookmark={selectBookmark}
                                         setSelectBookmark={setSelectBookmark}
                                         data={bookmark}

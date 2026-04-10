@@ -19,7 +19,6 @@ const Navbar = () => {
     const dispatch = useAppDispatch();
     const userOptionRef = useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = useState(false);
-    const [isOpenAuthModal, setIsOpenAuthModal] = useState(false);
     const [isOpenUserOption, setIsOpenUserOption] = useState(false);
     const [isOpenProfileModal, setIsOpenProfileModal] = useState(false);
 

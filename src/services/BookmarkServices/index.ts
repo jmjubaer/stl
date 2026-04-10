@@ -1,6 +1,6 @@
 "use server";
 
-import { TBookmark, TBookmarkPayload } from "@/src/types";
+import { TBookmarkPayload } from "@/src/types";
 import { revalidateTag } from "next/cache";
 
 type TQueryParams = {
@@ -40,7 +40,10 @@ export const getBookmarks = async (
     }
 };
 
-export const createBookmark = async (token: string, payload: TBookmarkPayload) => {
+export const createBookmark = async (
+    token: string,
+    payload: TBookmarkPayload,
+) => {
     try {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/create`,
@@ -85,7 +88,26 @@ export const AddToFolder = async (
         throw new Error("Failed to add to folder bookmarks");
     }
 };
-
+export const deleteBookmark = async (token: string, bookmarkId: string) => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/${bookmarkId}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${token}`,
+                },
+            },
+        );
+        revalidateTag("Bookmarks", "everything");
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error deleting bookmarks:", error);
+        throw new Error("Failed to delete bookmarks");
+    }
+};
 export const linkPreview = async (url: string) => {
     try {
         const response = await fetch(

@@ -98,7 +98,6 @@ const AddBookmarkForm = ({
             };
 
             const res = await createBookmark(token as string, bookmarkData);
-            console.log(res);
             if (res.success) {
                 ShowAlert(
                     "Success",

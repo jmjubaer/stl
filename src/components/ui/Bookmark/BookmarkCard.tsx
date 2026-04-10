@@ -10,34 +10,31 @@ import { LuExternalLink } from "react-icons/lu";
 import { CiGlobe } from "react-icons/ci";
 import pin from "@/src/assets/pin.png";
 import { useState } from "react";
-import { span } from "framer-motion/client";
-const tagList = [
-    { _id: "1", name: "Design", color: "#9952E0" },
-    {
-        _id: "69ce89cc9499ffff87f6cde3",
-        name: "Development",
-        color: "#1A8CFF",
-    },
-    { _id: "69ce89b39499ffff87f6cddc", name: "Tutorial", color: "#28BD66" },
-    { _id: "4", name: "Marketing", color: "#F97A1F" },
-    { _id: "5", name: "Inspiration", color: "#1DBAC9" },
-];
+import Swal from "sweetalert2";
+import ShowAlert from "@/src/utils/ShowAlert";
+import { deleteBookmark } from "@/src/services/BookmarkServices";
+import { useAppSelector } from "@/src/redux/hook";
+import { selectToken } from "@/src/redux/features/auth/authSlice";
 type TProps = {
     layout: "grid" | "list";
     columns: number;
     selectBookmark?: string[];
     setSelectBookmark?: React.Dispatch<React.SetStateAction<string[]>>;
+    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
     data: TBookmark;
     isPinned?: boolean;
 };
 const BookmarkCard = ({
+    data,
     layout,
     columns,
-    setSelectBookmark,
-    selectBookmark,
-    data,
     isPinned,
+    selectBookmark,
+    setSelectBookmark,
+    setRefetchBookmark,
 }: TProps) => {
+    const token = useAppSelector(selectToken);
+
     const [isCopied, setIsCopied] = useState(false);
     const handleSelectLink = (e: any) => {
         if (selectBookmark && setSelectBookmark) {
@@ -72,6 +69,50 @@ const BookmarkCard = ({
     };
     const handleOpenLink = () => {
         window.open(data.url, "_blank", "noopener,noreferrer");
+    };
+    const handleDeleteBookmark = () => {
+        Swal.fire({
+            title: "Warning",
+            text: "Are you want to delete this bookmark?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Delete",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await deleteBookmark(token as string, data._id);
+                    if (res.success) {
+                        ShowAlert(
+                            "Success",
+                            "success",
+                            "Bookmark deleted successfully",
+                        );
+                        setRefetchBookmark((prev) => prev + 1);
+                    } else {
+                        ShowAlert(
+                            "Error",
+                            "error",
+                            res.message || "Failed to delete bookmark",
+                        );
+                    }
+                } catch (error) {
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        error instanceof Error
+                            ? error.message
+                            : "An unknown error occurred",
+                    );
+                }
+                Swal.fire({
+                    title: "Bookmark deleted!",
+                    text: "Your bookmark has been deleted.",
+                    icon: "success",
+                });
+            }
+        });
     };
     return (
         <div
@@ -148,6 +189,7 @@ const BookmarkCard = ({
                             />{" "}
                         </button>{" "}
                         <button
+                            onClick={handleDeleteBookmark}
                             className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
                             <FaTrashAlt
                                 className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
