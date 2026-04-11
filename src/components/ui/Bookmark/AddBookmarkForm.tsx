@@ -17,7 +17,6 @@ import placeHolderImage from "@/src/assets/placeholder.png";
 import ShowAlert from "@/src/utils/ShowAlert";
 import { selectToken } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
-import { MdOutlinePushPin } from "react-icons/md";
 import { LuPin } from "react-icons/lu";
 type TInputs = {
     title: string;
@@ -57,13 +56,12 @@ const AddBookmarkForm = ({
     const isOpenBookmarkModal = useAppSelector(selectOpenBookmarkModal);
     const {
         reset,
-        watch,
         control,
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
-
+    const linkImage = useWatch({ control, name: "image" });
     const handleToggleTag = (tag: TTag) => {
         // Check if already selected OUTSIDE setState
         const isSelected = selectTag.some((t) => t._id === tag._id);
@@ -245,11 +243,11 @@ const AddBookmarkForm = ({
                                 />
                                 <div className='border border-text/50 h-10.5 w-24 rounded-2xl overflow-hidden flex items-center justify-center'>
                                     <Image
-                                        src={watch("image") || placeHolderImage}
+                                        src={linkImage || placeHolderImage}
                                         alt='Cover image'
                                         width={96}
                                         height={40}
-                                        className={`h-10 w-20 mt-0.5 ${watch("image") ? "object-cover" : "object-contain"}`}
+                                        className={`h-10 w-20 mt-0.5 ${linkImage ? "object-cover" : "object-contain"}`}
                                     />
                                 </div>
                             </div>
@@ -287,7 +285,7 @@ const AddBookmarkForm = ({
                                 <LuPin className='text-lg' /> Pin this bookmark
                             </label>
                             <Switch
-                            id='isPinned'
+                                id='isPinned'
                                 defaultChecked
                                 onChange={(e) => setIsPinned(e)}
                             />
