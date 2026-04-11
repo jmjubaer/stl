@@ -65,7 +65,7 @@ const TagDropdown = ({
                     }`}>
                     {/* all tag */}
                     <Spin size='small' tip='Loading...' spinning={isPending}>
-                        <div className='p-1 px-1.5'>
+                        <div className='p-1 px-1.5 max-h-40 overflow-y-auto'>
                             {tagList.map((tagItem) => (
                                 <li
                                     key={tagItem.name}

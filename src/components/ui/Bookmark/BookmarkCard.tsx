@@ -124,10 +124,10 @@ const BookmarkCard = ({
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await togglePinBookmark(
-                        token as string,
-                        data._id,
-                    );
+                    const res = await togglePinBookmark(token as string, {
+                        bookmarkIds: [data._id],
+                        isPinned: false,
+                    });
                     if (res.success) {
                         ShowAlert(
                             "Success",
@@ -161,7 +161,7 @@ const BookmarkCard = ({
                 className={`overflow-hidden flex items-center gap-2 ${layout === "list" ? "" : "relative"}`}>
                 {isPinned ? (
                     <button
-                    onClick={handleUnPinBookmark}
+                        onClick={handleUnPinBookmark}
                         className={` z-10 w-8 shadow-3xl cursor-pointer  accent-primary text-red-500 ${columns === 3 ? "absolute top-2 left-0 sm:left-2" : layout === "list" && columns === 2 ? "sm:static absolute top-2 right-1" : layout === "list" ? "static " : "absolute top-2 left-2 "}`}>
                         <Image
                             src={pin}
@@ -270,8 +270,7 @@ const BookmarkCard = ({
                     </div>
                     <p
                         className={`xs:text-sm capitalize text-xs text-text/80 line-clamp-1 ${layout === "list" || columns === 2 ? "line-clamp-2" : "line-clamp-1"}`}
-                        title='Beautiful, free images and photos for any project. High
-                        resolution.'>
+                        title={data?.notes || ""}>
                         <span className='font-semibold'>Notes:</span>{" "}
                         {data?.notes}
                     </p>
@@ -291,7 +290,7 @@ const BookmarkCard = ({
                             ))
                         ) : (
                             <span
-                                className={`sm:p-1 p-0.5 text-xs font-bold bg-blue-300 text-blue-700 px-2.5 sm:px-3 text-center rounded-full flex items-center gap-1 justify-center ${columns === 4 ? "w-full lg:w-fit" : columns === 1 ? "w-fit" : layout === "list" ? "w-fit" : "w-full sm:w-fit"}`}>
+                                className={`sm:p-1 line-clamp-1 p-0.5 text-xs font-bold bg-blue-300 text-blue-700 px-2.5 sm:px-3 text-center rounded-full flex items-center gap-1 justify-center ${columns === 4 ? "w-full lg:w-fit" : columns === 1 ? "w-fit" : layout === "list" ? "w-fit" : "w-full sm:w-fit"}`}>
                                 No tags selected
                             </span>
                         )}

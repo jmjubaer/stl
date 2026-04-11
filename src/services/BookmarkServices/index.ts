@@ -108,16 +108,20 @@ export const deleteBookmark = async (token: string, bookmarkId: string) => {
         throw new Error("Failed to delete bookmarks");
     }
 };
-export const togglePinBookmark = async (token: string, bookmarkId: string) => {
+export const togglePinBookmark = async (
+    token: string,
+    payload: { bookmarkIds: string[]; isPinned: boolean },
+) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/pin/${bookmarkId}`,
+            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/pin`,
             {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `${token}`,
                 },
+                body: JSON.stringify(payload),
             },
         );
         revalidateTag("Bookmarks", "everything");

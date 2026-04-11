@@ -11,9 +11,13 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { openFolderModal } from "@/src/redux/features/modal/modalSlice";
 import ShowAlert from "@/src/utils/ShowAlert";
 import Swal from "sweetalert2";
-import { AddToFolder } from "@/src/services/BookmarkServices";
+import {
+    AddToFolder,
+    togglePinBookmark,
+} from "@/src/services/BookmarkServices";
 import { selectToken } from "@/src/redux/features/auth/authSlice";
 import { Spin } from "antd";
+import { LuPin } from "react-icons/lu";
 type TProps = {
     isPending: boolean;
     folderList: TFolder[];
@@ -77,22 +81,56 @@ const SelectBookmarkControl = ({
             );
         }
     };
+    const handlePinBookmark = async () => {
+        Swal.showLoading();
+        try {
+            const res = await togglePinBookmark(token as string, {
+                bookmarkIds: selectBookmark,
+                isPinned: true,
+            });
+            if (res.success) {
+                ShowAlert("Success", "success", "Bookmark pinned successfully");
+                setRefetchBookmark((prev) => prev + 1);
+                setSelectBookmark([])
+            } else {
+                ShowAlert(
+                    "Error",
+                    "error",
+                    res.message || "Failed to pin bookmark",
+                );
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
+    };
 
     return (
         <div ref={folderRef}>
             {selectBookmark?.length > 0 && (
-                <div className='fixed bottom-5 left-1/2 -translate-x-1/2 bg-background shadow-2xl border border-text/50 rounded-full py-2 px-5 text-sm flex items-center gap-3 z-10'>
-                    <button className='flex items-center gap-1 cursor-pointer border-r pr-3'>
+                <div className='fixed bottom-5 left-1/2 -translate-x-1/2 bg-background shadow-2xl border border-text/50 rounded-full py-2 px-5 text-sm flex items-center gap-2 z-10'>
+                    <button className='flex items-center gap-1 cursor-pointer border-r pr-2'>
                         <FaRegCheckSquare className='text-lg' />
-                        <span>{selectBookmark?.length}</span> Selected
+                        <span>{selectBookmark?.length}</span>
                     </button>
                     <button
                         onClick={() => setOpenFolderSelect(!openFolderSelect)}
-                        className='flex items-center gap-1 cursor-pointer text-blue-600'>
+                        className='flex items-center gap-1 cursor-pointer text-blue-600 border-r pr-2 border-text'>
                         <MdDriveFileMoveOutline className='text-xl mb-0.5' />
                         <span className='whitespace-nowrap'>
                             Move to Folder
                         </span>
+                    </button>
+                    <button
+                        onClick={handlePinBookmark}
+                        className='flex items-center gap-1 cursor-pointer text-blue-600 border-r pr-2 border-text'>
+                        <LuPin className='text-base mb-0.5' />
+                        <span className='whitespace-nowrap'>Pin </span>
                     </button>
                     <button
                         onClick={handleRemoveSelectLink}
