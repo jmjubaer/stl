@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useTransition } from "react";
-import { Modal, Spin } from "antd";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Modal, Spin, Switch } from "antd";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import FolderDropdown from "./FolderDropdown";
 import { FaTimes } from "react-icons/fa";
 import { TFolder, TLinkMetaInfo, TSelectedFolder, TTag } from "@/src/types";
@@ -17,11 +17,14 @@ import placeHolderImage from "@/src/assets/placeholder.png";
 import ShowAlert from "@/src/utils/ShowAlert";
 import { selectToken } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
+import { MdOutlinePushPin } from "react-icons/md";
+import { LuPin } from "react-icons/lu";
 type TInputs = {
     title: string;
     url: string;
     image?: string;
     notes: string;
+    isPinned: boolean;
 };
 type TProps = {
     tagList: TTag[];
@@ -40,11 +43,13 @@ const AddBookmarkForm = ({
 
     const [isPreviewPending, startPreviewTransition] = useTransition();
 
+    const [isPinned, setIsPinned] = useState<boolean>(false);
     const [selectTag, setSelectTag] = useState<TTag[]>([]);
     const [selectFolder, setSelectFolder] = useState<TSelectedFolder>({
         name: "No Folder",
         id: "",
     });
+
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const [linkMetaInfo, setLinkMetaInfo] = useState<TLinkMetaInfo | null>(
         null,
@@ -53,6 +58,7 @@ const AddBookmarkForm = ({
     const {
         reset,
         watch,
+        control,
         register,
         handleSubmit,
         formState: { errors },
@@ -90,6 +96,7 @@ const AddBookmarkForm = ({
                 image: data.image,
                 favicon: linkMetaInfo?.favicons[0] || "",
                 siteName: linkMetaInfo?.siteName || "",
+                isPinned,
                 tags:
                     selectTag.length > 0
                         ? selectTag.map((tag) => tag._id)
@@ -132,7 +139,7 @@ const AddBookmarkForm = ({
     };
 
     // link preview loading
-    const url = watch("url");
+    const url = useWatch({ control, name: "url" });
     useEffect(() => {
         startPreviewTransition(async () => {
             try {
@@ -162,7 +169,7 @@ const AddBookmarkForm = ({
                 );
             }
         });
-    }, [url]);
+    }, [url, reset]);
     return (
         <>
             <Modal
@@ -270,6 +277,20 @@ const AddBookmarkForm = ({
                                     Notes is required
                                 </span>
                             )}
+                        </div>
+
+                        {/* Pin bookmark */}
+                        <div className='mt-5 border w-full px-4 py-2.5 rounded-2xl outline-0 border-text/50 flex items-center justify-between'>
+                            <label
+                                htmlFor='isPinned'
+                                className='flex items-center gap-0.5 font-medium text-text/60 cursor-pointer'>
+                                <LuPin className='text-lg' /> Pin this bookmark
+                            </label>
+                            <Switch
+                            id='isPinned'
+                                defaultChecked
+                                onChange={(e) => setIsPinned(e)}
+                            />
                         </div>
 
                         {/* Tags */}

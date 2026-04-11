@@ -29,7 +29,7 @@ const FolderCard = ({
                     alt='Folder image'
                     width={50}
                     height={50}
-                    className={` ${columns === 2 ? "w-10 xs:w-auto" : ""}`}
+                    className={` ${columns === 2 ? "w-10 xs:w-14" : ""}`}
                 />
                 <div className=''>
                     <h3
