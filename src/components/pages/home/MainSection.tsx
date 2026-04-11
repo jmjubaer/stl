@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, useTransition } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import TagDropdown from "../../ui/TagDropdown";
 import SortDropdown from "../../ui/SortDropdoen";
-import { TData, TFolder, TSortBy, TTag } from "@/src/types";
+import { TBookmark, TData, TFolder, TSortBy, TTag } from "@/src/types";
 import BookmarkCard from "../../ui/Bookmark/BookmarkCard";
 import FolderCard from "../../ui/folder/FolderCard";
 import AddButton from "../../ui/AddButton";
@@ -19,6 +19,7 @@ import NonUserCard from "../../ui/NonUserCard";
 import { Spin } from "antd";
 import { getTags } from "@/src/services/TagServices";
 import { getFolder } from "@/src/services/FolderServices";
+import EditBookmarkModal from "../../ui/Bookmark/EditBookmarkModal";
 const MainSection = () => {
     // auth token from redux
     const token = useAppSelector(selectToken);
@@ -44,6 +45,8 @@ const MainSection = () => {
     const [selectBookmark, setSelectBookmark] = useState<string[]>([]);
     const [selectedFolder, setSelectedFolder] = useState<string>("");
     const [selectedFolderName, setSelectedFolderName] = useState<string>("");
+    const [selectEditBookmark, setSelectEditBookmark] =
+        useState<TBookmark | null>(null);
 
     // refetch state to trigger useEffect
     const [refetchBookmark, setRefetchBookmark] = useState(0);
@@ -268,6 +271,9 @@ const MainSection = () => {
                                     selectBookmark={selectBookmark}
                                     setSelectBookmark={setSelectBookmark}
                                     setRefetchBookmark={setRefetchBookmark}
+                                    setSelectEditBookmark={
+                                        setSelectEditBookmark
+                                    }
                                     data={bookmark}
                                     isPinned
                                 />
@@ -304,6 +310,9 @@ const MainSection = () => {
                                         setRefetchBookmark={setRefetchBookmark}
                                         selectBookmark={selectBookmark}
                                         setSelectBookmark={setSelectBookmark}
+                                        setSelectEditBookmark={
+                                            setSelectEditBookmark
+                                        }
                                         data={bookmark}
                                     />
                                 ))}
@@ -350,6 +359,18 @@ const MainSection = () => {
                     setRefetchBookmark={setRefetchBookmark}
                 />
             </div>
+
+            {/* Edit Modal */}
+            {selectEditBookmark && (
+                <EditBookmarkModal
+                    selectEditBookmark={selectEditBookmark}
+                    folderList={folderList}
+                    tagList={tagList}
+                    setRefetchTags={setRefetchTags}
+                    setRefetchBookmark={setRefetchBookmark}
+                    setSelectEditBookmark={setSelectEditBookmark}
+                />
+            )}
         </section>
     );
 };

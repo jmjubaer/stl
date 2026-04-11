@@ -3,7 +3,13 @@ import { Modal, Spin, Switch } from "antd";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import FolderDropdown from "./FolderDropdown";
 import { FaTimes } from "react-icons/fa";
-import { TFolder, TLinkMetaInfo, TSelectedFolder, TTag } from "@/src/types";
+import {
+    TBookmark,
+    TFolder,
+    TLinkMetaInfo,
+    TSelectedFolder,
+    TTag,
+} from "@/src/types";
 import { TiPlus } from "react-icons/ti";
 import AddTagForm from "./AddTagForm";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
@@ -26,16 +32,22 @@ type TInputs = {
     isPinned: boolean;
 };
 type TProps = {
+    selectEditBookmark: TBookmark;
     tagList: TTag[];
     folderList: TFolder[];
     setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
     setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
+    setSelectEditBookmark: React.Dispatch<
+        React.SetStateAction<TBookmark | null>
+    >;
 };
-const AddBookmarkForm = ({
+const EditBookmarkModal = ({
+    setSelectEditBookmark,
     setRefetchBookmark,
     setRefetchTags,
     folderList,
     tagList,
+    selectEditBookmark,
 }: TProps) => {
     const token = useAppSelector(selectToken);
     const dispatch = useAppDispatch();
@@ -43,17 +55,23 @@ const AddBookmarkForm = ({
     const [isPreviewPending, startPreviewTransition] = useTransition();
 
     const [isPinned, setIsPinned] = useState<boolean>(false);
-    const [selectTag, setSelectTag] = useState<TTag[]>([]);
-    const [selectFolder, setSelectFolder] = useState<TSelectedFolder>({
-        name: "No Folder",
-        id: "",
-    });
+    const [selectFolder, setSelectFolder] = useState(() =>
+        selectEditBookmark.folder
+            ? {
+                  name: selectEditBookmark.folder.name,
+                  id: selectEditBookmark.folder._id,
+              }
+            : { name: "No Folder", id: "" },
+    );
+
+    const [selectTag, setSelectTag] = useState<TTag[]>(
+        selectEditBookmark?.tags ?? [],
+    );
 
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const [linkMetaInfo, setLinkMetaInfo] = useState<TLinkMetaInfo | null>(
         null,
     );
-    const isOpenBookmarkModal = useAppSelector(selectOpenBookmarkModal);
     const {
         reset,
         control,
@@ -133,7 +151,7 @@ const AddBookmarkForm = ({
         }
     };
     const handleCancel = () => {
-        dispatch(closeBookmarkModal());
+        setSelectEditBookmark(null);
     };
 
     // link preview loading
@@ -168,10 +186,13 @@ const AddBookmarkForm = ({
             }
         });
     }, [url, reset]);
+    useEffect(() => {
+        reset({ image: selectEditBookmark.image });
+    }, [selectEditBookmark, reset]);
     return (
         <>
             <Modal
-                open={isOpenBookmarkModal}
+                open={selectEditBookmark ? true : false}
                 onCancel={handleCancel}
                 footer={false}>
                 <div className='text-base'>
@@ -186,6 +207,7 @@ const AddBookmarkForm = ({
                                 URL :
                             </label>
                             <input
+                                defaultValue={selectEditBookmark.url}
                                 {...register("url", { required: true })}
                                 type='text'
                                 className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 ${errors.url ? "border-red-500" : "border-text/50"}`}
@@ -208,6 +230,7 @@ const AddBookmarkForm = ({
                                 />
                             </label>
                             <input
+                                defaultValue={selectEditBookmark.title}
                                 {...register("title", { required: true })}
                                 type='text'
                                 disabled={isPreviewPending}
@@ -235,6 +258,7 @@ const AddBookmarkForm = ({
                             </label>
                             <div className='flex items-center gap-2'>
                                 <input
+                                    defaultValue={selectEditBookmark.image}
                                     {...register("image")}
                                     type='text'
                                     disabled={isPreviewPending}
@@ -266,6 +290,7 @@ const AddBookmarkForm = ({
                                 Notes :
                             </label>
                             <textarea
+                                defaultValue={selectEditBookmark.notes}
                                 {...register("notes", { required: true })}
                                 className={`border w-full px-4 py-2 rounded-2xl mt-1 outline-0 min-h-[100px] ${errors.notes ? "border-red-500" : "border-text/50"}`}
                                 placeholder='Enter bookmark notes ....'></textarea>
@@ -286,6 +311,7 @@ const AddBookmarkForm = ({
                             </label>
                             <Switch
                                 id='isPinned'
+                                defaultChecked={selectEditBookmark.isPinned}
                                 onChange={(e) => setIsPinned(e)}
                             />
                         </div>
@@ -363,4 +389,4 @@ const AddBookmarkForm = ({
     );
 };
 
-export default AddBookmarkForm;
+export default EditBookmarkModal;
