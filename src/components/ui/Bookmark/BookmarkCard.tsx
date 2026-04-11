@@ -12,7 +12,10 @@ import pin from "@/src/assets/pin.png";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import ShowAlert from "@/src/utils/ShowAlert";
-import { deleteBookmark } from "@/src/services/BookmarkServices";
+import {
+    deleteBookmark,
+    togglePinBookmark,
+} from "@/src/services/BookmarkServices";
 import { useAppSelector } from "@/src/redux/hook";
 import { selectToken } from "@/src/redux/features/auth/authSlice";
 type TProps = {
@@ -85,7 +88,7 @@ const BookmarkCard = ({
                     const res = await deleteBookmark(token as string, data._id);
                     if (res.success) {
                         ShowAlert(
-                            "Success",
+                            "Bookmark deleted!",
                             "success",
                             "Bookmark deleted successfully",
                         );
@@ -106,11 +109,48 @@ const BookmarkCard = ({
                             : "An unknown error occurred",
                     );
                 }
-                Swal.fire({
-                    title: "Bookmark deleted!",
-                    text: "Your bookmark has been deleted.",
-                    icon: "success",
-                });
+            }
+        });
+    };
+    const handleUnPinBookmark = () => {
+        Swal.fire({
+            title: "Warning",
+            text: "Are you want to unpin this bookmark?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Unpin",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await togglePinBookmark(
+                        token as string,
+                        data._id,
+                    );
+                    if (res.success) {
+                        ShowAlert(
+                            "Success",
+                            "success",
+                            "Bookmark unpinned successfully",
+                        );
+                        setRefetchBookmark((prev) => prev + 1);
+                    } else {
+                        ShowAlert(
+                            "Error",
+                            "error",
+                            res.message || "Failed to unpin bookmark",
+                        );
+                    }
+                } catch (error) {
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        error instanceof Error
+                            ? error.message
+                            : "An unknown error occurred",
+                    );
+                }
             }
         });
     };
@@ -120,13 +160,17 @@ const BookmarkCard = ({
             <div
                 className={`overflow-hidden flex items-center gap-2 ${layout === "list" ? "" : "relative"}`}>
                 {isPinned ? (
-                    <Image
-                        src={pin}
-                        alt='Pin'
-                        width={16}
-                        height={20}
-                        className={` z-10 w-8 shadow-3xl object-contain cursor-pointer  accent-primary text-red-500 ${columns === 3 ? "absolute top-2 left-0 sm:left-2" : layout === "list" && columns === 2 ? "sm:static absolute top-2 right-1" : layout === "list" ? "static " : "absolute top-2 left-2 "}`}
-                    />
+                    <button
+                    onClick={handleUnPinBookmark}
+                        className={` z-10 w-8 shadow-3xl cursor-pointer  accent-primary text-red-500 ${columns === 3 ? "absolute top-2 left-0 sm:left-2" : layout === "list" && columns === 2 ? "sm:static absolute top-2 right-1" : layout === "list" ? "static " : "absolute top-2 left-2 "}`}>
+                        <Image
+                            src={pin}
+                            alt='Pin'
+                            width={16}
+                            height={20}
+                            className={` w-8 object-contain`}
+                        />
+                    </button>
                 ) : setSelectBookmark ? (
                     <input
                         onChange={(e) => handleSelectLink(e)}
