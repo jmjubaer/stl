@@ -174,7 +174,7 @@ const AddBookmarkForm = ({
                 );
             }
         });
-    }, [url, reset]);
+    }, [url, reset, setValue]);
 
     useEffect(() => {
         if (selectedFolder) {
@@ -188,7 +188,7 @@ const AddBookmarkForm = ({
                 id: "",
             });
         }
-    }, [selectedFolder]);
+    }, [selectedFolder, folderList]);
     return (
         <>
             <Modal

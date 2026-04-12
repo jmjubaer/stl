@@ -50,10 +50,10 @@ export const createFolder = async (
     }
 };
 
-export const deleteFolder = async (token: string, bookmarkId: string) => {
+export const deleteFolder = async (token: string, folderId: string) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/folder/${bookmarkId}`,
+            `${process.env.NEXT_PUBLIC_BASE_API}/folder/${folderId}`,
             {
                 method: "DELETE",
                 headers: {
@@ -74,12 +74,12 @@ export const deleteFolder = async (token: string, bookmarkId: string) => {
 
 export const renameFolder = async (
     token: string,
-    bookmarkId: string,
+    folderId: string,
     payload: { newName: string },
 ) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/folder/${bookmarkId}`,
+            `${process.env.NEXT_PUBLIC_BASE_API}/folder/${folderId}`,
             {
                 method: "PATCH",
                 headers: {

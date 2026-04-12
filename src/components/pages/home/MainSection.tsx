@@ -240,6 +240,7 @@ const MainSection = () => {
                                     setSelectedFolderName={
                                         setSelectedFolderName
                                     }
+                                    setRefetchFolder={setRefetchFolder}
                                     setRefetchBookmark={setRefetchBookmark}
                                 />
                             ))}

@@ -10,15 +10,23 @@ import { FaTrashAlt } from "react-icons/fa";
 import { IoIosShareAlt } from "react-icons/io";
 import { MdOutlineEdit } from "react-icons/md";
 import Swal from "sweetalert2";
+import RenameFolderForm from "./RenameFolder";
 
 type TProps = {
     data: TFolder;
     columns: number;
     setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
+    setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
 };
-const OptionDropdown = ({ columns, setRefetchBookmark, data }: TProps) => {
+const OptionDropdown = ({
+    columns,
+    setRefetchBookmark,
+    setRefetchFolder,
+    data,
+}: TProps) => {
     const token = useAppSelector(selectToken);
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenRenameModal, setIsOpenRenameModal] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const handleDeleteFolder = async () => {
@@ -42,6 +50,7 @@ const OptionDropdown = ({ columns, setRefetchBookmark, data }: TProps) => {
                         );
                         setIsOpen(!isOpen);
                         setRefetchBookmark((prev) => prev + 1);
+                        setRefetchFolder((prev) => prev + 1);
                     } else {
                         ShowAlert(
                             "Error",
@@ -95,7 +104,7 @@ const OptionDropdown = ({ columns, setRefetchBookmark, data }: TProps) => {
                         <IoIosShareAlt className='text-xl' /> Share
                     </button>{" "}
                     <button
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={() => setIsOpenRenameModal(true)}
                         className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center  gap-1'>
                         <MdOutlineEdit className='text-xl' /> Rename
                     </button>{" "}
@@ -106,6 +115,14 @@ const OptionDropdown = ({ columns, setRefetchBookmark, data }: TProps) => {
                     </button>
                 </div>
             )}
+
+            <RenameFolderForm
+                folder={data}
+                isOpen={isOpenRenameModal}
+                setIsOpen={setIsOpenRenameModal}
+                setRefetchBookmark={setRefetchBookmark}
+                setRefetchFolder={setRefetchFolder}
+            />
         </div>
     );
 };
