@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState, useTransition } from "react";
 import { Modal, Spin, Switch } from "antd";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
@@ -10,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import {
     closeBookmarkModal,
     selectOpenBookmarkModal,
+    selectSelectedFolder,
 } from "@/src/redux/features/modal/modalSlice";
 import { createBookmark, linkPreview } from "@/src/services/BookmarkServices";
 import Image from "next/image";
@@ -38,6 +40,7 @@ const AddBookmarkForm = ({
     tagList,
 }: TProps) => {
     const token = useAppSelector(selectToken);
+    const selectedFolder = useAppSelector(selectSelectedFolder);
     const dispatch = useAppDispatch();
 
     const [isPreviewPending, startPreviewTransition] = useTransition();
@@ -134,6 +137,10 @@ const AddBookmarkForm = ({
     };
     const handleCancel = () => {
         dispatch(closeBookmarkModal());
+        setSelectFolder({
+            name: "No Folder",
+            id: "",
+        });
     };
 
     // link preview loading
@@ -168,6 +175,20 @@ const AddBookmarkForm = ({
             }
         });
     }, [url, reset]);
+
+    useEffect(() => {
+        if (selectedFolder) {
+            const folder = folderList.find(
+                (f) => f._id === selectedFolder,
+            ) as TFolder;
+            setSelectFolder({ name: folder.name, id: folder._id });
+        } else {
+            setSelectFolder({
+                name: "No Folder",
+                id: "",
+            });
+        }
+    }, [selectedFolder]);
     return (
         <>
             <Modal
@@ -287,7 +308,7 @@ const AddBookmarkForm = ({
                             <Switch
                                 id='isPinned'
                                 onChange={(e) => setIsPinned(e)}
-                                className="z-0"
+                                className='z-0'
                             />
                         </div>
 

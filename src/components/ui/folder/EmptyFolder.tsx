@@ -78,7 +78,7 @@ const EmptyFolder = ({
                     <FaTrashAlt className='text-' /> Delete Folder
                 </button>{" "}
                 <button
-                    onClick={() => dispatch(openBookmarkModal())}
+                    onClick={() => dispatch(openBookmarkModal(selectedFolder))}
                     className=' py-2 px-3 bg-background shadow-2xl w-40 hover:bg-primary hover:text-white/90 rounded-xl cursor-pointer flex items-center gap-2 border border-text/50 z-50 duration-300'>
                     <FaPlus className='text-xl' /> Add Bookmark
                 </button>{" "}
