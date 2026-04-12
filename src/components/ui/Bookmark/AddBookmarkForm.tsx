@@ -61,9 +61,18 @@ const AddBookmarkForm = ({
         reset,
         control,
         register,
+        setValue,
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
+    const handleCancel = () => {
+        dispatch(closeBookmarkModal());
+        setSelectFolder({
+            name: "No Folder",
+            id: "",
+        });
+        reset();
+    };
     const linkImage = useWatch({ control, name: "image" });
     const handleToggleTag = (tag: TTag) => {
         // Check if already selected OUTSIDE setState
@@ -112,8 +121,8 @@ const AddBookmarkForm = ({
                     "success",
                     "Bookmark created successfully",
                 );
-                dispatch(closeBookmarkModal());
                 reset();
+                handleCancel();
                 setSelectTag([]);
                 setSelectFolder({ name: "No Folder", id: "" });
                 setLinkMetaInfo(null);
@@ -135,13 +144,6 @@ const AddBookmarkForm = ({
             );
         }
     };
-    const handleCancel = () => {
-        dispatch(closeBookmarkModal());
-        setSelectFolder({
-            name: "No Folder",
-            id: "",
-        });
-    };
 
     // link preview loading
     const url = useWatch({ control, name: "url" });
@@ -152,10 +154,8 @@ const AddBookmarkForm = ({
                 const metaInfo = await linkPreview(url);
                 console.log("metaInfo", metaInfo);
                 if (metaInfo.success) {
-                    reset({
-                        title: metaInfo.data.title,
-                        image: metaInfo.data.images[0] || "",
-                    });
+                    setValue("title", metaInfo.data.title);
+                    setValue("image", metaInfo.data.images[0] || "");
                     setLinkMetaInfo(metaInfo.data);
                 } else {
                     ShowAlert(
