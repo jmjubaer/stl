@@ -1,16 +1,67 @@
 "use client";
+import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { useAppSelector } from "@/src/redux/hook";
+import { deleteFolder } from "@/src/services/FolderServices";
+import { TFolder } from "@/src/types";
+import ShowAlert from "@/src/utils/ShowAlert";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaTrashAlt } from "react-icons/fa";
 import { IoIosShareAlt } from "react-icons/io";
 import { MdOutlineEdit } from "react-icons/md";
+import Swal from "sweetalert2";
 
 type TProps = {
+    data: TFolder;
     columns: number;
+    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
-const OptionDropdown = ({ columns }: TProps) => {
+const OptionDropdown = ({ columns, setRefetchBookmark, data }: TProps) => {
+    const token = useAppSelector(selectToken);
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const handleDeleteFolder = async () => {
+        Swal.fire({
+            title: "Warning",
+            text: "Are you want to delete this Folder?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Delete",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await deleteFolder(token as string, data._id);
+                    if (res.success) {
+                        ShowAlert(
+                            "Folder deleted!",
+                            "success",
+                            "Folder deleted successfully",
+                        );
+                        setIsOpen(!isOpen);
+                        setRefetchBookmark((prev) => prev + 1);
+                    } else {
+                        ShowAlert(
+                            "Error",
+                            "error",
+                            res.message || "Failed to delete folder",
+                        );
+                    }
+                } catch (error) {
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        error instanceof Error
+                            ? error.message
+                            : "An unknown error occurred",
+                    );
+                }
+            }
+        });
+    };
+
     // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -49,7 +100,7 @@ const OptionDropdown = ({ columns }: TProps) => {
                         <MdOutlineEdit className='text-xl' /> Rename
                     </button>{" "}
                     <button
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={handleDeleteFolder}
                         className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2.5'>
                         <FaTrashAlt className='text-md ' /> Delete
                     </button>

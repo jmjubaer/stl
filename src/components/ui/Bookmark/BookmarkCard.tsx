@@ -18,7 +18,6 @@ import {
 } from "@/src/services/BookmarkServices";
 import { useAppSelector } from "@/src/redux/hook";
 import { selectToken } from "@/src/redux/features/auth/authSlice";
-import EditBookmarkModal from "./EditBookmarkModal";
 type TProps = {
     layout: "grid" | "list";
     columns: number;

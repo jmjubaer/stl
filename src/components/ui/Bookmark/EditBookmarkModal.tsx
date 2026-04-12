@@ -7,18 +7,12 @@ import {
     TBookmark,
     TFolder,
     TLinkMetaInfo,
-    TSelectedFolder,
     TTag,
 } from "@/src/types";
 import { TiPlus } from "react-icons/ti";
 import AddTagForm from "./AddTagForm";
-import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
+import { useAppSelector } from "@/src/redux/hook";
 import {
-    closeBookmarkModal,
-    selectOpenBookmarkModal,
-} from "@/src/redux/features/modal/modalSlice";
-import {
-    createBookmark,
     linkPreview,
     updateBookmark,
 } from "@/src/services/BookmarkServices";
@@ -54,7 +48,6 @@ const EditBookmarkModal = ({
     selectEditBookmark,
 }: TProps) => {
     const token = useAppSelector(selectToken);
-    const dispatch = useAppDispatch();
 
     const [isPreviewPending, startPreviewTransition] = useTransition();
 

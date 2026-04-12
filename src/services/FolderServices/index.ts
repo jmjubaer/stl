@@ -50,7 +50,7 @@ export const createFolder = async (
     }
 };
 
-export const delateFolder = async (token: string, bookmarkId: string) => {
+export const deleteFolder = async (token: string, bookmarkId: string) => {
     try {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_BASE_API}/folder/${bookmarkId}`,

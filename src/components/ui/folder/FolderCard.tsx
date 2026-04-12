@@ -8,11 +8,13 @@ type TProps = {
     data: TFolder;
     setSelectedFolder: React.Dispatch<React.SetStateAction<string>>;
     setSelectedFolderName: React.Dispatch<React.SetStateAction<string>>;
+    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
 const FolderCard = ({
     columns,
     data,
     setSelectedFolder,
+    setRefetchBookmark,
     setSelectedFolderName,
 }: TProps) => {
     return (
@@ -42,7 +44,11 @@ const FolderCard = ({
                 </div>
             </div>
 
-            <OptionDropdown columns={columns} />
+            <OptionDropdown
+            data={data}
+                setRefetchBookmark={setRefetchBookmark}
+                columns={columns}
+            />
         </div>
     );
 };
