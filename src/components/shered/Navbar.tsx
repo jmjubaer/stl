@@ -15,6 +15,7 @@ import { logout, selectUser } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { openAuthModal } from "@/src/redux/features/modal/modalSlice";
 const Navbar = () => {
+    // show error alert when token  expire
     const user = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
     const userOptionRef = useRef<HTMLDivElement>(null);

@@ -17,7 +17,11 @@ import {
     closeBookmarkModal,
     selectOpenBookmarkModal,
 } from "@/src/redux/features/modal/modalSlice";
-import { createBookmark, linkPreview } from "@/src/services/BookmarkServices";
+import {
+    createBookmark,
+    linkPreview,
+    updateBookmark,
+} from "@/src/services/BookmarkServices";
 import Image from "next/image";
 import placeHolderImage from "@/src/assets/placeholder.png";
 import ShowAlert from "@/src/utils/ShowAlert";
@@ -69,9 +73,17 @@ const EditBookmarkModal = ({
     );
 
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
-    const [linkMetaInfo, setLinkMetaInfo] = useState<TLinkMetaInfo | null>(
-        null,
-    );
+    const [linkMetaInfo, setLinkMetaInfo] = useState<TLinkMetaInfo>({
+        url: selectEditBookmark.url,
+        domain: selectEditBookmark?.domain || "",
+        title: selectEditBookmark.title,
+        description: selectEditBookmark?.description || "",
+        images: [selectEditBookmark.image ? selectEditBookmark.image : ""],
+        favicons: [
+            selectEditBookmark?.favicon ? selectEditBookmark?.favicon : "",
+        ],
+        siteName: selectEditBookmark?.siteName || "",
+    });
     const {
         reset,
         control,
@@ -80,6 +92,9 @@ const EditBookmarkModal = ({
         formState: { errors },
     } = useForm<TInputs>();
     const linkImage = useWatch({ control, name: "image" });
+    const handleCancel = () => {
+        setSelectEditBookmark(null);
+    };
     const handleToggleTag = (tag: TTag) => {
         // Check if already selected OUTSIDE setState
         const isSelected = selectTag.some((t) => t._id === tag._id);
@@ -99,7 +114,7 @@ const EditBookmarkModal = ({
         // Add new tag
         setSelectTag((prevTag) => [...prevTag, tag]);
     };
-    const handleCreateBookmark: SubmitHandler<TInputs> = async (data) => {
+    const handleEditBookmark: SubmitHandler<TInputs> = async (data) => {
         try {
             Swal.showLoading();
 
@@ -120,24 +135,28 @@ const EditBookmarkModal = ({
                 folder: selectFolder.id || null,
             };
 
-            const res = await createBookmark(token as string, bookmarkData);
+            const res = await updateBookmark(
+                token as string,
+                bookmarkData,
+                selectEditBookmark._id,
+            );
+            console.log(res);
             if (res.success) {
                 ShowAlert(
                     "Success",
                     "success",
-                    "Bookmark created successfully",
+                    "Bookmark updated successfully",
                 );
-                dispatch(closeBookmarkModal());
+                handleCancel()
                 reset();
                 setSelectTag([]);
                 setSelectFolder({ name: "No Folder", id: "" });
-                setLinkMetaInfo(null);
                 setRefetchBookmark((prev) => prev + 1);
             } else {
                 ShowAlert(
                     "Error",
                     "error",
-                    res.message || "Failed to create bookmark",
+                    res.message || "Failed to update bookmark",
                 );
             }
         } catch (error) {
@@ -149,9 +168,6 @@ const EditBookmarkModal = ({
                     : "An unknown error occurred",
             );
         }
-    };
-    const handleCancel = () => {
-        setSelectEditBookmark(null);
     };
 
     // link preview loading
@@ -200,7 +216,7 @@ const EditBookmarkModal = ({
                         {" "}
                         Add New Bookmark
                     </h2>
-                    <form onSubmit={handleSubmit(handleCreateBookmark)}>
+                    <form onSubmit={handleSubmit(handleEditBookmark)}>
                         {/* URL */}
                         <div className=''>
                             <label className='block mb-2 font-medium text-text/80'>
@@ -373,7 +389,7 @@ const EditBookmarkModal = ({
                             <button
                                 className='border bg-blue-700 text-white hover:bg-primary rounded-xl px-5 py-2 cursor-pointer hover:text-white'
                                 type='submit'>
-                                Add Bookmark
+                                Update Bookmark
                             </button>
                         </div>
                     </form>

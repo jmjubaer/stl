@@ -47,14 +47,14 @@ export interface TLinkMetaInfo {
     url: string;
     title: string;
     siteName?: string;
-    mediaType: string;
-    contentType: string;
+    // mediaType: string;
+    // contentType: string;
     images: string[] | [];
-    videos: string[] | [];
+    // videos: string[] | [];
     favicons: string[] | [];
-    charset: string;
+    // charset: string;
     description?: string;
-    author?: string;
+    // author?: string;
     domain?: string;
 }
 export interface TBookmarkPayload {

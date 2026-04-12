@@ -64,6 +64,31 @@ export const createBookmark = async (
         throw new Error("Failed to creating bookmarks");
     }
 };
+export const updateBookmark = async (
+    token: string,
+    payload: TBookmarkPayload,
+    bookmarkId: string,
+) => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/${bookmarkId}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${token}`,
+                },
+                body: JSON.stringify(payload),
+            },
+        );
+        revalidateTag("Bookmarks", "everything");
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error updating bookmarks:", error);
+        throw new Error("Failed to updating bookmarks");
+    }
+};
 export const AddToFolder = async (
     token: string,
     payload: { bookmarkIds: string[]; folderId: string },
