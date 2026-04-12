@@ -71,3 +71,30 @@ export const delateFolder = async (token: string, bookmarkId: string) => {
         throw new Error("Failed to delate folders");
     }
 };
+
+export const renameFolder = async (
+    token: string,
+    bookmarkId: string,
+    payload: { newName: string },
+) => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/folder/${bookmarkId}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${token}`,
+                },
+                body: JSON.stringify(payload),
+            },
+        );
+        revalidateTag("Folders", "everything");
+        revalidateTag("Bookmarks", "everything");
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error delate folders:", error);
+        throw new Error("Failed to delate folders");
+    }
+};
