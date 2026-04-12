@@ -9,6 +9,7 @@ import { FaPlus } from "react-icons/fa6";
 import { RiFolderAddLine } from "react-icons/ri";
 const EmptyBookmark = () => {
     const dispatch = useAppDispatch();
+   
     return (
         <div className='container flex items-center justify-center flex-col gap-3 py-10'>
             <Image src={logo} alt='Logo' className='w-24' />

@@ -8,15 +8,15 @@ type TagDropdownProps = {
 const SortDropdown = ({ sortby, setSortby }: TagDropdownProps) => {
     const [openSort, setOpenSort] = useState(false);
 
-    const sortbyRef = useRef<HTMLDivElement>(null);
-
+    
     const handleSetSortBy = (sortby: TSortBy) => {
         setSortby(sortby);
-
+        
         setOpenSort(false);
     };
-
+    
     // Close dropdown when clicking outside
+    const sortbyRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (

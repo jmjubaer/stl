@@ -335,7 +335,11 @@ const MainSection = () => {
                   displayData?.pinnedBookmarks?.length === 0 &&
                   selectedFolder &&
                   token ? (
-                    <EmptyFolder />
+                    <EmptyFolder
+                        selectedFolder={selectedFolder}
+                        setSelectedFolder={setSelectedFolder}
+                        setRefetchBookmark={setRefetchBookmark}
+                    />
                 ) : (
                     ""
                 )}

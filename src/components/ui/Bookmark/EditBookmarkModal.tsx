@@ -322,6 +322,7 @@ const EditBookmarkModal = ({
                                 id='isPinned'
                                 defaultChecked={selectEditBookmark.isPinned}
                                 onChange={(e) => setIsPinned(e)}
+                                className="z-0"
                             />
                         </div>
 

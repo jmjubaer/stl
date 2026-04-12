@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { FaChevronDown, FaRegFolderOpen } from "react-icons/fa";
 import folderImage from "@/src/assets/folder.png";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import { MdCreateNewFolder } from "react-icons/md";
 import { useAppDispatch } from "@/src/redux/hook";
@@ -30,6 +30,23 @@ const FolderDropdown = ({
         dispatch(openFolderModal());
         setOpenDropdown(false);
     };
+
+    // Close dropdown when clicking outside
+    const folderRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (
+                folderRef.current &&
+                !folderRef.current.contains(e.target as Node)
+            ) {
+                setOpenDropdown(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () =>
+            document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
     return (
         <div className='mt-5 relative'>
             <label className='block mb-2 font-medium text-text/80'>
@@ -60,7 +77,9 @@ const FolderDropdown = ({
                 {/* Dropdown */}
             </button>
             {openDropdown && (
-                <div className=' text-sm absolute top-20 left-0 bg-background w-full border border-text rounded-2xl shadow p-1'>
+                <div
+                    ref={folderRef}
+                    className=' text-sm absolute top-20 left-0 bg-background w-full border border-text rounded-2xl shadow p-1 z-10 max-h-40 overflow-y-auto'>
                     <button
                         onClick={handleOpenNewFolder}
                         type='button'

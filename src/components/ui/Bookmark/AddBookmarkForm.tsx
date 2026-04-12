@@ -287,6 +287,7 @@ const AddBookmarkForm = ({
                             <Switch
                                 id='isPinned'
                                 onChange={(e) => setIsPinned(e)}
+                                className="z-0"
                             />
                         </div>
 
