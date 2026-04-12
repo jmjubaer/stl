@@ -49,3 +49,25 @@ export const createFolder = async (
         throw new Error("Failed to creating folders");
     }
 };
+
+export const delateFolder = async (token: string, bookmarkId: string) => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/folder/${bookmarkId}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${token}`,
+                },
+            },
+        );
+        revalidateTag("Folders", "everything");
+        revalidateTag("Bookmarks", "everything");
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error delate folders:", error);
+        throw new Error("Failed to delate folders");
+    }
+};
