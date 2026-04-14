@@ -11,6 +11,7 @@ import { IoIosShareAlt } from "react-icons/io";
 import { MdOutlineEdit } from "react-icons/md";
 import Swal from "sweetalert2";
 import RenameFolderForm from "./RenameFolder";
+import ShareFolderModal from "./ShareFolderModal";
 
 type TProps = {
     data: TFolder;
@@ -27,6 +28,7 @@ const OptionDropdown = ({
     const token = useAppSelector(selectToken);
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenRenameModal, setIsOpenRenameModal] = useState(false);
+    const [isOpenShareModal, setIsOpenShareModal] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const handleDeleteFolder = async () => {
@@ -99,7 +101,7 @@ const OptionDropdown = ({
                 <div
                     className={`bg-background absolute rounded-lg shadow-lg p-1 w-40 z-10 border border-text/20 ${columns === 3 ? "top-6 sm:top-10 right-0 sm:right-2" : "top-10 right-2"}`}>
                     <button
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={() => setIsOpenShareModal(!isOpenShareModal)}
                         className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center  gap-1'>
                         <IoIosShareAlt className='text-xl' /> Share
                     </button>{" "}
@@ -122,6 +124,12 @@ const OptionDropdown = ({
                 setIsOpen={setIsOpenRenameModal}
                 setRefetchBookmark={setRefetchBookmark}
                 setRefetchFolder={setRefetchFolder}
+            />
+            <ShareFolderModal
+                isOpen={isOpenShareModal}
+                setIsOpen={setIsOpenShareModal}
+                shareUrl={data.name}
+                title={data.name}
             />
         </div>
     );
