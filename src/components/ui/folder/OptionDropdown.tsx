@@ -128,8 +128,7 @@ const OptionDropdown = ({
             <ShareFolderModal
                 isOpen={isOpenShareModal}
                 setIsOpen={setIsOpenShareModal}
-                shareUrl={data.name}
-                title={data.name}
+                folderId={data._id}
             />
         </div>
     );

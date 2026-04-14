@@ -13,10 +13,10 @@ import {
 type TProps = {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    title: string;
+    folderId: string;
 };
-const ShareFolderModal = ({ isOpen, setIsOpen, title }: TProps) => {
-    const url = "https://bi-cycles-store-app.vercel.app/";
+const ShareFolderModal = ({ isOpen, setIsOpen, folderId }: TProps) => {
+    const url = `${process.env.NEXT_PUBLIC_CLIENT_API}/${folderId}`;
     const [isCopied, setIsCopied] = useState(false);
     const encodedUrl = encodeURIComponent(url);
     const encodedText = encodeURIComponent(`Check out this bookmark Group`);
