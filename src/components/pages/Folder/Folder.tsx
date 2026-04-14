@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
-import BookmarkCard from "../../ui/Bookmark/BookmarkCard";
+import{ useState } from "react";
 import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
-import { TFolder } from "@/src/types";
+import { TBookmark } from "@/src/types";
+import ShareCard from "../../ui/Bookmark/ShareCard";
 
-const Folder = ({ data }: { data: TFolder[] }) => {
+const Folder = ({ data }: { data: TBookmark[] }) => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
     return (
@@ -39,19 +39,14 @@ const Folder = ({ data }: { data: TFolder[] }) => {
                     }`}>
                     {/* card */}
 
-                    {/* {data.map((bookmark) => (
-                        <BookmarkCard
+                    {data.map((bookmark) => (
+                        <ShareCard
                             key={bookmark._id}
                             columns={columns}
                             layout={layout}
-                            selectBookmark={selectBookmark}
-                            setSelectBookmark={setSelectBookmark}
-                            setRefetchBookmark={setRefetchBookmark}
-                            setSelectEditBookmark={setSelectEditBookmark}
                             data={bookmark}
-                            isPinned
                         />
-                    ))} */}
+                    ))}
                 </div>
             </div>
         </div>
