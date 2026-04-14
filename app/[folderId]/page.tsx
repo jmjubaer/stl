@@ -1,10 +1,12 @@
 import Folder from "@/src/components/pages/Folder/Folder";
-import React from "react";
+import { getShareFolder } from "@/src/services/FolderServices";
 
-const FolderPage = () => {
+const FolderPage = async ({ params }: { params: { folderId: string } }) => {
+    const { folderId } = await params;
+    const folder = await getShareFolder(folderId);
     return (
         <div>
-            <Folder />
+            <Folder data={folder.data} />
         </div>
     );
 };

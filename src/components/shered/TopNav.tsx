@@ -4,13 +4,13 @@ import { TfiAngleRight } from "react-icons/tfi";
 type TProps = {
     selectedFolder?: string;
     folderName?: string;
-    setSelectedFolder: React.Dispatch<React.SetStateAction<string>>;
+    setSelectedFolder?: React.Dispatch<React.SetStateAction<string>>;
 };
 const TopNav = ({ selectedFolder, folderName, setSelectedFolder }: TProps) => {
     return (
         <div className='flex items-center gap-1'>
             <button
-                onClick={() => setSelectedFolder("")}
+                onClick={() => setSelectedFolder?.("")}
                 className='flex items-center px-3 text-sm py-1.5 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-full bg-text/10 duration-300'>
                 <IoHomeOutline className='' />
                 Home

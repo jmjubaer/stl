@@ -265,21 +265,21 @@ const MainSection = () => {
                             }`}>
                             {/* card */}
 
-                            {displayData?.pinnedBookmarks?.map((bookmark) => (
-                                <BookmarkCard
-                                    key={bookmark._id}
-                                    columns={columns}
-                                    layout={layout}
-                                    selectBookmark={selectBookmark}
-                                    setSelectBookmark={setSelectBookmark}
-                                    setRefetchBookmark={setRefetchBookmark}
-                                    setSelectEditBookmark={
-                                        setSelectEditBookmark
-                                    }
-                                    data={bookmark}
-                                    isPinned
-                                />
-                            ))}
+                                {displayData?.pinnedBookmarks?.map((bookmark) => (
+                                    <BookmarkCard
+                                        key={bookmark._id}
+                                        columns={columns}
+                                        layout={layout}
+                                        selectBookmark={selectBookmark}
+                                        setSelectBookmark={setSelectBookmark}
+                                        setRefetchBookmark={setRefetchBookmark}
+                                        setSelectEditBookmark={
+                                            setSelectEditBookmark
+                                        }
+                                        data={bookmark}
+                                        isPinned
+                                    />
+                                ))}
                         </div>
                     </div>
                 )}{" "}

@@ -98,3 +98,22 @@ export const renameFolder = async (
         throw new Error("Failed to delate folders");
     }
 };
+
+export const getShareFolder = async (id: string) => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/folder/share/${id}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            },
+        );
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching folders:", error);
+        throw new Error("Failed to fetch folders");
+    }
+};

@@ -3,15 +3,9 @@ import React, { useState } from "react";
 import BookmarkCard from "../../ui/Bookmark/BookmarkCard";
 import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
-const tagList = [
-    { name: "Design", color: "#9952E0" },
-    { name: "Development", color: "#1A8CFF" },
-    { name: "Tutorial", color: "#28BD66" },
-    { name: "Marketing", color: "#F97A1F" },
-    { name: "Inspiration", color: "#1DBAC9" },
-];
+import { TFolder } from "@/src/types";
 
-const Folder = () => {
+const Folder = ({ data }: { data: TFolder[] }) => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
     return (
@@ -44,26 +38,20 @@ const Folder = () => {
                                 : "grid-cols-4"
                     }`}>
                     {/* card */}
-                    <BookmarkCard
-                        columns={columns}
-                        tagList={tagList}
-                        layout={layout}
-                    />{" "}
-                    <BookmarkCard
-                        columns={columns}
-                        tagList={tagList}
-                        layout={layout}
-                    />{" "}
-                    <BookmarkCard
-                        columns={columns}
-                        tagList={tagList}
-                        layout={layout}
-                    />{" "}
-                    <BookmarkCard
-                        columns={columns}
-                        tagList={tagList}
-                        layout={layout}
-                    />
+
+                    {/* {data.map((bookmark) => (
+                        <BookmarkCard
+                            key={bookmark._id}
+                            columns={columns}
+                            layout={layout}
+                            selectBookmark={selectBookmark}
+                            setSelectBookmark={setSelectBookmark}
+                            setRefetchBookmark={setRefetchBookmark}
+                            setSelectEditBookmark={setSelectEditBookmark}
+                            data={bookmark}
+                            isPinned
+                        />
+                    ))} */}
                 </div>
             </div>
         </div>
