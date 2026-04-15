@@ -19,7 +19,7 @@ const PasswordInput = ({
 
     return (
         <div className='relative mt-2 h-fit'>
-            <TbLockPassword className='absolute left-3.5 bottom-2.5 text-text text-xl' />
+            <TbLockPassword className='absolute left-3.5 top-2.5 text-text text-xl' />
             <input
                 {...register(name, {
                     required: true,
