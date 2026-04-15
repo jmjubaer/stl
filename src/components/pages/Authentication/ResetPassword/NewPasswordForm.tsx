@@ -1,6 +1,5 @@
 import React, { SetStateAction } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { TbLockPassword } from "react-icons/tb";
 import PasswordInput from "../PasswordInput";
 type TInputs = {
     password: string;

@@ -1,4 +1,3 @@
-import React from "react";
 import Swal from "sweetalert2";
 
 const ShowAlert = (
@@ -6,7 +5,16 @@ const ShowAlert = (
     icon: "success" | "error" | "warning",
     text: string,
 ) => {
-    return Swal.fire({ title, icon, text, draggable: true });
+    return Swal.fire({
+        title,
+        icon,
+        text,
+        draggable: true,
+
+        customClass: {
+            container: "swal-z-index", // ✅ custom class
+        },
+    });
 };
 
 export default ShowAlert;

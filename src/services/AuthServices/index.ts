@@ -70,3 +70,26 @@ export const getMe = async (token: TLogin) => {
         };
     }
 };
+
+export const sentEmail = async (email: string) => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/auth/send-otp`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+            },
+        );
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        return {
+            success: false,
+            message:
+                error instanceof Error ? error.message : "failed to send otp",
+        };
+    }
+};

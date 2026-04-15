@@ -7,6 +7,9 @@ import logo from "@/src/assets/logo/stl-logo-dark.png";
 import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
 import NewPasswordForm from "./NewPasswordForm";
+import Swal from "sweetalert2";
+import { sentEmail } from "@/src/services/AuthServices";
+import ShowAlert from "@/src/utils/ShowAlert";
 type TInputs = {
     email: string;
 };
@@ -25,9 +28,36 @@ const ResetPasswordForm = ({
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
-    const handleSendOtp: SubmitHandler<TInputs> = (data) => {
-        console.log(data);
-        setForm("otp");
+    const handleSendOtp: SubmitHandler<TInputs> = async (data) => {
+        try {
+            const res = await sentEmail(data.email);
+            if (res.success) {
+                Swal.fire({
+                    title: "OTP Sent",
+                    icon: "success",
+                    text: "Send otp successful, Check your email",
+                    draggable: true,
+
+                    customClass: {
+                        container: "swal-z-index", // ✅ custom class
+                    },
+                    showConfirmButton: false,
+                    timer: 2500,
+                });
+                setForm("otp");
+                reset();
+            } else {
+                ShowAlert("Error", "error", res.message);
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
     };
 
     const handleCancel = () => {
