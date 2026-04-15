@@ -22,6 +22,7 @@ const ResetPasswordForm = ({
     setIsOpenResetModal,
 }: TProps) => {
     const [form, setForm] = useState("email");
+    const [email, setEmail] = useState<string | null>(null);
     const {
         reset,
         register,
@@ -29,6 +30,7 @@ const ResetPasswordForm = ({
         formState: { errors },
     } = useForm<TInputs>();
     const handleSendOtp: SubmitHandler<TInputs> = async (data) => {
+        setEmail(data.email);
         try {
             const res = await sentEmail(data.email);
             if (res.success) {
@@ -67,7 +69,7 @@ const ResetPasswordForm = ({
     };
     useEffect(() => {
         reset();
-    }, [isOpenResetModal]);
+    }, [isOpenResetModal, reset]);
     return (
         <>
             <Modal
@@ -129,9 +131,10 @@ const ResetPasswordForm = ({
                             </div>
                         </form>
                     ) : form === "otp" ? (
-                        <OtpForm setForm={setForm} />
+                        <OtpForm email={email} setForm={setForm} />
                     ) : (
                         <NewPasswordForm
+                            email={email}
                             setForm={setForm}
                             setIsOpenResetModal={setIsOpenResetModal}
                         />

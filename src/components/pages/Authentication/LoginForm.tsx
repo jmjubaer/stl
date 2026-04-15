@@ -40,7 +40,9 @@ const LoginForm = () => {
                     ShowAlert(
                         "Error",
                         "error",
-                        "Failed to fetch user data, please try again",
+                        error instanceof Error
+                            ? error.message
+                            : "Failed to fetch user data, please try again",
                     );
                 }
                 reset();

@@ -1,18 +1,15 @@
 "use server";
 import { TLogin, TRegister } from "@/src/types";
-
+const baseUrl = process.env.NEXT_PUBLIC_BASE_API;
 export const registerUser = async (userData: TRegister) => {
     try {
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/user/create`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(userData),
+        const response = await fetch(`${baseUrl}/user/create`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-        );
+            body: JSON.stringify(userData),
+        });
         const data = await response.json();
         return data;
     } catch (error) {
@@ -28,16 +25,13 @@ export const registerUser = async (userData: TRegister) => {
 
 export const loginUser = async (userData: TLogin) => {
     try {
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/auth/login`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(userData),
+        const response = await fetch(`${baseUrl}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-        );
+            body: JSON.stringify(userData),
+        });
         const data = await response.json();
         return data;
     } catch (error) {
@@ -50,16 +44,13 @@ export const loginUser = async (userData: TLogin) => {
 };
 export const getMe = async (token: TLogin) => {
     try {
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/user/me`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: ` ${token}`,
-                },
+        const response = await fetch(`${baseUrl}/user/me`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: ` ${token}`,
             },
-        );
+        });
         const data = await response.json();
         return data;
     } catch (error) {
@@ -73,16 +64,13 @@ export const getMe = async (token: TLogin) => {
 
 export const sentEmail = async (email: string) => {
     try {
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/auth/send-otp`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email }),
+        const response = await fetch(`${baseUrl}/auth/send-otp`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-        );
+            body: JSON.stringify({ email }),
+        });
         const data = await response.json();
         return data;
     } catch (error) {
@@ -90,6 +78,26 @@ export const sentEmail = async (email: string) => {
             success: false,
             message:
                 error instanceof Error ? error.message : "failed to send otp",
+        };
+    }
+};
+
+export const verifyOtp = async (payload: { email: string; otp: number }) => {
+    try {
+        const response = await fetch(`${baseUrl}/auth/verify-otp`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        return {
+            success: false,
+            message:
+                error instanceof Error ? error.message : "failed to verify otp",
         };
     }
 };

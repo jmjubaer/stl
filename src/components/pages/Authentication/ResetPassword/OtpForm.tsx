@@ -1,11 +1,15 @@
 "use client";
+import { sentEmail } from "@/src/services/AuthServices";
+import ShowAlert from "@/src/utils/ShowAlert";
 import Tooltip from "antd/es/tooltip";
 import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
 
 type TProps = {
+    email: string;
     setForm: React.Dispatch<React.SetStateAction<string>>;
 };
-const OtpForm = ({ setForm }: TProps) => {
+const OtpForm = ({ setForm, email }: TProps) => {
     const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
     const [timeLeft, setTimeLeft] = useState(60); // 60 seconds timer
@@ -32,7 +36,6 @@ const OtpForm = ({ setForm }: TProps) => {
         }
     };
 
-    // Timer logic (optional)
     useEffect(() => {
         if (timeLeft <= 0) return;
 
@@ -45,11 +48,40 @@ const OtpForm = ({ setForm }: TProps) => {
 
     const handleVerifyOtp = () => {
         setForm("new-password");
+        
     };
-    const handleResend = () => {
-        setOtp(Array(6).fill(""));
-        inputsRef.current[0]?.focus();
-        setTimeLeft(60)
+
+    const handleResend = async () => {
+        try {
+            const res = await sentEmail(email);
+            if (res.success) {
+                Swal.fire({
+                    title: "OTP Sent",
+                    icon: "success",
+                    text: "Send otp successful, Check your email",
+                    draggable: true,
+
+                    customClass: {
+                        container: "swal-z-index", // ✅ custom class
+                    },
+                    showConfirmButton: false,
+                    timer: 2500,
+                });
+                setOtp(Array(6).fill(""));
+                inputsRef.current[0]?.focus();
+                setTimeLeft(60);
+            } else {
+                ShowAlert("Error", "error", res.message);
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
     };
 
     return (
