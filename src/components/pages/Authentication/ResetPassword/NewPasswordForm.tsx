@@ -5,6 +5,7 @@ type TInputs = {
     password: string;
 };
 type TProps = {
+    email: string;
     setForm: React.Dispatch<React.SetStateAction<string>>;
     setIsOpenResetModal: React.Dispatch<SetStateAction<boolean>>;
 };
@@ -37,8 +38,6 @@ const NewPasswordForm = ({ setForm, setIsOpenResetModal }: TProps) => {
                     placeholder='New Password ****'
                 />
             </div>{" "}
-
-
             <div className='flex justify-end gap-5 mt-5'>
                 <button
                     onClick={handleCancel}

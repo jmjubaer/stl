@@ -1,5 +1,5 @@
 "use client";
-import { sentEmail } from "@/src/services/AuthServices";
+import { sentEmail, verifyOtp } from "@/src/services/AuthServices";
 import ShowAlert from "@/src/utils/ShowAlert";
 import Tooltip from "antd/es/tooltip";
 import { useEffect, useRef, useState } from "react";
@@ -13,7 +13,7 @@ const OtpForm = ({ setForm, email }: TProps) => {
     const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
     const [timeLeft, setTimeLeft] = useState(60); // 60 seconds timer
-
+    const [hasError, setHasError] = useState(false);
     const handleChange = (value: string, index: number) => {
         if (!/^\d?$/.test(value)) return; // allow only single digit
 
@@ -46,9 +46,47 @@ const OtpForm = ({ setForm, email }: TProps) => {
         return () => clearInterval(timer);
     }, [timeLeft]);
 
-    const handleVerifyOtp = () => {
-        setForm("new-password");
-        
+    const handleVerifyOtp = async () => {
+        const isComplete = otp.every((digit) => digit !== "");
+        if (!isComplete) {
+            ShowAlert(
+                "Error",
+                "error",
+                "Please enter the complete 6-digit OTP",
+            );
+            setHasError(true);
+            return;
+        }
+
+        const otpString = otp.join("");
+
+        try {
+            Swal.fire({
+                title: "Verifying...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
+
+            const res = await verifyOtp({ email, otp: Number(otpString) });
+            if (res.success) {
+                ShowAlert("Success", "success", "OTP verified successfully");
+                setForm("new-password");
+                setHasError(false);
+            } else {
+                ShowAlert("Error", "error", res.message || "Invalid OTP");
+                setOtp(Array(6).fill(""));
+                inputsRef.current[0]?.focus();
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
     };
 
     const handleResend = async () => {
@@ -98,11 +136,11 @@ const OtpForm = ({ setForm, email }: TProps) => {
                         }}
                         onChange={(e) => handleChange(e.target.value, index)}
                         onKeyDown={(e) => handleKeyDown(e, index)}
-                        className='w-12 h-12 text-center text-xl font-semibold 
-                     border border-text/50 rounded-lg
+                        className={`w-12 h-12 text-center text-xl font-semibold 
+                      rounded-lg
                      focus:outline-none focus:ring-2 
                      focus:ring-primary focus:border-primary
-                     transition-all duration-200'
+                     transition-all duration-200 ${hasError ? "ring-red-500 border-red-500 border" : " border-text/50 border"}`}
                     />
                 ))}
             </div>
