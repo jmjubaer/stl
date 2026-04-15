@@ -6,11 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 
 type TProps = {
+    otp: string[];
     email: string;
     setForm: React.Dispatch<React.SetStateAction<string>>;
+    setOtp: React.Dispatch<React.SetStateAction<string[]>>;
 };
-const OtpForm = ({ setForm, email }: TProps) => {
-    const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
+const OtpForm = ({ setForm, email, otp, setOtp }: TProps) => {
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
     const [timeLeft, setTimeLeft] = useState(60); // 60 seconds timer
     const [hasError, setHasError] = useState(false);
@@ -75,7 +76,6 @@ const OtpForm = ({ setForm, email }: TProps) => {
                 setHasError(false);
             } else {
                 ShowAlert("Error", "error", res.message || "Invalid OTP");
-                setOtp(Array(6).fill(""));
                 inputsRef.current[0]?.focus();
             }
         } catch (error) {

@@ -21,6 +21,7 @@ const ResetPasswordForm = ({
     isOpenResetModal,
     setIsOpenResetModal,
 }: TProps) => {
+    const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
     const [form, setForm] = useState("email");
     const [email, setEmail] = useState<string>("");
     const {
@@ -31,6 +32,13 @@ const ResetPasswordForm = ({
     } = useForm<TInputs>();
     const handleSendOtp: SubmitHandler<TInputs> = async (data) => {
         try {
+            Swal.fire({
+                title: "OTP Sending...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
+
             const res = await sentEmail(data.email);
             if (res.success) {
                 Swal.fire({
@@ -131,11 +139,18 @@ const ResetPasswordForm = ({
                             </div>
                         </form>
                     ) : form === "otp" ? (
-                        <OtpForm email={email} setForm={setForm} />
-                    ) : (
-                        <NewPasswordForm
+                        <OtpForm
+                            otp={otp}
+                            setOtp={setOtp}
                             email={email}
                             setForm={setForm}
+                        />
+                    ) : (
+                        <NewPasswordForm
+                            otp={otp.join("")}
+                            email={email}
+                            setForm={setForm}
+                            setOtp={setOtp}
                             setIsOpenResetModal={setIsOpenResetModal}
                         />
                     )}

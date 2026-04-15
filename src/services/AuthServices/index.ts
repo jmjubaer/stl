@@ -101,3 +101,29 @@ export const verifyOtp = async (payload: { email: string; otp: number }) => {
         };
     }
 };
+
+export const resetPassword = async (payload: {
+    email: string;
+    otp: number;
+    newPassword: string;
+}) => {
+    try {
+        const response = await fetch(`${baseUrl}/auth/reset-password`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        return {
+            success: false,
+            message:
+                error instanceof Error
+                    ? error.message
+                    : "failed to reset password",
+        };
+    }
+};

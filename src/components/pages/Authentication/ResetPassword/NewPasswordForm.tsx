@@ -1,30 +1,79 @@
 import React, { SetStateAction } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import PasswordInput from "../PasswordInput";
+import Swal from "sweetalert2";
+import { resetPassword } from "@/src/services/AuthServices";
+import ShowAlert from "@/src/utils/ShowAlert";
 type TInputs = {
     password: string;
 };
 type TProps = {
+    otp: string;
     email: string;
     setForm: React.Dispatch<React.SetStateAction<string>>;
     setIsOpenResetModal: React.Dispatch<SetStateAction<boolean>>;
+    setOtp: React.Dispatch<React.SetStateAction<string[]>>;
 };
-const NewPasswordForm = ({ setForm, setIsOpenResetModal }: TProps) => {
+const NewPasswordForm = ({
+    setForm,
+    setIsOpenResetModal,
+    email,
+    setOtp,
+    otp,
+}: TProps) => {
     const {
         reset,
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<TInputs>();
-    const handleChangePassword: SubmitHandler<TInputs> = (data) => {
-        console.log(data);
-        // setForm("otp");
-    };
     const handleCancel = () => {
         setIsOpenResetModal(false);
         setForm("email");
         reset();
     };
+    const handleChangePassword: SubmitHandler<TInputs> = async (data) => {
+        try {
+            Swal.fire({
+                title: "Changing...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
+            const res = await resetPassword({
+                email,
+                newPassword: data.password,
+                otp: Number(otp),
+            });
+            if (res.success) {
+                Swal.fire({
+                    title: "Password Changed",
+                    icon: "success",
+                    text: "Your password is reset successful.",
+                    draggable: true,
+
+                    customClass: {
+                        container: "swal-z-index",
+                    },
+                    showConfirmButton: false,
+                    timer: 2500,
+                });
+                handleCancel();
+                setOtp(Array(6).fill(""));
+            } else {
+                ShowAlert("Error", "error", res.message);
+            }
+        } catch (error) {
+            ShowAlert(
+                "Error",
+                "error",
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred",
+            );
+        }
+    };
+
     return (
         <form onSubmit={handleSubmit(handleChangePassword)}>
             <div className='mt-3 '>
