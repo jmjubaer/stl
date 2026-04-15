@@ -1,5 +1,5 @@
 "use client";
-import{ useState } from "react";
+import { useState } from "react";
 import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
 import { TBookmark } from "@/src/types";
@@ -8,10 +8,14 @@ import ShareCard from "../../ui/Bookmark/ShareCard";
 const Folder = ({ data }: { data: TBookmark[] }) => {
     const [layout, setLayout] = useState<"grid" | "list">("grid");
     const [columns, setColumns] = useState<number>(3);
+    const singleBookmark = data?.find((b) => b.folder);
     return (
         <div className='container'>
             <div className='flex items-center gap-3 justify-between py-3 shadow-sm dark:shadow-md dark:shadow-text/10 bg-background   '>
-                <TopNav folderName='test' />
+                <TopNav
+                    folderName={singleBookmark?.folder?.name}
+                    selectedFolder={singleBookmark?.folder?._id}
+                />
 
                 <div className='w-auto'>
                     <LayoutControl
@@ -24,8 +28,8 @@ const Folder = ({ data }: { data: TBookmark[] }) => {
             </div>
             {/* bookmark section` */}
             <div className='container my-2'>
-                <h2 className='text-text/50 uppercase text-lg font-bold mb-2'>
-                    Bookmarks
+                <h2 className='text-text/50  text-lg font-bold mb-2'>
+                    This folder share from {singleBookmark?.user?.name}
                 </h2>
                 <div
                     className={`grid gap-2 md:gap-3 ${

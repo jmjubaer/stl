@@ -12,12 +12,7 @@ type TProps = {
     columns: number;
     data: TBookmark;
 };
-const ShareCard = ({
-    data,
-    layout,
-    columns,
-}: TProps) => {
-
+const ShareCard = ({ data, layout, columns }: TProps) => {
     const [isCopied, setIsCopied] = useState(false);
     const handleCopy = async () => {
         try {
@@ -63,52 +58,34 @@ const ShareCard = ({
                     {/* Floating button section */}
                     <div
                         className={`absolute p-1 flex items-center gap-1 md:gap-2  ${columns === 3 ? "flex-wrap-reverse md:flex-nowrap w-full h-4/5 sm:h-fit bottom-0 right-0 justify-center sm:justify-between" : layout === "list" && columns === 2 ? "bottom-0 sm:bottom-auto sm:top-0 right-0 w-full xs:w-fit justify-between" : layout === "list" ? " top-0 right-0 w-full xs:w-fit justify-between" : "bottom-0 left-0 w-full justify-between"}`}>
-                        <div className='w-fit flex items-center gap-2 text-black'>
-                            <button
-                                onClick={handleOpenLink}
-                                className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
-                                <LuExternalLink
-                                    className={`inline  ${columns === 3 ? "text-lg sm:text-xl" : layout === "list" ? "text-lg" : "text-xl"}`}
-                                />{" "}
-                                <span
-                                    className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : columns === 3 ? "hidden lg:inline" : "md:inline  hidden"}`}>
-                                    Open
-                                </span>
-                            </button>{" "}
-                            <button
-                                onClick={handleCopy}
-                                className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
-                                {isCopied ? (
-                                    <FaCheck
-                                        className={`inline text-green-500 ${columns === 3 ? "" : "text-lg"}`}
-                                    />
-                                ) : (
-                                    <FaRegCopy
-                                        className={`inline ${columns === 3 ? "" : "text-lg"}`}
-                                    />
-                                )}
-                                <span
-                                    className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : columns === 3 ? "hidden lg:inline" : "md:inline hidden"}`}>
-                                    {isCopied ? "Copied" : "Copy"}
-                                </span>
-                            </button>{" "}
-                        </div>
-                        {/* <div className='flex items-center gap-2 e-fit text-black'>
-                            <button
-                            onClick={() => setSelectEditBookmark(data)}
-                                className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
-                                <FaPenAlt
-                                    className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
-                                />{" "}
-                            </button>{" "}
-                            <button
-                                onClick={handleDeleteBookmark}
-                                className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
-                                <FaTrashAlt
-                                    className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
-                                />{" "}
-                            </button>
-                        </div> */}
+                        <button
+                            onClick={handleOpenLink}
+                            className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
+                            <LuExternalLink
+                                className={`inline  ${columns === 3 ? "text-lg sm:text-xl" : layout === "list" ? "text-lg" : "text-xl"}`}
+                            />{" "}
+                            <span
+                                className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : columns === 3 ? "hidden lg:inline" : "md:inline  hidden"}`}>
+                                Open
+                            </span>
+                        </button>{" "}
+                        <button
+                            onClick={handleCopy}
+                            className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
+                            {isCopied ? (
+                                <FaCheck
+                                    className={`inline text-green-500 ${columns === 3 ? "" : "text-lg"}`}
+                                />
+                            ) : (
+                                <FaRegCopy
+                                    className={`inline ${columns === 3 ? "" : "text-lg"}`}
+                                />
+                            )}
+                            <span
+                                className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : columns === 3 ? "hidden lg:inline" : "md:inline hidden"}`}>
+                                {isCopied ? "Copied" : "Copy"}
+                            </span>
+                        </button>{" "}
                     </div>
                 </div>
                 <div

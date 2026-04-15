@@ -21,7 +21,10 @@ export interface TBookmark {
     previewStatus: "PENDING" | "SUCCESS" | "FAILED";
     tags: TTag[] | null;
     folder: TFolder | null;
-    user: string;
+    user: {
+        _id: string;
+        name: string;
+    };
     createdAt: string;
     updatedAt: Date;
     isPinned: boolean;
