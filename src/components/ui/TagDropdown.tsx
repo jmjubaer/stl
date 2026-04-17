@@ -60,11 +60,11 @@ const TagDropdown = ({
             {/* Dropdown */}
             {
                 <ul
-                    className={`absolute top-10 border border-text/20  rounded-xl sm:left-0 right-0 bg-background shadow-md dark:shadow-white/20 w-48 z-20 ${
+                    className={`absolute top-10 border border-text/20 rounded-xl sm:left-0 right-0 bg-background shadow-md dark:shadow-white/20 w-48 z-20 ${
                         openTag ? "visible" : "hidden"
                     }`}>
                     {/* all tag */}
-                    <Spin size='small' tip='Loading...' spinning={isPending}>
+                    <Spin size='small' spinning={isPending}>
                         <div className='p-1 px-1.5 max-h-40 overflow-y-auto'>
                             {tagList.map((tagItem) => (
                                 <li

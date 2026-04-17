@@ -207,7 +207,7 @@ const EditBookmarkModal = ({
                 <div className='text-base'>
                     <h2 className='text-2xl font-bold mb-4 text-center'>
                         {" "}
-                        Add New Bookmark
+                        Edit Bookmark
                     </h2>
                     <form onSubmit={handleSubmit(handleEditBookmark)}>
                         {/* URL */}
