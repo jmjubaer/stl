@@ -35,7 +35,6 @@ type TProps = {
 const EditBookmarkModal = ({
     setSelectEditBookmark,
     setRefetchBookmark,
-    setRefetchTags,
     folderList,
     tagList,
     selectEditBookmark,
@@ -57,8 +56,6 @@ const EditBookmarkModal = ({
     const [selectTag, setSelectTag] = useState<TTag[]>(
         selectEditBookmark?.tags ?? [],
     );
-
-    const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const [linkMetaInfo, setLinkMetaInfo] = useState<TLinkMetaInfo>({
         url: selectEditBookmark.url,
         domain: selectEditBookmark?.domain || "",

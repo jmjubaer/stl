@@ -21,7 +21,6 @@ import { getTags } from "@/src/services/TagServices";
 import { getFolder } from "@/src/services/FolderServices";
 import EditBookmarkModal from "../../ui/Bookmark/EditBookmarkModal";
 import { selectRefreshTagList } from "@/src/redux/features/modal/modalSlice";
-import AddTagForm from "../../ui/Bookmark/AddTagForm";
 const MainSection = () => {
     // auth token from redux
     const token = useAppSelector(selectToken);
@@ -380,8 +379,6 @@ const MainSection = () => {
                     setSelectEditBookmark={setSelectEditBookmark}
                 />
             )}
-
-        
         </section>
     );
 };

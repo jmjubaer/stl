@@ -35,7 +35,6 @@ type TProps = {
 };
 const AddBookmarkForm = ({
     setRefetchBookmark,
-    setRefetchTags,
     folderList,
     tagList,
 }: TProps) => {
@@ -52,7 +51,6 @@ const AddBookmarkForm = ({
         id: "",
     });
 
-    const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const [linkMetaInfo, setLinkMetaInfo] = useState<TLinkMetaInfo | null>(
         null,
     );

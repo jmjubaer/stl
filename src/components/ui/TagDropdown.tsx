@@ -16,11 +16,9 @@ type TagDropdownProps = {
 const TagDropdown = ({
     tag,
     setTag,
-    setRefetchTags,
     isPending,
     tagList,
 }: TagDropdownProps) => {
-    const [isOpenTagModal, setIsOpenTagModal] = useState(false);
     const dispatch = useAppDispatch();
     const [openTag, setOpenTag] = useState(false);
     const tagRef = useRef<HTMLDivElement>(null);
