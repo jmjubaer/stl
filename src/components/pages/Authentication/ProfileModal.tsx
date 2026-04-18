@@ -1,6 +1,9 @@
 import { selectToken, selectUser } from "@/src/redux/features/auth/authSlice";
-import { selectRefreshTagList } from "@/src/redux/features/modal/modalSlice";
-import { useAppSelector } from "@/src/redux/hook";
+import {
+    openTagModal,
+    selectRefreshTagList,
+} from "@/src/redux/features/modal/modalSlice";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { getTags } from "@/src/services/TagServices";
 import { TTag } from "@/src/types";
 import { Modal, Spin } from "antd";
@@ -25,6 +28,7 @@ const ProfileModal = ({
     const [tagList, setTagList] = useState<TTag[]>([]);
     const user = useAppSelector(selectUser);
     const token = useAppSelector(selectToken);
+    const dispatch = useAppDispatch();
     const refreshTagList = useAppSelector(selectRefreshTagList);
     const handleCancel = () => {
         setIsOpenProfileModal(false);
@@ -90,7 +94,7 @@ const ProfileModal = ({
                             <div
                                 className={`pt-1 flex flex-wrap items-center gap-2`}>
                                 <button
-                                    // onClick={() => setIsOpenTagModal(true)}
+                                    onClick={() => dispatch(openTagModal())}
                                     type='button'
                                     style={{
                                         backgroundColor: "#1A8CFF" + "20",
@@ -110,7 +114,7 @@ const ProfileModal = ({
                                                 tagItem.color + "20",
                                             color: tagItem.color,
                                         }}
-                                        className={`p-1 text-xs font-bold px-3 rounded-full cursor-pointer flex items-center gap-1}`}>
+                                        className={`p-1 capitalize text-xs font-bold px-3 rounded-full cursor-pointer flex items-center gap-1}`}>
                                         {tagItem.name}
                                     </button>
                                 ))}

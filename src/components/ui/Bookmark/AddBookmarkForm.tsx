@@ -340,7 +340,7 @@ const AddBookmarkForm = ({
                                                 tagItem.color + "20",
                                             color: tagItem.color,
                                         }}
-                                        className={`p-1 text-xs font-bold px-3  rounded-full cursor-pointer flex items-center gap-1 ${
+                                        className={`p-1 capitalize text-xs font-bold px-3  rounded-full cursor-pointer flex items-center gap-1 ${
                                             selectTag.find(
                                                 (t) => t.name === tagItem.name,
                                             ) && "border-2"
