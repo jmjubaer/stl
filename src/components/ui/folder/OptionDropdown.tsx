@@ -1,6 +1,6 @@
 "use client";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
-import { useAppSelector } from "@/src/redux/hook";
+import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { deleteFolder } from "@/src/services/FolderServices";
 import { TFolder } from "@/src/types";
 import ShowAlert from "@/src/utils/ShowAlert";
@@ -25,6 +25,7 @@ const OptionDropdown = ({
     setRefetchFolder,
     data,
 }: TProps) => {
+    const dispatch = useAppDispatch()
     const token = useAppSelector(selectToken);
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenRenameModal, setIsOpenRenameModal] = useState(false);
@@ -54,11 +55,14 @@ const OptionDropdown = ({
                         setRefetchBookmark((prev) => prev + 1);
                         setRefetchFolder((prev) => prev + 1);
                     } else {
+                        if (res.message === "Token has expired") {
+                            dispatch(setIsExpired());
+                        }else{
                         ShowAlert(
                             "Error",
                             "error",
                             res.message || "Failed to delete folder",
-                        );
+                        );}
                     }
                 } catch (error) {
                     ShowAlert(

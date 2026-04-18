@@ -15,7 +15,7 @@ import {
     AddToFolder,
     togglePinBookmark,
 } from "@/src/services/BookmarkServices";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import { Spin } from "antd";
 import { LuPin } from "react-icons/lu";
 type TProps = {
@@ -69,7 +69,11 @@ const SelectBookmarkControl = ({
                 setSelectBookmark([]);
                 setRefetchBookmark((prev) => prev + 1);
             } else {
-                ShowAlert("Error", "error", res.message);
+                if (res.message === "Token has expired") {
+                    dispatch(setIsExpired());
+                } else {
+                    ShowAlert("Error", "error", res.message);
+                }
             }
         } catch (error) {
             ShowAlert(
@@ -91,13 +95,17 @@ const SelectBookmarkControl = ({
             if (res.success) {
                 ShowAlert("Success", "success", "Bookmark pinned successfully");
                 setRefetchBookmark((prev) => prev + 1);
-                setSelectBookmark([])
+                setSelectBookmark([]);
             } else {
-                ShowAlert(
-                    "Error",
-                    "error",
-                    res.message || "Failed to pin bookmark",
-                );
+                if (res.message === "Token has expired") {
+                    dispatch(setIsExpired());
+                } else {
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        res.message || "Failed to pin bookmark",
+                    );
+                }
             }
         } catch (error) {
             ShowAlert(

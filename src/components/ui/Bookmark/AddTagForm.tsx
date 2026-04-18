@@ -6,7 +6,7 @@ import ShowAlert from "@/src/utils/ShowAlert";
 import Swal from "sweetalert2";
 import { createTags } from "@/src/services/TagServices";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import {
     closeTagModal,
     selectOpenTagModal,
@@ -45,11 +45,14 @@ const AddTagForm = () => {
                 setColor("");
                 dispatch(closeTagModal());
             } else {
+                if (res.message === "Token has expired") {
+                    dispatch(setIsExpired());
+                }else{
                 ShowAlert(
                     "Error",
                     "error",
                     res.message || "Failed to create tag",
-                );
+                );}
             }
         } catch (error) {
             ShowAlert(

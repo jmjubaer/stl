@@ -1,6 +1,6 @@
 "use client";
 import logo from "@/src/assets/logo/logo.png";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import { openBookmarkModal } from "@/src/redux/features/modal/modalSlice";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { deleteFolder } from "@/src/services/FolderServices";
@@ -46,11 +46,14 @@ const EmptyFolder = ({
                         setRefetchBookmark((prev) => prev + 1);
                         setSelectedFolder("");
                     } else {
+                        if (res.message === "Token has expired") {
+                            dispatch(setIsExpired());
+                        }else{
                         ShowAlert(
                             "Error",
                             "error",
                             res.message || "Failed to delete folder",
-                        );
+                        );}
                     }
                 } catch (error) {
                     ShowAlert(

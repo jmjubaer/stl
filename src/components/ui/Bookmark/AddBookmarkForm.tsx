@@ -17,7 +17,7 @@ import { createBookmark, linkPreview } from "@/src/services/BookmarkServices";
 import Image from "next/image";
 import placeHolderImage from "@/src/assets/placeholder.png";
 import ShowAlert from "@/src/utils/ShowAlert";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { LuPin } from "react-icons/lu";
 type TInputs = {
@@ -126,11 +126,15 @@ const AddBookmarkForm = ({
                 setLinkMetaInfo(null);
                 setRefetchBookmark((prev) => prev + 1);
             } else {
-                ShowAlert(
-                    "Error",
-                    "error",
-                    res.message || "Failed to create bookmark",
-                );
+                if (res.message === "Token has expired") {
+                    dispatch(setIsExpired());
+                } else {
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        res.message || "Failed to create bookmark",
+                    );
+                }
             }
         } catch (error) {
             ShowAlert(
@@ -372,7 +376,6 @@ const AddBookmarkForm = ({
                         </div>
                     </form>
                 </div>
-
             </Modal>
         </>
     );

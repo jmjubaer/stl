@@ -1,4 +1,4 @@
-import { selectToken, selectUser } from "@/src/redux/features/auth/authSlice";
+import { selectToken, selectUser, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import {
     openTagModal,
     selectRefreshTagList,
@@ -42,6 +42,11 @@ const ProfileModal = ({
                 console.log(res);
                 if (res?.success) {
                     setTagList(res.data);
+                } else {
+                    if (res.message === "Token has expired") {
+                        dispatch(setIsExpired());
+                    }
+                    setTagList([]);
                 }
             } else {
                 setTagList([]);

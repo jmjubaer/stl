@@ -2,11 +2,11 @@
 import React from "react";
 import { Modal } from "antd";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useAppSelector } from "@/src/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import ShowAlert from "@/src/utils/ShowAlert";
 import Swal from "sweetalert2";
 import { renameFolder } from "@/src/services/FolderServices";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import { TFolder } from "@/src/types";
 
 type TInputs = {
@@ -26,6 +26,7 @@ const RenameFolderForm = ({
     isOpen,
     setIsOpen,
 }: TProps) => {
+    const dispatch = useAppDispatch();
     const token = useAppSelector(selectToken);
     const {
         reset,
@@ -43,7 +44,11 @@ const RenameFolderForm = ({
                 setRefetchBookmark((prev) => prev + 1);
                 handleCancel();
             } else {
-                ShowAlert("Error", "error", res.message);
+                if (res.message === "Token has expired") {
+                    dispatch(setIsExpired());
+                } else {
+                    ShowAlert("Error", "error", res.message);
+                }
             }
         } catch (error) {
             ShowAlert(

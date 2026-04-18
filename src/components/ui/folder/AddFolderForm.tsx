@@ -10,7 +10,7 @@ import {
 import ShowAlert from "@/src/utils/ShowAlert";
 import Swal from "sweetalert2";
 import { createFolder } from "@/src/services/FolderServices";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 
 type TInputs = {
     folderName: string;
@@ -43,7 +43,11 @@ const AddFolderForm = ({ setRefetchFolder, setRefetchBookmark }: TProps) => {
                 setRefetchBookmark((prev) => prev + 1);
                 dispatch(closeFolderModal());
             } else {
-                ShowAlert("Error", "error", res.message);
+                if (res.message === "Token has expired") {
+                    dispatch(setIsExpired());
+                } else {
+                    ShowAlert("Error", "error", res.message);
+                }
             }
         } catch (error) {
             ShowAlert(

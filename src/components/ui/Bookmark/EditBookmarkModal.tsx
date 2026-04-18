@@ -10,7 +10,7 @@ import { linkPreview, updateBookmark } from "@/src/services/BookmarkServices";
 import Image from "next/image";
 import placeHolderImage from "@/src/assets/placeholder.png";
 import ShowAlert from "@/src/utils/ShowAlert";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { LuPin } from "react-icons/lu";
 import { openTagModal } from "@/src/redux/features/modal/modalSlice";
@@ -136,11 +136,16 @@ const EditBookmarkModal = ({
                 setSelectFolder({ name: "No Folder", id: "" });
                 setRefetchBookmark((prev) => prev + 1);
             } else {
-                ShowAlert(
-                    "Error",
-                    "error",
-                    res.message || "Failed to update bookmark",
-                );
+                if (res.message === "Token has expired") {
+                    dispatch(setIsExpired());
+                }else
+                {
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        res.message || "Failed to update bookmark",
+                    );
+                }
             }
         } catch (error) {
             ShowAlert(

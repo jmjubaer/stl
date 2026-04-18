@@ -11,8 +11,13 @@ import SelectBookmarkControl from "../../ui/Bookmark/SelectBookmarkControl";
 import TopNav from "../../shered/TopNav";
 import LayoutControl from "../../shered/LayoutControl";
 import { getBookmarks } from "@/src/services/BookmarkServices";
-import { useAppSelector } from "@/src/redux/hook";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
+import {
+    logout,
+    selectIsExpired,
+    selectToken,
+    setIsExpired,
+} from "@/src/redux/features/auth/authSlice";
 import EmptyFolder from "../../ui/folder/EmptyFolder";
 import EmptyBookmark from "../../ui/Bookmark/EmptyBookmark";
 import NonUserCard from "../../ui/NonUserCard";
@@ -20,11 +25,17 @@ import { Spin } from "antd";
 import { getTags } from "@/src/services/TagServices";
 import { getFolder } from "@/src/services/FolderServices";
 import EditBookmarkModal from "../../ui/Bookmark/EditBookmarkModal";
-import { selectRefreshTagList } from "@/src/redux/features/modal/modalSlice";
+import {
+    openAuthModal,
+    selectRefreshTagList,
+} from "@/src/redux/features/modal/modalSlice";
+import Swal from "sweetalert2";
 const MainSection = () => {
     // auth token from redux
+    const dispatch = useAppDispatch();
     const token = useAppSelector(selectToken);
     const refreshTagList = useAppSelector(selectRefreshTagList);
+    const isExpired = useAppSelector(selectIsExpired);
 
     // loading mange state
     const [isPending, startTransition] = useTransition();
@@ -83,6 +94,15 @@ const MainSection = () => {
                 console.log(res);
                 if (res?.success) {
                     setAllData(res.data);
+                } else {
+                    if (res.message === "Token has expired") {
+                        dispatch(setIsExpired());
+                    }
+                    setAllData({
+                        bookmarks: [],
+                        folders: [],
+                        pinnedBookmarks: [],
+                    });
                 }
             } else {
                 setAllData({
@@ -110,9 +130,13 @@ const MainSection = () => {
         startTagTransition(async () => {
             if (token) {
                 const res = await getTags(token as string);
-                console.log(res);
                 if (res?.success) {
                     setTagList(res.data);
+                } else {
+                    if (res.message === "Token has expired") {
+                        dispatch(setIsExpired());
+                    }
+                    setTagList([]);
                 }
             } else {
                 setTagList([]);
@@ -128,6 +152,11 @@ const MainSection = () => {
                 console.log(res);
                 if (res?.success) {
                     setFolderList(res.data);
+                } else {
+                    if (res.message === "Token has expired") {
+                        dispatch(setIsExpired());
+                    }
+                    setFolderList([]);
                 }
             } else {
                 setFolderList([]);
@@ -135,6 +164,33 @@ const MainSection = () => {
         });
     }, [token, refetchFolder]);
 
+    // Show alert for token expired
+    useEffect(() => {
+        if (!isExpired) return;
+
+        Swal.fire({
+            title: "Session Expired",
+            icon: "warning",
+            text: "Your session has expired. Do you want to login again?",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Login Again",
+            denyButtonText: "No, Log out",
+            allowOutsideClick: false, // ✅ prevent closing on outside click
+            allowEscapeKey: false, // ✅ prevent closing on ESC key
+            customClass: { container: "swal-z-index" },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // open login modal
+                dispatch(logout());
+                dispatch(openAuthModal());
+            } else if (result.isDenied) {
+                // logout
+                dispatch(logout());
+            }
+        });
+    }, [isExpired]);
+    console.log(isExpired, "193");
     return (
         <section className=''>
             {/* Top Navigation */}

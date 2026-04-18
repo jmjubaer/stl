@@ -16,8 +16,8 @@ import {
     deleteBookmark,
     togglePinBookmark,
 } from "@/src/services/BookmarkServices";
-import { useAppSelector } from "@/src/redux/hook";
-import { selectToken } from "@/src/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
+import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 type TProps = {
     layout: "grid" | "list";
     columns: number;
@@ -41,7 +41,7 @@ const BookmarkCard = ({
     setSelectEditBookmark,
 }: TProps) => {
     const token = useAppSelector(selectToken);
-
+    const dispatch = useAppDispatch();
     const [isCopied, setIsCopied] = useState(false);
     const handleSelectLink = (e: any) => {
         if (selectBookmark && setSelectBookmark) {
@@ -98,11 +98,15 @@ const BookmarkCard = ({
                         );
                         setRefetchBookmark((prev) => prev + 1);
                     } else {
-                        ShowAlert(
-                            "Error",
-                            "error",
-                            res.message || "Failed to delete bookmark",
-                        );
+                        if (res.message === "Token has expired") {
+                            dispatch(setIsExpired());
+                        } else {
+                            ShowAlert(
+                                "Error",
+                                "error",
+                                res.message || "Failed to delete bookmark",
+                            );
+                        }
                     }
                 } catch (error) {
                     ShowAlert(
@@ -140,11 +144,14 @@ const BookmarkCard = ({
                         );
                         setRefetchBookmark((prev) => prev + 1);
                     } else {
+                        if (res.message === "Token has expired") {
+                            dispatch(setIsExpired());
+                        }else{
                         ShowAlert(
                             "Error",
                             "error",
                             res.message || "Failed to unpin bookmark",
-                        );
+                        );}
                     }
                 } catch (error) {
                     ShowAlert(
@@ -234,7 +241,7 @@ const BookmarkCard = ({
                         </div>
                         <div className='flex items-center gap-2 e-fit text-black'>
                             <button
-                            onClick={() => setSelectEditBookmark(data)}
+                                onClick={() => setSelectEditBookmark(data)}
                                 className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
                                 <FaPenAlt
                                     className={`inline ${layout === "list" ? "" : "sm:text-xl"}`}
