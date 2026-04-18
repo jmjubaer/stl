@@ -6,10 +6,10 @@ import FolderDropdown from "./FolderDropdown";
 import { FaTimes } from "react-icons/fa";
 import { TFolder, TLinkMetaInfo, TSelectedFolder, TTag } from "@/src/types";
 import { TiPlus } from "react-icons/ti";
-import AddTagForm from "./AddTagForm";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import {
     closeBookmarkModal,
+    openTagModal,
     selectOpenBookmarkModal,
     selectSelectedFolder,
 } from "@/src/redux/features/modal/modalSlice";
@@ -320,7 +320,7 @@ const AddBookmarkForm = ({
                             <div
                                 className={`pt-3 flex flex-wrap items-center gap-2 container`}>
                                 <button
-                                    onClick={() => setIsOpenTagModal(true)}
+                                    onClick={() => dispatch(openTagModal())}
                                     type='button'
                                     style={{
                                         backgroundColor: "#1A8CFF" + "20",
@@ -375,11 +375,6 @@ const AddBookmarkForm = ({
                     </form>
                 </div>
 
-                <AddTagForm
-                    setRefetchTags={setRefetchTags}
-                    isOpenTagModal={isOpenTagModal}
-                    setIsOpenTagModal={setIsOpenTagModal}
-                />
             </Modal>
         </>
     );

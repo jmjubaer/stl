@@ -54,3 +54,7 @@ body {
 .swal-z-index {
     z-index: 99999 !important; /* higher than antd modal (1000) */
 }
+
+.tag-modal{
+     z-index: 99999 !important;
+}

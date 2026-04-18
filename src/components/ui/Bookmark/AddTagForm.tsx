@@ -5,23 +5,21 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import ShowAlert from "@/src/utils/ShowAlert";
 import Swal from "sweetalert2";
 import { createTags } from "@/src/services/TagServices";
-import { useAppSelector } from "@/src/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { selectToken } from "@/src/redux/features/auth/authSlice";
+import {
+    closeTagModal,
+    selectOpenTagModal,
+} from "@/src/redux/features/modal/modalSlice";
 
 type TInputs = {
     tagName: string;
 };
-type TProps = {
-    isOpenTagModal: boolean;
-    setIsOpenTagModal: React.Dispatch<React.SetStateAction<boolean>>;
-    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
-};
-const AddTagForm = ({
-    isOpenTagModal,
-    setIsOpenTagModal,
-    setRefetchTags,
-}: TProps) => {
+
+const AddTagForm = () => {
     const token = useAppSelector(selectToken);
+    const dispatch = useAppDispatch();
+    const isOpenTagModal = useAppSelector(selectOpenTagModal);
     const [color, setColor] = useState<string>("");
     const {
         reset,
@@ -30,9 +28,13 @@ const AddTagForm = ({
         formState: { errors },
     } = useForm<TInputs>();
     const handleCreateTag: SubmitHandler<TInputs> = async (data) => {
-        setIsOpenTagModal(false);
         try {
-            Swal.showLoading();
+            Swal.fire({
+                title: "Tag Creating...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
             const res = await createTags(token as string, {
                 name: data.tagName,
                 color,
@@ -41,9 +43,13 @@ const AddTagForm = ({
                 ShowAlert("Success", "success", "Tag created successfully");
                 reset();
                 setColor("");
-                setRefetchTags((prev) => prev + 1);
+                dispatch(closeTagModal());
             } else {
-              
+                ShowAlert(
+                    "Error",
+                    "error",
+                    res.message || "Failed to create tag",
+                );
             }
         } catch (error) {
             ShowAlert(
@@ -57,7 +63,7 @@ const AddTagForm = ({
     };
 
     const handleCancel = () => {
-        setIsOpenTagModal(false);
+        dispatch(closeTagModal());
         reset();
     };
 
@@ -67,7 +73,7 @@ const AddTagForm = ({
                 open={isOpenTagModal}
                 onCancel={handleCancel}
                 footer={false}
-                className='modal'>
+                className=''>
                 <div className='text-base'>
                     <h2 className='text-2xl font-bold mb-4 text-center'>
                         {" "}

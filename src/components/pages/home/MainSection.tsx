@@ -20,9 +20,12 @@ import { Spin } from "antd";
 import { getTags } from "@/src/services/TagServices";
 import { getFolder } from "@/src/services/FolderServices";
 import EditBookmarkModal from "../../ui/Bookmark/EditBookmarkModal";
+import { selectRefreshTagList } from "@/src/redux/features/modal/modalSlice";
+import AddTagForm from "../../ui/Bookmark/AddTagForm";
 const MainSection = () => {
     // auth token from redux
     const token = useAppSelector(selectToken);
+    const refreshTagList = useAppSelector(selectRefreshTagList);
 
     // loading mange state
     const [isPending, startTransition] = useTransition();
@@ -116,7 +119,7 @@ const MainSection = () => {
                 setTagList([]);
             }
         });
-    }, [token, refetchTags]);
+    }, [token, refetchTags, refreshTagList]);
 
     // fetch folder list for move to folder option
     useEffect(() => {
@@ -265,21 +268,21 @@ const MainSection = () => {
                             }`}>
                             {/* card */}
 
-                                {displayData?.pinnedBookmarks?.map((bookmark) => (
-                                    <BookmarkCard
-                                        key={bookmark._id}
-                                        columns={columns}
-                                        layout={layout}
-                                        selectBookmark={selectBookmark}
-                                        setSelectBookmark={setSelectBookmark}
-                                        setRefetchBookmark={setRefetchBookmark}
-                                        setSelectEditBookmark={
-                                            setSelectEditBookmark
-                                        }
-                                        data={bookmark}
-                                        isPinned
-                                    />
-                                ))}
+                            {displayData?.pinnedBookmarks?.map((bookmark) => (
+                                <BookmarkCard
+                                    key={bookmark._id}
+                                    columns={columns}
+                                    layout={layout}
+                                    selectBookmark={selectBookmark}
+                                    setSelectBookmark={setSelectBookmark}
+                                    setRefetchBookmark={setRefetchBookmark}
+                                    setSelectEditBookmark={
+                                        setSelectEditBookmark
+                                    }
+                                    data={bookmark}
+                                    isPinned
+                                />
+                            ))}
                         </div>
                     </div>
                 )}{" "}
@@ -377,6 +380,8 @@ const MainSection = () => {
                     setSelectEditBookmark={setSelectEditBookmark}
                 />
             )}
+
+        
         </section>
     );
 };

@@ -1,4 +1,5 @@
 import { selectToken, selectUser } from "@/src/redux/features/auth/authSlice";
+import { selectRefreshTagList } from "@/src/redux/features/modal/modalSlice";
 import { useAppSelector } from "@/src/redux/hook";
 import { getTags } from "@/src/services/TagServices";
 import { TTag } from "@/src/types";
@@ -24,10 +25,12 @@ const ProfileModal = ({
     const [tagList, setTagList] = useState<TTag[]>([]);
     const user = useAppSelector(selectUser);
     const token = useAppSelector(selectToken);
+    const refreshTagList = useAppSelector(selectRefreshTagList);
     const handleCancel = () => {
         setIsOpenProfileModal(false);
     };
-    // fetch folder list for move to folder option
+
+    // fetch tag list for move to folder option
     useEffect(() => {
         startTransition(async () => {
             if (token) {
@@ -40,7 +43,7 @@ const ProfileModal = ({
                 setTagList([]);
             }
         });
-    }, [token]);
+    }, [token, refreshTagList]);
     return (
         <div>
             <Modal
@@ -81,7 +84,9 @@ const ProfileModal = ({
                     <div className='border border-text/30 rounded-xl p-3 flex items-center gap-2 cursor-pointer'>
                         <FiFilter className='text-2xl' />
                         <div className=''>
-                            <h3 className='text-sm text-text/60'>Use Tags :</h3>
+                            <h3 className='text-sm text-text/60'>
+                                Uses Tags :
+                            </h3>
                             <div
                                 className={`pt-1 flex flex-wrap items-center gap-2`}>
                                 <button

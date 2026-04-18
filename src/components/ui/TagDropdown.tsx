@@ -3,8 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 import { GoPlus } from "react-icons/go";
-import AddTagForm from "./Bookmark/AddTagForm";
 import { Spin } from "antd";
+import { useAppDispatch } from "@/src/redux/hook";
+import { openTagModal } from "@/src/redux/features/modal/modalSlice";
 type TagDropdownProps = {
     tag: TTag[];
     setTag: React.Dispatch<React.SetStateAction<TTag[]>>;
@@ -20,6 +21,7 @@ const TagDropdown = ({
     tagList,
 }: TagDropdownProps) => {
     const [isOpenTagModal, setIsOpenTagModal] = useState(false);
+    const dispatch = useAppDispatch();
     const [openTag, setOpenTag] = useState(false);
     const tagRef = useRef<HTMLDivElement>(null);
     const handleToggleTag = (tag: TTag) => {
@@ -97,7 +99,7 @@ const TagDropdown = ({
                     {/* Add tag */}
                     <div className='p-1 px-1.5 border-t border-text/20'>
                         <button
-                            onClick={() => setIsOpenTagModal(true)}
+                            onClick={() => dispatch(openTagModal())}
                             className='px-3 py-1 rounded-xl text-sm hover:bg-primary hover:text-white cursor-pointer flex items-center gap-3 w-full'>
                             <GoPlus className='text-2xl' />
                             Add Tag
@@ -105,11 +107,7 @@ const TagDropdown = ({
                     </div>
                 </ul>
             }
-            <AddTagForm
-                setRefetchTags={setRefetchTags}
-                isOpenTagModal={isOpenTagModal}
-                setIsOpenTagModal={setIsOpenTagModal}
-            />
+
         </div>
     );
 };

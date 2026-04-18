@@ -3,25 +3,18 @@ import { Modal, Spin, Switch } from "antd";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import FolderDropdown from "./FolderDropdown";
 import { FaTimes } from "react-icons/fa";
-import {
-    TBookmark,
-    TFolder,
-    TLinkMetaInfo,
-    TTag,
-} from "@/src/types";
+import { TBookmark, TFolder, TLinkMetaInfo, TTag } from "@/src/types";
 import { TiPlus } from "react-icons/ti";
-import AddTagForm from "./AddTagForm";
-import { useAppSelector } from "@/src/redux/hook";
-import {
-    linkPreview,
-    updateBookmark,
-} from "@/src/services/BookmarkServices";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
+import { linkPreview, updateBookmark } from "@/src/services/BookmarkServices";
 import Image from "next/image";
 import placeHolderImage from "@/src/assets/placeholder.png";
 import ShowAlert from "@/src/utils/ShowAlert";
 import { selectToken } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { LuPin } from "react-icons/lu";
+import { openTagModal } from "@/src/redux/features/modal/modalSlice";
+import AddTagForm from "./AddTagForm";
 type TInputs = {
     title: string;
     url: string;
@@ -48,7 +41,7 @@ const EditBookmarkModal = ({
     selectEditBookmark,
 }: TProps) => {
     const token = useAppSelector(selectToken);
-
+    const dispatch = useAppDispatch();
     const [isPreviewPending, startPreviewTransition] = useTransition();
 
     const [isPinned, setIsPinned] = useState<boolean>(false);
@@ -140,7 +133,7 @@ const EditBookmarkModal = ({
                     "success",
                     "Bookmark updated successfully",
                 );
-                handleCancel()
+                handleCancel();
                 reset();
                 setSelectTag([]);
                 setSelectFolder({ name: "No Folder", id: "" });
@@ -322,7 +315,7 @@ const EditBookmarkModal = ({
                                 id='isPinned'
                                 defaultChecked={selectEditBookmark.isPinned}
                                 onChange={(e) => setIsPinned(e)}
-                                className="z-0"
+                                className='z-0'
                             />
                         </div>
 
@@ -334,7 +327,7 @@ const EditBookmarkModal = ({
                             <div
                                 className={`pt-3 flex flex-wrap items-center gap-2 container`}>
                                 <button
-                                    onClick={() => setIsOpenTagModal(true)}
+                                    onClick={() => dispatch(openTagModal())}
                                     type='button'
                                     style={{
                                         backgroundColor: "#1A8CFF" + "20",
@@ -388,12 +381,7 @@ const EditBookmarkModal = ({
                         </div>
                     </form>
                 </div>
-
-                <AddTagForm
-                    setRefetchTags={setRefetchTags}
-                    isOpenTagModal={isOpenTagModal}
-                    setIsOpenTagModal={setIsOpenTagModal}
-                />
+                <AddTagForm />
             </Modal>
         </>
     );

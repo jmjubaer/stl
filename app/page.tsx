@@ -1,10 +1,13 @@
-import HomePage from "@/src/components/pages/home/Home";
-import React from "react";
+import MainSection from "@/src/components/pages/home/MainSection";
+import AddTagForm from "@/src/components/ui/Bookmark/AddTagForm";
 
 const MainPage = () => {
     return (
         <>
-            <HomePage />
+            <MainSection />
+
+            {/* Common Modal */}
+            <AddTagForm />
         </>
     );
 };
