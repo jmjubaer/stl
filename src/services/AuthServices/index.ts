@@ -1,9 +1,9 @@
 "use server";
+import config from "@/src/config";
 import { TLogin, TRegister } from "@/src/types";
-const baseUrl = process.env.NEXT_PUBLIC_BASE_API;
 export const registerUser = async (userData: TRegister) => {
     try {
-        const response = await fetch(`${baseUrl}/user/create`, {
+        const response = await fetch(`${config.BASE_API}/user/create`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export const registerUser = async (userData: TRegister) => {
 
 export const loginUser = async (userData: TLogin) => {
     try {
-        const response = await fetch(`${baseUrl}/auth/login`, {
+        const response = await fetch(`${config.BASE_API}/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const loginUser = async (userData: TLogin) => {
 };
 export const getMe = async (token: TLogin) => {
     try {
-        const response = await fetch(`${baseUrl}/user/me`, {
+        const response = await fetch(`${config.BASE_API}/user/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const getMe = async (token: TLogin) => {
 
 export const sentEmail = async (email: string) => {
     try {
-        const response = await fetch(`${baseUrl}/auth/send-otp`, {
+        const response = await fetch(`${config.BASE_API}/auth/send-otp`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export const sentEmail = async (email: string) => {
 
 export const verifyOtp = async (payload: { email: string; otp: number }) => {
     try {
-        const response = await fetch(`${baseUrl}/auth/verify-otp`, {
+        const response = await fetch(`${config.BASE_API}/auth/verify-otp`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -108,7 +108,7 @@ export const resetPassword = async (payload: {
     newPassword: string;
 }) => {
     try {
-        const response = await fetch(`${baseUrl}/auth/reset-password`, {
+        const response = await fetch(`${config.BASE_API}/auth/reset-password`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

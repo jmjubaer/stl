@@ -1,5 +1,6 @@
 "use server";
 
+import config from "@/src/config";
 import { TBookmarkPayload } from "@/src/types";
 import { revalidateTag } from "next/cache";
 
@@ -20,8 +21,8 @@ export const getBookmarks = async (
         }
         const queryString = params.toString();
         const url = queryString
-            ? `${process.env.NEXT_PUBLIC_BASE_API}/bookmark?${queryString}`
-            : `${process.env.NEXT_PUBLIC_BASE_API}/bookmark`;
+            ? `${config.BASE_API}/bookmark?${queryString}`
+            : `${config.BASE_API}/bookmark`;
         const response = await fetch(url, {
             method: "GET",
             headers: {
@@ -46,7 +47,7 @@ export const createBookmark = async (
 ) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/create`,
+            `${config.BASE_API}/bookmark/create`,
             {
                 method: "POST",
                 headers: {
@@ -71,7 +72,7 @@ export const updateBookmark = async (
 ) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/${bookmarkId}`,
+            `${config.BASE_API}/bookmark/${bookmarkId}`,
             {
                 method: "PUT",
                 headers: {
@@ -95,7 +96,7 @@ export const AddToFolder = async (
 ) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/add-to-folder`,
+            `${config.BASE_API}/bookmark/add-to-folder`,
             {
                 method: "PATCH",
                 headers: {
@@ -116,7 +117,7 @@ export const AddToFolder = async (
 export const deleteBookmark = async (token: string, bookmarkId: string) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/${bookmarkId}`,
+            `${config.BASE_API}/bookmark/${bookmarkId}`,
             {
                 method: "DELETE",
                 headers: {
@@ -139,7 +140,7 @@ export const togglePinBookmark = async (
 ) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/pin`,
+            `${config.BASE_API}/bookmark/pin`,
             {
                 method: "PATCH",
                 headers: {
@@ -160,7 +161,7 @@ export const togglePinBookmark = async (
 export const linkPreview = async (url: string) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/bookmark/link-preview?url= ${url}`,
+            `${config.BASE_API}/bookmark/link-preview?url= ${url}`,
             {
                 method: "GET",
                 headers: {

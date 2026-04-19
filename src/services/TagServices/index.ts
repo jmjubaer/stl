@@ -1,11 +1,12 @@
 "use server";
 
+import config from "@/src/config";
 import { revalidateTag } from "next/cache";
 
 export const getTags = async (token: string) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/tag`,
+            `${config.BASE_API}/tag`,
             {
                 method: "GET",
                 headers: {
@@ -30,7 +31,7 @@ export const createTags = async (
 ) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/tag/create`,
+            `${config.BASE_API}/tag/create`,
             {
                 method: "POST",
                 headers: {

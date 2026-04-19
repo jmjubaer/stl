@@ -1,11 +1,12 @@
 "use server";
 
+import config from "@/src/config";
 import { revalidateTag } from "next/cache";
 
 export const getFolder = async (token: string) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/folder`,
+            `${config.BASE_API}/folder`,
             {
                 method: "GET",
                 headers: {
@@ -30,7 +31,7 @@ export const createFolder = async (
 ) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/folder/create`,
+            `${config.BASE_API}/folder/create`,
             {
                 method: "POST",
                 headers: {
@@ -53,7 +54,7 @@ export const createFolder = async (
 export const deleteFolder = async (token: string, folderId: string) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/folder/${folderId}`,
+            `${config.BASE_API}/folder/${folderId}`,
             {
                 method: "DELETE",
                 headers: {
@@ -79,7 +80,7 @@ export const renameFolder = async (
 ) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/folder/${folderId}`,
+            `${config.BASE_API}/folder/${folderId}`,
             {
                 method: "PATCH",
                 headers: {
@@ -102,7 +103,7 @@ export const renameFolder = async (
 export const getShareFolder = async (id: string) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/folder/share/${id}`,
+            `${config.BASE_API}/folder/share/${id}`,
             {
                 method: "GET",
                 headers: {
