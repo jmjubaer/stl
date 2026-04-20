@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import { FaPenAlt, FaTrashAlt } from "react-icons/fa";
-import { FaCheck, FaRegCopy } from "react-icons/fa6";
 import PhImage from "@/src/assets/bookmark-placeholder.png";
 import { TBookmark } from "@/src/types";
 import { MdUpdate } from "react-icons/md";
 import { RiMenuAddLine } from "react-icons/ri";
 import { LuExternalLink } from "react-icons/lu";
-import { CiGlobe, CiShare2 } from "react-icons/ci";
+import { CiGlobe } from "react-icons/ci";
 import pin from "@/src/assets/pin.png";
 import { useState } from "react";
 import Swal from "sweetalert2";

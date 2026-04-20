@@ -95,7 +95,7 @@ const ShareModal = ({ isOpen, setIsOpen ,url,text }: TProps) => {
         <div>
             <Modal open={isOpen} onCancel={handleCancel} footer={false}>
                 <h2 className='text-center text-xl font-bold mb-6'>
-                    Share this folder
+                    Share this Link
                 </h2>
                 <div className='flex items-center justify-center sm:justify-around flex-wrap gap-6 mb-6 '>
                     {shareOptions.map((option) => (
