@@ -355,15 +355,12 @@ NODE_ENV=development
 ### Query Parameters (Bookmarks)
 
 | Param        | Type         | Description                                                |
-| ------------ | ------------ | ---------------------------------------------------------- | ---------------- | --- |
+| ------------ | ------------ | ---------------------------------------------------------- |
 | `searchTerm` | string       | Search by title, URL, description, tag name                |
 | `sort`       | string       | `-createdAt`, `createdAt`, `title`, `-title`, `-updatedAt` |
 | `tags`       | string       | Comma-separated tag IDs                                    |
 | `folder`     | string       | Folder ID                                                  |
 | `isPinned`   | boolean      | Filter pinned                                              |
- <!--         | `isFavorite` | boolean                                                    | Filter favorites | --> 
- <!--         | `page`       | number                                                     | Page number      | --> 
- <!--         | `limit`      | number                                                     | Items per page   | --> 
 
 ---
 
