@@ -25,7 +25,12 @@ const SingUpForm = () => {
     const dispatch = useAppDispatch();
     const handleSignUp: SubmitHandler<TInputs> = async (data) => {
         try {
-            Swal.showLoading();
+            Swal.fire({
+                title: "User Registering...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
             const res = await registerUser(data);
             if (res.success) {
                 ShowAlert("Success", "success", "User registered successfully");

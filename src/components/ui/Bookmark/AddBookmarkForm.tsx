@@ -93,7 +93,12 @@ const AddBookmarkForm = ({
     };
     const handleCreateBookmark: SubmitHandler<TInputs> = async (data) => {
         try {
-            Swal.showLoading();
+            Swal.fire({
+                title: "Creating Bookmark...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
 
             const bookmarkData = {
                 url: data.url,

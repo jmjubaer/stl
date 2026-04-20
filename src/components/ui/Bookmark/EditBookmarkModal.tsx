@@ -99,7 +99,12 @@ const EditBookmarkModal = ({
     };
     const handleEditBookmark: SubmitHandler<TInputs> = async (data) => {
         try {
-            Swal.showLoading();
+            Swal.fire({
+                title: "Updating Bookmark...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
 
             const bookmarkData = {
                 url: data.url,
@@ -138,8 +143,7 @@ const EditBookmarkModal = ({
             } else {
                 if (res.message === "Token has expired") {
                     dispatch(setIsExpired());
-                }else
-                {
+                } else {
                     ShowAlert(
                         "Error",
                         "error",

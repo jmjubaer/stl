@@ -58,7 +58,12 @@ const SelectBookmarkControl = ({
 
     const handleMoveToFolder = async (folderId: string) => {
         try {
-            Swal.showLoading();
+            Swal.fire({
+                title: "Moving Bookmark...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
             const res = await AddToFolder(token as string, {
                 bookmarkIds: selectBookmark,
                 folderId,
@@ -86,7 +91,12 @@ const SelectBookmarkControl = ({
         }
     };
     const handlePinBookmark = async () => {
-        Swal.showLoading();
+        Swal.fire({
+            title: "Pinning Bookmark...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(),
+            customClass: { container: "swal-z-index" },
+        });
         try {
             const res = await togglePinBookmark(token as string, {
                 bookmarkIds: selectBookmark,

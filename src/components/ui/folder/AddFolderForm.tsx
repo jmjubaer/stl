@@ -32,7 +32,12 @@ const AddFolderForm = ({ setRefetchFolder, setRefetchBookmark }: TProps) => {
     const handleCreateFolder: SubmitHandler<TInputs> = async (data) => {
         console.log(data);
         try {
-            Swal.showLoading();
+            Swal.fire({
+                title: "Creating Folder...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
             const res = await createFolder(token as string, {
                 name: data.folderName,
             });

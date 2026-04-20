@@ -36,7 +36,12 @@ const RenameFolderForm = ({
     } = useForm<TInputs>();
     const handleRenameFolder: SubmitHandler<TInputs> = async (data) => {
         try {
-            Swal.showLoading();
+            Swal.fire({
+                title: "Renaming Folder...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
             const res = await renameFolder(token as string, folder._id, data);
             if (res.success) {
                 ShowAlert("Success", "success", "Folder rename successfully");

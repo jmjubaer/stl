@@ -25,7 +25,12 @@ const LoginForm = () => {
     const dispatch = useAppDispatch();
     const handleLogin: SubmitHandler<TInputs> = async (data) => {
         try {
-            Swal.showLoading();
+            Swal.fire({
+                title: "User Logging...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+                customClass: { container: "swal-z-index" },
+            });
             const res = await loginUser(data);
             if (res.success) {
                 ShowAlert("Success", "success", "User logged in successfully");
