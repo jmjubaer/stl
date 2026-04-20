@@ -27,7 +27,7 @@
 - Edit, delete, and organize bookmarks
 - Add personal notes to any bookmark
 - Copy bookmark URL with one click
-- Track visit count and last visited time
+  <!-- - Track visit count and last visited time -->
 
 ### 📁 Folder Organization
 
@@ -42,10 +42,10 @@
 - Toggle pin/unpin with one click
 - Pinned bookmarks appear separately for quick access
 
-### ❤️ Favorites
+<!-- ### ❤️ Favorites
 
 - Mark bookmarks as favorites
-- Filter to view only favorite bookmarks
+- Filter to view only favorite bookmarks -->
 
 ### 🏷️ Tag System
 
@@ -55,8 +55,8 @@
 
 ### 🔍 Search & Filter
 
+- Filter by tag with multiple at a time
 - Search bookmarks by title, URL, description, site name, or tag name
-- Filter by folder, tag, or favorite status
 - Sort by Newest First, Oldest First, Recently Updated, Title A–Z, Title Z–A
 
 ### 🔗 Link Preview
@@ -70,7 +70,7 @@
 - Register and login with email and password
 - JWT-based authentication with access and refresh tokens
 - Forgot password with OTP verification via email
-- Secure httpOnly cookie-based session management
+  <!-- - Secure httpOnly cookie-based session management -->
 
 ### 📤 Share
 
@@ -88,7 +88,7 @@
 - Responsive design for all screen sizes
 - Grid and list view toggle
 - Adjustable column layout (2, 3, or 4 columns)
-- Light mode interface
+- Toggle theme mode by light and dark interface
 - Smooth animations and transitions
 
 ---
@@ -107,12 +107,12 @@
 
 ```bash
 # Frontend
-git clone https://github.com/yourusername/stl-client.git
-cd stl-client
+git clone https://github.com/jmjubaer/stl.git
+cd stl
 npm install
 
 # Backend
-git clone https://github.com/yourusername/stl-server.git
+git clone https://github.com/jmjubaer/stl-server.git
 cd stl-server
 npm install
 ```
@@ -150,16 +150,16 @@ npm run dev
 
 ### 3. Organize with Folders
 
-- Click **+ New Folder** in the sidebar
+- Click ** + Create Folder ** in the **+** Button
 - Give your folder a name
-- Move bookmarks into folders from the bookmark menu (⋮)
+- Move bookmarks into folders by select bookmark
 - Click a folder to view only its bookmarks
 - Click **Home** to go back to all bookmarks
 
 ### 4. Use Tags
 
 - Click the **Tags** button to open the tag filter
-- Select up to 3 tags to filter bookmarks
+- Select up to multiple tags to filter bookmarks
 - Click **+ Add Tag** inside the tag panel to create a new tag with a custom color
 - Selected tags appear as badges above the bookmark list
 
@@ -171,7 +171,7 @@ npm run dev
 
 ### 6. Pin Bookmarks
 
-- Click the pin icon (📌) on any bookmark card
+- Pin a bookmark by update or when create
 - Pinned bookmarks appear at the top of your dashboard
 - Click again to unpin
 
@@ -235,20 +235,28 @@ npm run dev
 ### Frontend
 
 ```
+app/                      # Next.js App Router pages
+├── page
+
 src/
-├── app/                  # Next.js App Router pages
 ├── components/
+│   ├── pages/            # Home, Bookmark, Folder
+│   │   ├── Home/         # Root pages
+│   │   ├── Bookmark/     # Bookmark pages
+│   │   ├── Folder/       # Folder pages
+│   │   └── Authentication# Auth related pages
 │   ├── shared/           # Navbar, Footer
 │   └── ui/
 │       ├── Bookmark/     # Bookmark components
 │       ├── Folder/       # Folder components
-│       └── Auth/         # Login, Register, Reset Password
+│       └── Common File   # AddButton, NonUserCard, ThemeToggle
 ├── redux/
 │   ├── features/
 │   │   ├── auth/         # Auth slice
 │   │   └── modal/        # Modal slice
 │   └── store.ts
 ├── services/             # API service functions
+├── provider/             # Provider components
 ├── types/                # TypeScript interfaces
 └── utils/                # Helper functions
 ```
@@ -302,13 +310,15 @@ NODE_ENV=development
 
 ## 📡 API Documentation
 
+**Backend Link:** [https://github.com/jmjubaer/stl-server.git](https://github.com/jmjubaer/stl-server.git)
+
 ### Auth
 
 | Method | Endpoint                      | Description             |
 | ------ | ----------------------------- | ----------------------- |
-| POST   | `/api/v1/auth/register`       | Register new user       |
+| POST   | `/api/v1/user/create`         | Register new user       |
 | POST   | `/api/v1/auth/login`          | Login user              |
-| POST   | `/api/v1/auth/refresh-token`  | Refresh access token    |
+| POST   | `/api/v1/auth/access-token`   | Refresh access token    |
 | POST   | `/api/v1/auth/send-otp`       | Send reset OTP to email |
 | POST   | `/api/v1/auth/verify-otp`     | Verify OTP              |
 | PATCH  | `/api/v1/auth/reset-password` | Reset password          |
@@ -344,16 +354,16 @@ NODE_ENV=development
 
 ### Query Parameters (Bookmarks)
 
-| Param        | Type    | Description                                                |
-| ------------ | ------- | ---------------------------------------------------------- |
-| `searchTerm` | string  | Search by title, URL, description, tag name                |
-| `sort`       | string  | `-createdAt`, `createdAt`, `title`, `-title`, `-updatedAt` |
-| `tags`       | string  | Comma-separated tag IDs                                    |
-| `folder`     | string  | Folder ID                                                  |
-| `isFavorite` | boolean | Filter favorites                                           |
-| `isPinned`   | boolean | Filter pinned                                              |
-| `page`       | number  | Page number                                                |
-| `limit`      | number  | Items per page                                             |
+| Param        | Type         | Description                                                |
+| ------------ | ------------ | ---------------------------------------------------------- | ---------------- | --- |
+| `searchTerm` | string       | Search by title, URL, description, tag name                |
+| `sort`       | string       | `-createdAt`, `createdAt`, `title`, `-title`, `-updatedAt` |
+| `tags`       | string       | Comma-separated tag IDs                                    |
+| `folder`     | string       | Folder ID                                                  |
+| `isPinned`   | boolean      | Filter pinned                                              |
+| <!--         | `isFavorite` | boolean                                                    | Filter favorites | --> |
+| <!--         | `page`       | number                                                     | Page number      | --> |
+| <!--         | `limit`      | number                                                     | Items per page   | --> |
 
 ---
 
@@ -365,16 +375,16 @@ NODE_ENV=development
 4. Push to the branch: `git push origin feature/my-feature`
 5. Open a Pull Request
 
----
+<!-- ---
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. -->
 
 ---
 
 ## 👨‍💻 Author
 
-Built with ❤️ by the STL Team
+Built with ❤️ by the Md Jubaer Jm
 
-🌐 [save-the-link.vercel.app](https://save-the-link.vercel.app)
+🌐 [MD JUBAER](https://www.linkedin.com/in/jmjubaer/)
