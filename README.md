@@ -8,7 +8,7 @@
 
 ## 📖 Table of Contents
 
-- [Features](#features)
+- [Features](#-features)
 - [Getting Started](#getting-started)
 - [How to Use](#how-to-use)
 - [Technology Stack](#technology-stack)
@@ -361,9 +361,9 @@ NODE_ENV=development
 | `tags`       | string       | Comma-separated tag IDs                                    |
 | `folder`     | string       | Folder ID                                                  |
 | `isPinned`   | boolean      | Filter pinned                                              |
-| <!--         | `isFavorite` | boolean                                                    | Filter favorites | --> |
-| <!--         | `page`       | number                                                     | Page number      | --> |
-| <!--         | `limit`      | number                                                     | Items per page   | --> |
+ <!--         | `isFavorite` | boolean                                                    | Filter favorites | --> 
+ <!--         | `page`       | number                                                     | Page number      | --> 
+ <!--         | `limit`      | number                                                     | Items per page   | --> 
 
 ---
 
