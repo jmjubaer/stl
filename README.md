@@ -9,13 +9,13 @@
 ## 📖 Table of Contents
 
 - [Features](#-features)
-- [Getting Started](#getting-started)
-- [How to Use](#how-to-use)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Environment Variables](#environment-variables)
-- [API Documentation](#api-documentation)
-- [Contributing](#contributing)
+- [Getting Started](#-getting-started)
+- [How to Use](#-how-to-use)
+- [Technology Stack](#-technology-stack)
+- [Project Structure](#-project-structure)
+- [Environment Variables](#-environment-variables)
+- [API Documentation](#-api-documentation)
+- [Contributing](#-contributing)
 
 ---
 
