@@ -13,13 +13,13 @@ import {
 type TProps = {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    folderId: string;
+    url: string;
+    text: string;
 };
-const ShareFolderModal = ({ isOpen, setIsOpen, folderId }: TProps) => {
-    const url = `${process.env.NEXT_PUBLIC_CLIENT_API}/${folderId}`;
+const ShareModal = ({ isOpen, setIsOpen ,url,text }: TProps) => {
     const [isCopied, setIsCopied] = useState(false);
     const encodedUrl = encodeURIComponent(url);
-    const encodedText = encodeURIComponent(`Check out this bookmark Group`);
+    const encodedText = encodeURIComponent(text);
     const shareOptions = [
         {
             name: "Facebook",
@@ -134,4 +134,4 @@ const ShareFolderModal = ({ isOpen, setIsOpen, folderId }: TProps) => {
     );
 };
 
-export default ShareFolderModal;
+export default ShareModal;

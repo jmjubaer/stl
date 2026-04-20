@@ -11,7 +11,8 @@ import { IoIosShareAlt } from "react-icons/io";
 import { MdOutlineEdit } from "react-icons/md";
 import Swal from "sweetalert2";
 import RenameFolderForm from "./RenameFolder";
-import ShareFolderModal from "./ShareFolderModal";
+import ShareModal from "../ShareModal";
+import config from "@/src/config";
 
 type TProps = {
     data: TFolder;
@@ -25,7 +26,7 @@ const OptionDropdown = ({
     setRefetchFolder,
     data,
 }: TProps) => {
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
     const token = useAppSelector(selectToken);
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenRenameModal, setIsOpenRenameModal] = useState(false);
@@ -57,12 +58,13 @@ const OptionDropdown = ({
                     } else {
                         if (res.message === "Token has expired") {
                             dispatch(setIsExpired());
-                        }else{
-                        ShowAlert(
-                            "Error",
-                            "error",
-                            res.message || "Failed to delete folder",
-                        );}
+                        } else {
+                            ShowAlert(
+                                "Error",
+                                "error",
+                                res.message || "Failed to delete folder",
+                            );
+                        }
                     }
                 } catch (error) {
                     ShowAlert(
@@ -129,10 +131,12 @@ const OptionDropdown = ({
                 setRefetchBookmark={setRefetchBookmark}
                 setRefetchFolder={setRefetchFolder}
             />
-            <ShareFolderModal
+            <ShareModal
                 isOpen={isOpenShareModal}
                 setIsOpen={setIsOpenShareModal}
-                folderId={data._id}
+                url={`${config.CLIENT_API}/${data._id}`}
+                text="Check out this folder!"
+
             />
         </div>
     );

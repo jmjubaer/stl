@@ -7,7 +7,7 @@ import { TBookmark } from "@/src/types";
 import { MdUpdate } from "react-icons/md";
 import { RiMenuAddLine } from "react-icons/ri";
 import { LuExternalLink } from "react-icons/lu";
-import { CiGlobe } from "react-icons/ci";
+import { CiGlobe, CiShare2 } from "react-icons/ci";
 import pin from "@/src/assets/pin.png";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -18,6 +18,8 @@ import {
 } from "@/src/services/BookmarkServices";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
+import ShareModal from "../ShareModal";
+import { IoIosShareAlt } from "react-icons/io";
 type TProps = {
     layout: "grid" | "list";
     columns: number;
@@ -42,7 +44,8 @@ const BookmarkCard = ({
 }: TProps) => {
     const token = useAppSelector(selectToken);
     const dispatch = useAppDispatch();
-    const [isCopied, setIsCopied] = useState(false);
+    const [isOpenShareModal, setIsOpenShareModal] = useState(false);
+
     const handleSelectLink = (e: any) => {
         if (selectBookmark && setSelectBookmark) {
             if (e.target.checked) {
@@ -53,26 +56,6 @@ const BookmarkCard = ({
                 );
             }
         }
-    };
-    const handleCopy = async () => {
-        try {
-            // Try modern API first
-            await navigator.clipboard.writeText(data.url);
-        } catch {
-            // Fallback for old browsers
-            const textArea = document.createElement("textarea");
-            textArea.value = data.url;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textArea);
-        }
-
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000);
     };
     const handleOpenLink = () => {
         window.open(data.url, "_blank", "noopener,noreferrer");
@@ -146,12 +129,13 @@ const BookmarkCard = ({
                     } else {
                         if (res.message === "Token has expired") {
                             dispatch(setIsExpired());
-                        }else{
-                        ShowAlert(
-                            "Error",
-                            "error",
-                            res.message || "Failed to unpin bookmark",
-                        );}
+                        } else {
+                            ShowAlert(
+                                "Error",
+                                "error",
+                                res.message || "Failed to unpin bookmark",
+                            );
+                        }
                     }
                 } catch (error) {
                     ShowAlert(
@@ -222,20 +206,14 @@ const BookmarkCard = ({
                                 </span>
                             </button>{" "}
                             <button
-                                onClick={handleCopy}
-                                className={` py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-2 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
-                                {isCopied ? (
-                                    <FaCheck
-                                        className={`inline text-green-500 ${columns === 3 ? "" : "text-lg"}`}
-                                    />
-                                ) : (
-                                    <FaRegCopy
-                                        className={`inline ${columns === 3 ? "" : "text-lg"}`}
-                                    />
-                                )}
+                                onClick={() => setIsOpenShareModal(true)}
+                                className={`py-1.5 border border-text/20 rounded-full cursor-pointer hover:bg-primary hover:text-white flex items-center duration-500 gap-1 bg-white ${columns === 4 ? "px-1.5 lg:px-4" : columns === 3 ? "px-3" : "xs:px-4 px-1.5"}`}>
+                                <IoIosShareAlt
+                                    className={`inline  ${columns === 3 ? "text-lg sm:text-xl" : layout === "list" ? "text-lg" : "text-xl"}`}
+                                />{" "}
                                 <span
-                                    className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : columns === 3 ? "hidden lg:inline" : "md:inline hidden"}`}>
-                                    {isCopied ? "Copied" : "Copy"}
+                                    className={` text-sm ${layout === "list" || columns === 4 ? "hidden" : columns === 3 ? "hidden lg:inline" : "md:inline  hidden"}`}>
+                                    Share
                                 </span>
                             </button>{" "}
                         </div>
@@ -333,6 +311,12 @@ const BookmarkCard = ({
                         </h5>
                     </div>
                 </div>
+          `  <ShareModal
+                isOpen={isOpenShareModal}
+                setIsOpen={setIsOpenShareModal}
+                url={`${data.url}`}
+                text='Check out this bookmark!'
+            />`
             </div>
         </>
     );
