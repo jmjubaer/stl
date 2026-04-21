@@ -310,12 +310,12 @@ const BookmarkCard = ({
                         </h5>
                     </div>
                 </div>
-          `  <ShareModal
-                isOpen={isOpenShareModal}
-                setIsOpen={setIsOpenShareModal}
-                url={`${data.url}`}
-                text='Check out this bookmark!'
-            />`
+                <ShareModal
+                    isOpen={isOpenShareModal}
+                    setIsOpen={setIsOpenShareModal}
+                    url={`${data.url}`}
+                    text='Check out this bookmark!'
+                />
             </div>
         </>
     );

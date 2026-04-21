@@ -5,7 +5,7 @@ import MainProvider from "@/src/provider/MainProvider";
 // import { AntdThemeProvider } from "@/src/provider/ThemeProvider";
 
 // app/layout.tsx
-export const metadata = {
+export const metadata: Metadata = {
     title: "STL — Save The Link",
     description:
         "A smart bookmark manager to save, organize, and access your favorite links. Auto-fetch previews, organize with folders and tags, pin important links, and share collections.",
