@@ -186,7 +186,7 @@ const BookmarkCard = ({
                             alt={data.title}
                             width={1000}
                             height={200}
-                            className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-36 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-fit"}`}
+                            className={`group-hover:scale-110 transition-all duration-300 ${layout === "grid" && columns === 4 ? "lg:h-36 h-28" : columns === 3 ? "md:h-44 h-32" : layout === "grid" ? "md:h-56 h-40" : layout === "list" && columns === 2 ? "h-20 w-28" : "xs:h-24 h-20 w-40"}`}
                         />
                     </div>
                     {/* Floating button section */}
