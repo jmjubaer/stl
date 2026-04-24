@@ -73,6 +73,9 @@ export const metadata: Metadata = {
     alternates: {
         canonical: "https://save-the-link.vercel.app",
     },
+    verification: {
+        google: "google-site-verification=r0SjLJopHTkZuXCnM_EzVbL23Lxjfx21S35_-yQTU-k", // from Google Search Console
+    },
 };
 
 export default function RootLayout({
