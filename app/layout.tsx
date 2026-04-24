@@ -74,7 +74,7 @@ export const metadata: Metadata = {
         canonical: "https://save-the-link.vercel.app",
     },
     verification: {
-        google: "google-site-verification=r0SjLJopHTkZuXCnM_EzVbL23Lxjfx21S35_-yQTU-k", // from Google Search Console
+        google: "r0SjLJopHTkZuXCnM_EzVbL23Lxjfx21S35_-yQTU-k", // from Google Search Console
     },
 };
 
