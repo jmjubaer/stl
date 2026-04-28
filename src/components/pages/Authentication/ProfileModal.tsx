@@ -88,9 +88,9 @@ const ProfileModal = ({
                         <h4 className='font-medium'>{user?.email}</h4>
                     </div>{" "}
                 </div>
-                ;{/* Tags field*/}
+                {/* Tags field*/}
                 <Spin size='small' spinning={isPending}>
-                    <div className='border border-text/30 rounded-xl p-3 flex items-center gap-2 cursor-pointer'>
+                    <div className='border mt-5 border-text/30 rounded-xl p-3 flex items-center gap-2 cursor-pointer'>
                         <FiFilter className='text-2xl' />
                         <div className=''>
                             <h3 className='text-sm text-text/60'>
