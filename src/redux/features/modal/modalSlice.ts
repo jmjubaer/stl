@@ -46,7 +46,7 @@ const modalSlice = createSlice({
         },
         closeTagModal: (state) => {
             state.tagModalOpen = false;
-            state.refreshTagList = true;
+            state.refreshTagList = !state.refreshTagList;
         },
     },
 });

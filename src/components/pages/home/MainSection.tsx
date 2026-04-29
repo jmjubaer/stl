@@ -112,7 +112,7 @@ const MainSection = () => {
                 });
             }
         });
-    }, [token, searchText, sortby, tag, refetchBookmark]);
+    }, [token, searchText, sortby, tag, refetchBookmark,dispatch]);
 
     // filter data when select folder
     const displayData = useMemo(() => {
@@ -142,7 +142,7 @@ const MainSection = () => {
                 setTagList([]);
             }
         });
-    }, [token, refetchTags, refreshTagList]);
+    }, [token, refetchTags, refreshTagList,dispatch]);
 
     // fetch folder list for move to folder option
     useEffect(() => {
@@ -162,7 +162,7 @@ const MainSection = () => {
                 setFolderList([]);
             }
         });
-    }, [token, refetchFolder]);
+    }, [token, refetchFolder,dispatch]);
 
     // Show alert for token expired
     useEffect(() => {
@@ -189,7 +189,7 @@ const MainSection = () => {
                 dispatch(logout());
             }
         });
-    }, [isExpired]);
+    }, [isExpired,dispatch]);
     console.log(isExpired, "193");
     return (
         <section className=''>

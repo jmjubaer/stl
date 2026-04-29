@@ -277,7 +277,7 @@ const BookmarkCard = ({
                                                 tagItem.color + "20",
                                             color: tagItem.color,
                                         }}
-                                        className={`sm:p-1 p-0.5 text-xs font-bold px-2.5 sm:px-3 text-center rounded-full flex items-center gap-1 justify-center ${columns === 4 ? "w-full lg:w-fit" : columns === 1 ? "w-fit" : layout === "list" ? "w-fit" : "w-full sm:w-fit"}`}>
+                                        className={`sm:p-1 capitalize p-0.5 text-xs font-bold px-2.5 sm:px-3 text-center rounded-full flex items-center gap-1 justify-center ${columns === 4 ? "w-full lg:w-fit" : columns === 1 ? "w-fit" : layout === "list" ? "w-fit" : "w-full sm:w-fit"}`}>
                                         {tagItem.name}
                                     </span>
                                 ))
