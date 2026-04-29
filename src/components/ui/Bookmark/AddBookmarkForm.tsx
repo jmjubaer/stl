@@ -20,6 +20,7 @@ import ShowAlert from "@/src/utils/ShowAlert";
 import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { LuPin } from "react-icons/lu";
+import AddTagForm from "./AddTagForm";
 type TInputs = {
     title: string;
     url: string;
@@ -382,6 +383,7 @@ const AddBookmarkForm = ({
                     </form>
                 </div>
             </Modal>
+            <AddTagForm />
         </>
     );
 };
