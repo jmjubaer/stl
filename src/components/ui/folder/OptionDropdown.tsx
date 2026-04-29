@@ -13,16 +13,15 @@ import Swal from "sweetalert2";
 import RenameFolderForm from "./RenameFolder";
 import ShareModal from "../ShareModal";
 import config from "@/src/config";
+import { closeBookmarkModal } from "@/src/redux/features/modal/modalSlice";
 
 type TProps = {
     data: TFolder;
     columns: number;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
     setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
 };
 const OptionDropdown = ({
     columns,
-    setRefetchBookmark,
     setRefetchFolder,
     data,
 }: TProps) => {
@@ -53,8 +52,8 @@ const OptionDropdown = ({
                             "Folder deleted successfully",
                         );
                         setIsOpen(!isOpen);
-                        setRefetchBookmark((prev) => prev + 1);
                         setRefetchFolder((prev) => prev + 1);
+                        dispatch(closeBookmarkModal());
                     } else {
                         if (res.message === "Token has expired") {
                             dispatch(setIsExpired());
@@ -128,7 +127,6 @@ const OptionDropdown = ({
                 folder={data}
                 isOpen={isOpenRenameModal}
                 setIsOpen={setIsOpenRenameModal}
-                setRefetchBookmark={setRefetchBookmark}
                 setRefetchFolder={setRefetchFolder}
             />
             <ShareModal

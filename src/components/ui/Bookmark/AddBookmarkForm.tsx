@@ -31,14 +31,8 @@ type TInputs = {
 type TProps = {
     tagList: TTag[];
     folderList: TFolder[];
-    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
-const AddBookmarkForm = ({
-    setRefetchBookmark,
-    folderList,
-    tagList,
-}: TProps) => {
+const AddBookmarkForm = ({ folderList, tagList }: TProps) => {
     const token = useAppSelector(selectToken);
     const selectedFolder = useAppSelector(selectSelectedFolder);
     const dispatch = useAppDispatch();
@@ -130,7 +124,6 @@ const AddBookmarkForm = ({
                 setSelectTag([]);
                 setSelectFolder({ name: "No Folder", id: "" });
                 setLinkMetaInfo(null);
-                setRefetchBookmark((prev) => prev + 1);
             } else {
                 if (res.message === "Token has expired") {
                     dispatch(setIsExpired());

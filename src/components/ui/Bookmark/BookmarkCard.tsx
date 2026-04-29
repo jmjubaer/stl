@@ -19,12 +19,12 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import ShareModal from "../ShareModal";
 import { IoIosShareAlt } from "react-icons/io";
+import { closeBookmarkModal } from "@/src/redux/features/modal/modalSlice";
 type TProps = {
     layout: "grid" | "list";
     columns: number;
     selectBookmark?: string[];
     setSelectBookmark?: React.Dispatch<React.SetStateAction<string[]>>;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
     setSelectEditBookmark: React.Dispatch<
         React.SetStateAction<TBookmark | null>
     >;
@@ -38,7 +38,6 @@ const BookmarkCard = ({
     isPinned,
     selectBookmark,
     setSelectBookmark,
-    setRefetchBookmark,
     setSelectEditBookmark,
 }: TProps) => {
     const token = useAppSelector(selectToken);
@@ -78,7 +77,7 @@ const BookmarkCard = ({
                             "success",
                             "Bookmark deleted successfully",
                         );
-                        setRefetchBookmark((prev) => prev + 1);
+                        dispatch(closeBookmarkModal())
                     } else {
                         if (res.message === "Token has expired") {
                             dispatch(setIsExpired());
@@ -124,7 +123,7 @@ const BookmarkCard = ({
                             "success",
                             "Bookmark unpinned successfully",
                         );
-                        setRefetchBookmark((prev) => prev + 1);
+                        dispatch(closeBookmarkModal())
                     } else {
                         if (res.message === "Token has expired") {
                             dispatch(setIsExpired());

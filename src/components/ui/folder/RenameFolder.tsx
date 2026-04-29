@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { renameFolder } from "@/src/services/FolderServices";
 import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import { TFolder } from "@/src/types";
+import { closeBookmarkModal } from "@/src/redux/features/modal/modalSlice";
 
 type TInputs = {
     newName: string;
@@ -16,15 +17,13 @@ type TProps = {
     folder: TFolder;
     isOpen: boolean;
     setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const RenameFolderForm = ({
-    setRefetchFolder,
-    setRefetchBookmark,
     folder,
     isOpen,
     setIsOpen,
+    setRefetchFolder,
 }: TProps) => {
     const dispatch = useAppDispatch();
     const token = useAppSelector(selectToken);
@@ -46,7 +45,7 @@ const RenameFolderForm = ({
             if (res.success) {
                 ShowAlert("Success", "success", "Folder rename successfully");
                 setRefetchFolder((prev) => prev + 1);
-                setRefetchBookmark((prev) => prev + 1);
+                dispatch(closeBookmarkModal());
                 handleCancel();
             } else {
                 if (res.message === "Token has expired") {

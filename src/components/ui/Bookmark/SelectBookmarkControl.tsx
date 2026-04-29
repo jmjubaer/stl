@@ -8,7 +8,7 @@ import Image from "next/image";
 import { TFolder } from "@/src/types";
 import { RiFolderAddLine } from "react-icons/ri";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
-import { openFolderModal } from "@/src/redux/features/modal/modalSlice";
+import { closeBookmarkModal, openFolderModal } from "@/src/redux/features/modal/modalSlice";
 import ShowAlert from "@/src/utils/ShowAlert";
 import Swal from "sweetalert2";
 import {
@@ -23,14 +23,12 @@ type TProps = {
     folderList: TFolder[];
     selectBookmark: string[];
     setSelectBookmark: React.Dispatch<React.SetStateAction<string[]>>;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
 const SelectBookmarkControl = ({
     isPending,
     folderList,
     selectBookmark,
     setSelectBookmark,
-    setRefetchBookmark,
 }: TProps) => {
     const token = useAppSelector(selectToken);
     const [openFolderSelect, setOpenFolderSelect] = useState<boolean>(false);
@@ -72,7 +70,7 @@ const SelectBookmarkControl = ({
                 ShowAlert("Success", "success", "Move to folder successfully");
                 setOpenFolderSelect(false);
                 setSelectBookmark([]);
-                setRefetchBookmark((prev) => prev + 1);
+                dispatch(closeBookmarkModal())
             } else {
                 if (res.message === "Token has expired") {
                     dispatch(setIsExpired());
@@ -104,7 +102,7 @@ const SelectBookmarkControl = ({
             });
             if (res.success) {
                 ShowAlert("Success", "success", "Bookmark pinned successfully");
-                setRefetchBookmark((prev) => prev + 1);
+                dispatch(closeBookmarkModal())
                 setSelectBookmark([]);
             } else {
                 if (res.message === "Token has expired") {

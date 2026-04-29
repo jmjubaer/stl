@@ -64,9 +64,7 @@ const MainSection = () => {
         useState<TBookmark | null>(null);
 
     // refetch state to trigger useEffect
-    const [refetchBookmark, setRefetchBookmark] = useState(0);
     const [refetchFolder, setRefetchFolder] = useState(0);
-    const [refetchTags, setRefetchTags] = useState(0);
 
     // data state
     const [tagList, setTagList] = useState<TTag[]>([]);
@@ -114,7 +112,7 @@ const MainSection = () => {
                 });
             }
         });
-    }, [token, searchText, sortby, tag, refetchBookmark,dispatch,refreshBookmarkList]);
+    }, [token, searchText, sortby, tag, dispatch, refreshBookmarkList]);
 
     // filter data when select folder
     const displayData = useMemo(() => {
@@ -144,7 +142,7 @@ const MainSection = () => {
                 setTagList([]);
             }
         });
-    }, [token, refetchTags, refreshTagList,dispatch]);
+    }, [token, refreshTagList, dispatch]);
 
     // fetch folder list for move to folder option
     useEffect(() => {
@@ -164,7 +162,7 @@ const MainSection = () => {
                 setFolderList([]);
             }
         });
-    }, [token, refetchFolder,dispatch]);
+    }, [token, refetchFolder, dispatch]);
 
     // Show alert for token expired
     useEffect(() => {
@@ -191,7 +189,7 @@ const MainSection = () => {
                 dispatch(logout());
             }
         });
-    }, [isExpired,dispatch]);
+    }, [isExpired, dispatch]);
     console.log(isExpired, "193");
     return (
         <section className=''>
@@ -223,7 +221,6 @@ const MainSection = () => {
                             tagList={tagList}
                             tag={tag}
                             setTag={setTag}
-                            setRefetchTags={setRefetchTags}
                         />
                         {/* Sort by */}
                         <SortDropdown sortby={sortby} setSortby={setSortby} />
@@ -301,7 +298,6 @@ const MainSection = () => {
                                         setSelectedFolderName
                                     }
                                     setRefetchFolder={setRefetchFolder}
-                                    setRefetchBookmark={setRefetchBookmark}
                                 />
                             ))}
                         </div>
@@ -332,7 +328,6 @@ const MainSection = () => {
                                     layout={layout}
                                     selectBookmark={selectBookmark}
                                     setSelectBookmark={setSelectBookmark}
-                                    setRefetchBookmark={setRefetchBookmark}
                                     setSelectEditBookmark={
                                         setSelectEditBookmark
                                     }
@@ -369,7 +364,6 @@ const MainSection = () => {
                                         key={bookmark._id}
                                         columns={columns}
                                         layout={layout}
-                                        setRefetchBookmark={setRefetchBookmark}
                                         selectBookmark={selectBookmark}
                                         setSelectBookmark={setSelectBookmark}
                                         setSelectEditBookmark={
@@ -399,7 +393,6 @@ const MainSection = () => {
                     <EmptyFolder
                         selectedFolder={selectedFolder}
                         setSelectedFolder={setSelectedFolder}
-                        setRefetchBookmark={setRefetchBookmark}
                     />
                 ) : (
                     ""
@@ -412,18 +405,15 @@ const MainSection = () => {
                     folderList={folderList}
                     selectBookmark={selectBookmark}
                     setSelectBookmark={setSelectBookmark}
-                    setRefetchBookmark={setRefetchBookmark}
                 />
             </Spin>
             {/* Add button section */}
             <div className=''>
                 <AddButton
-                selectedFolder={selectedFolder}
+                    selectedFolder={selectedFolder}
                     folderList={folderList}
                     tagList={tagList}
-                    setRefetchTags={setRefetchTags}
                     setRefetchFolder={setRefetchFolder}
-                    setRefetchBookmark={setRefetchBookmark}
                 />
             </div>
 
@@ -433,8 +423,6 @@ const MainSection = () => {
                     selectEditBookmark={selectEditBookmark}
                     folderList={folderList}
                     tagList={tagList}
-                    setRefetchTags={setRefetchTags}
-                    setRefetchBookmark={setRefetchBookmark}
                     setSelectEditBookmark={setSelectEditBookmark}
                 />
             )}

@@ -1,7 +1,10 @@
 "use client";
 import logo from "@/src/assets/logo/logo.png";
 import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
-import { openBookmarkModal } from "@/src/redux/features/modal/modalSlice";
+import {
+    closeBookmarkModal,
+    openBookmarkModal,
+} from "@/src/redux/features/modal/modalSlice";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { deleteFolder } from "@/src/services/FolderServices";
 import ShowAlert from "@/src/utils/ShowAlert";
@@ -12,12 +15,10 @@ import Swal from "sweetalert2";
 type TProps = {
     selectedFolder: string;
     setSelectedFolder: React.Dispatch<React.SetStateAction<string>>;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
 const EmptyFolder = ({
     selectedFolder,
     setSelectedFolder,
-    setRefetchBookmark,
 }: TProps) => {
     const dispatch = useAppDispatch();
     const token = useAppSelector(selectToken);
@@ -43,17 +44,18 @@ const EmptyFolder = ({
                             "success",
                             "Folder deleted successfully",
                         );
-                        setRefetchBookmark((prev) => prev + 1);
+                        dispatch(closeBookmarkModal());
                         setSelectedFolder("");
                     } else {
                         if (res.message === "Token has expired") {
                             dispatch(setIsExpired());
-                        }else{
-                        ShowAlert(
-                            "Error",
-                            "error",
-                            res.message || "Failed to delete folder",
-                        );}
+                        } else {
+                            ShowAlert(
+                                "Error",
+                                "error",
+                                res.message || "Failed to delete folder",
+                            );
+                        }
                     }
                 } catch (error) {
                     ShowAlert(

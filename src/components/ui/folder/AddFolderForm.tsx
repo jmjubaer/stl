@@ -4,6 +4,7 @@ import { Modal } from "antd";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import {
+    closeBookmarkModal,
     closeFolderModal,
     selectOpenFolderModal,
 } from "@/src/redux/features/modal/modalSlice";
@@ -17,9 +18,8 @@ type TInputs = {
 };
 type TProps = {
     setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
 };
-const AddFolderForm = ({ setRefetchFolder, setRefetchBookmark }: TProps) => {
+const AddFolderForm = ({ setRefetchFolder }: TProps) => {
     const token = useAppSelector(selectToken);
     const dispatch = useAppDispatch();
     const isOpenFolderModal = useAppSelector(selectOpenFolderModal);
@@ -45,8 +45,8 @@ const AddFolderForm = ({ setRefetchFolder, setRefetchBookmark }: TProps) => {
                 ShowAlert("Success", "success", "Folder created successfully");
                 reset();
                 setRefetchFolder((prev) => prev + 1);
-                setRefetchBookmark((prev) => prev + 1);
                 dispatch(closeFolderModal());
+                dispatch(closeBookmarkModal());
             } else {
                 if (res.message === "Token has expired") {
                     dispatch(setIsExpired());

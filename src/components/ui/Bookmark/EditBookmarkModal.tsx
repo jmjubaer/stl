@@ -13,7 +13,7 @@ import ShowAlert from "@/src/utils/ShowAlert";
 import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { LuPin } from "react-icons/lu";
-import { openTagModal } from "@/src/redux/features/modal/modalSlice";
+import { closeBookmarkModal, openTagModal } from "@/src/redux/features/modal/modalSlice";
 import AddTagForm from "./AddTagForm";
 type TInputs = {
     title: string;
@@ -26,15 +26,12 @@ type TProps = {
     selectEditBookmark: TBookmark;
     tagList: TTag[];
     folderList: TFolder[];
-    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
     setSelectEditBookmark: React.Dispatch<
         React.SetStateAction<TBookmark | null>
     >;
 };
 const EditBookmarkModal = ({
     setSelectEditBookmark,
-    setRefetchBookmark,
     folderList,
     tagList,
     selectEditBookmark,
@@ -77,6 +74,7 @@ const EditBookmarkModal = ({
     const linkImage = useWatch({ control, name: "image" });
     const handleCancel = () => {
         setSelectEditBookmark(null);
+        dispatch(closeBookmarkModal());
     };
     const handleToggleTag = (tag: TTag) => {
         // Check if already selected OUTSIDE setState
@@ -139,7 +137,6 @@ const EditBookmarkModal = ({
                 reset();
                 setSelectTag([]);
                 setSelectFolder({ name: "No Folder", id: "" });
-                setRefetchBookmark((prev) => prev + 1);
             } else {
                 if (res.message === "Token has expired") {
                     dispatch(setIsExpired());

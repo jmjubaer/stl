@@ -16,16 +16,12 @@ type TProps = {
     folderList: TFolder[];
 selectedFolder: string
     setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
-    setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
-    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
 };
 const AddButton = ({
     tagList,
     folderList,
     selectedFolder,
-    setRefetchTags,
     setRefetchFolder,
-    setRefetchBookmark,
 }: TProps) => {
     const dispatch = useAppDispatch();
     const [isOpenOption, setIsOpenOption] = useState(false);
@@ -83,12 +79,9 @@ const AddButton = ({
             <AddBookmarkForm
                 folderList={folderList}
                 tagList={tagList}
-                setRefetchTags={setRefetchTags}
-                setRefetchBookmark={setRefetchBookmark}
             />
             <AddFolderForm
                 setRefetchFolder={setRefetchFolder}
-                setRefetchBookmark={setRefetchBookmark}
             />
         </div>
     );

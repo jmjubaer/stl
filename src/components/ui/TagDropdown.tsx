@@ -9,7 +9,6 @@ import { openTagModal } from "@/src/redux/features/modal/modalSlice";
 type TagDropdownProps = {
     tag: TTag[];
     setTag: React.Dispatch<React.SetStateAction<TTag[]>>;
-    setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
     isPending: boolean;
     tagList: TTag[];
 };
