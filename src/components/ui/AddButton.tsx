@@ -14,7 +14,7 @@ import { TFolder } from "@/src/types";
 type TProps = {
     tagList: TTag[];
     folderList: TFolder[];
-
+selectedFolder: string
     setRefetchFolder: React.Dispatch<React.SetStateAction<number>>;
     setRefetchBookmark: React.Dispatch<React.SetStateAction<number>>;
     setRefetchTags: React.Dispatch<React.SetStateAction<number>>;
@@ -22,6 +22,7 @@ type TProps = {
 const AddButton = ({
     tagList,
     folderList,
+    selectedFolder,
     setRefetchTags,
     setRefetchFolder,
     setRefetchBookmark,
@@ -30,7 +31,7 @@ const AddButton = ({
     const [isOpenOption, setIsOpenOption] = useState(false);
 
     const handleOpenLinkModal = () => {
-        dispatch(openBookmarkModal());
+        dispatch(openBookmarkModal(selectedFolder));
         setIsOpenOption(false);
     };
     const handleOpenFolderModal = () => {

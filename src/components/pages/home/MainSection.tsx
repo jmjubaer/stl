@@ -416,6 +416,7 @@ const MainSection = () => {
             {/* Add button section */}
             <div className=''>
                 <AddButton
+                selectedFolder={selectedFolder}
                     folderList={folderList}
                     tagList={tagList}
                     setRefetchTags={setRefetchTags}
