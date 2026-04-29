@@ -7,6 +7,7 @@ const initialState = {
     tagModalOpen: false,
     selectedFolder: "",
     refreshTagList: false,
+    refreshBookmarkList: false,
 };
 const modalSlice = createSlice({
     name: "modal",
@@ -32,6 +33,7 @@ const modalSlice = createSlice({
         closeBookmarkModal: (state) => {
             state.bookmarkModalOpen = false;
             state.selectedFolder = "";
+            state.refreshBookmarkList = !state.refreshBookmarkList;
         },
         // Folder modal
         openFolderModal: (state) => {
@@ -73,5 +75,7 @@ export const selectSelectedFolder = (state: RootState) =>
     state.modal.selectedFolder;
 export const selectRefreshTagList = (state: RootState) =>
     state.modal.refreshTagList;
+export const selectRefreshBookmarkList = (state: RootState) =>
+    state.modal.refreshBookmarkList;
 
 export default modalSlice.reducer;

@@ -1,11 +1,18 @@
-import { selectToken, selectUser, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import {
+    selectToken,
+    selectUser,
+    setIsExpired,
+} from "@/src/redux/features/auth/authSlice";
+import {
+    closeBookmarkModal,
+    closeTagModal,
     openTagModal,
     selectRefreshTagList,
 } from "@/src/redux/features/modal/modalSlice";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
-import { getTags } from "@/src/services/TagServices";
+import { deleteTags, getTags } from "@/src/services/TagServices";
 import { TTag } from "@/src/types";
+import ShowAlert from "@/src/utils/ShowAlert";
 import { Modal, Spin } from "antd";
 import React, {
     SetStateAction,
@@ -13,9 +20,11 @@ import React, {
     useState,
     useTransition,
 } from "react";
+import { FaTimes } from "react-icons/fa";
 import { FaRegEnvelope, FaRegUser } from "react-icons/fa6";
 import { FiFilter } from "react-icons/fi";
 import { TiPlus } from "react-icons/ti";
+import Swal from "sweetalert2";
 type TProps = {
     isOpenProfileModal: boolean;
     setIsOpenProfileModal: React.Dispatch<SetStateAction<boolean>>;
@@ -33,7 +42,50 @@ const ProfileModal = ({
     const handleCancel = () => {
         setIsOpenProfileModal(false);
     };
-
+    const handleDeleteTag = (id: string) => {
+        Swal.fire({
+            title: "Warning",
+            text: "Are you want to delete this Tag?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Delete",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await deleteTags(token as string, id);
+                    if (res.success) {
+                        ShowAlert(
+                            "Tag deleted!",
+                            "success",
+                            "Tag deleted successfully",
+                        );
+                        dispatch(closeTagModal());
+                        dispatch(closeBookmarkModal());
+                    } else {
+                        if (res.message === "Token has expired") {
+                            dispatch(setIsExpired());
+                        } else {
+                            ShowAlert(
+                                "Error",
+                                "error",
+                                res.message || "Failed to delete tag",
+                            );
+                        }
+                    }
+                } catch (error) {
+                    ShowAlert(
+                        "Error",
+                        "error",
+                        error instanceof Error
+                            ? error.message
+                            : "An unknown error occurred",
+                    );
+                }
+            }
+        });
+    };
     // fetch tag list for move to folder option
     useEffect(() => {
         startTransition(async () => {
@@ -52,7 +104,7 @@ const ProfileModal = ({
                 setTagList([]);
             }
         });
-    }, [token, refreshTagList]);
+    }, [token, refreshTagList, dispatch]);
     return (
         <div>
             <Modal
@@ -111,7 +163,6 @@ const ProfileModal = ({
                                 </button>
                                 {tagList.map((tagItem) => (
                                     <button
-                                        // onClick={() => handleToggleTag(tagItem)}
                                         type='button'
                                         key={tagItem.name}
                                         style={{
@@ -119,8 +170,15 @@ const ProfileModal = ({
                                                 tagItem.color + "20",
                                             color: tagItem.color,
                                         }}
-                                        className={`p-1 capitalize text-xs font-bold px-3 rounded-full cursor-pointer flex items-center gap-1}`}>
+                                        className={`p-1 capitalize text-xs font-bold px-3 rounded-full flex items-center gap-1}`}>
                                         {tagItem.name}
+                                        <span
+                                            onClick={() =>
+                                                handleDeleteTag(tagItem?._id)
+                                            }
+                                            className='cursor-pointer ml-1 text-red-500'>
+                                            <FaTimes />
+                                        </span>
                                     </button>
                                 ))}
                             </div>

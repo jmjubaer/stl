@@ -27,6 +27,7 @@ import { getFolder } from "@/src/services/FolderServices";
 import EditBookmarkModal from "../../ui/Bookmark/EditBookmarkModal";
 import {
     openAuthModal,
+    selectRefreshBookmarkList,
     selectRefreshTagList,
 } from "@/src/redux/features/modal/modalSlice";
 import Swal from "sweetalert2";
@@ -35,6 +36,7 @@ const MainSection = () => {
     const dispatch = useAppDispatch();
     const token = useAppSelector(selectToken);
     const refreshTagList = useAppSelector(selectRefreshTagList);
+    const refreshBookmarkList = useAppSelector(selectRefreshBookmarkList);
     const isExpired = useAppSelector(selectIsExpired);
 
     // loading mange state
@@ -112,7 +114,7 @@ const MainSection = () => {
                 });
             }
         });
-    }, [token, searchText, sortby, tag, refetchBookmark,dispatch]);
+    }, [token, searchText, sortby, tag, refetchBookmark,dispatch,refreshBookmarkList]);
 
     // filter data when select folder
     const displayData = useMemo(() => {
