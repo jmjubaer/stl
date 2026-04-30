@@ -13,7 +13,10 @@ import ShowAlert from "@/src/utils/ShowAlert";
 import { selectToken, setIsExpired } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { LuPin } from "react-icons/lu";
-import { closeBookmarkModal, openTagModal } from "@/src/redux/features/modal/modalSlice";
+import {
+    closeBookmarkModal,
+    openTagModal,
+} from "@/src/redux/features/modal/modalSlice";
 import AddTagForm from "./AddTagForm";
 type TInputs = {
     title: string;
@@ -40,7 +43,9 @@ const EditBookmarkModal = ({
     const dispatch = useAppDispatch();
     const [isPreviewPending, startPreviewTransition] = useTransition();
 
-    const [isPinned, setIsPinned] = useState<boolean>(false);
+    const [isPinned, setIsPinned] = useState<boolean>(
+        selectEditBookmark.isPinned,
+    );
     const [selectFolder, setSelectFolder] = useState(() =>
         selectEditBookmark.folder
             ? {
@@ -191,6 +196,7 @@ const EditBookmarkModal = ({
             }
         });
     }, [url, reset]);
+
     useEffect(() => {
         reset({ image: selectEditBookmark.image });
     }, [selectEditBookmark, reset]);
