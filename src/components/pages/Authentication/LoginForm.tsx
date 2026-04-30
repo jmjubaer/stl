@@ -71,7 +71,18 @@ const LoginForm = () => {
                 {/* Email */}
                 <div className='mt-3 '>
                     <label className='block mb-1 text-s font-medium text-text/80'>
-                        Email :
+                        Email :{" "}
+                        <button
+                            onClick={() =>
+                                reset({
+                                    email: "demo@account.com",
+                                    password: "demo@account",
+                                })
+                            }
+                            className='border text-white bg-primary rounded-xl px-5 py-1 cursor-pointer hover:text-white duration-300 text-sm'
+                            type='button' title="Demo account for trial.">
+                            Demo Account
+                        </button>
                     </label>
                     <div className='relative mt-2'>
                         <PiEnvelopeSimpleLight className='absolute left-3.5 bottom-2.5 text-text text-xl' />
