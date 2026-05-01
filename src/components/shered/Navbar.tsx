@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hook";
 import { logout, selectUser } from "@/src/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { openAuthModal } from "@/src/redux/features/modal/modalSlice";
+import FeedbackModal from "../ui/FeedbackModal";
 const Navbar = () => {
     // show error alert when token  expire
     const user = useAppSelector(selectUser);
@@ -83,46 +84,53 @@ const Navbar = () => {
                 <Link href='/'>
                     <Image src={logo} alt='Logo' className='w-24' />
                 </Link>
-                <div className='flex items-center gap-4'>
-                    <ThemeToggle />
-                    {user ? (
-                        <div className='relative' ref={userOptionRef}>
-                            <Avatar
-                                onClick={() =>
-                                    setIsOpenUserOption((prev) => !prev)
-                                }
-                                className='cursor-pointer'
-                                // style={{ backgroundColor: "#87d068" }}
-                                icon={<FaRegCircleUser className='text-4xl' />}
-                            />
-                            {isOpenUserOption && (
-                                <div
-                                    className={`bg-background absolute rounded-lg shadow-lg p-1 w-40 z-10 border border-text/30 top-10 right-0`}>
-                                    <button
-                                        onClick={() => {
-                                            setIsOpenProfileModal(
-                                                (prev) => !prev,
-                                            );
-                                            setIsOpenUserOption(false);
-                                        }}
-                                        className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
-                                        <FaUser className='text-xl' /> Profile
-                                    </button>{" "}
-                                    <button
-                                        onClick={handleLogout}
-                                        className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
-                                        <CiLogout className='text-xl' /> Log Out
-                                    </button>{" "}
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <button
-                            onClick={() => dispatch(openAuthModal())}
-                            className='px-5 py-2 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-xl border border-text/30 duration-300'>
-                            Login
-                        </button>
-                    )}
+                <div className="flex items-center gap-2">
+                    <FeedbackModal />
+                    <div className='flex items-center gap-4'>
+                        <ThemeToggle />
+                        {user ? (
+                            <div className='relative' ref={userOptionRef}>
+                                <Avatar
+                                    onClick={() =>
+                                        setIsOpenUserOption((prev) => !prev)
+                                    }
+                                    className='cursor-pointer'
+                                    // style={{ backgroundColor: "#87d068" }}
+                                    icon={
+                                        <FaRegCircleUser className='text-4xl' />
+                                    }
+                                />
+                                {isOpenUserOption && (
+                                    <div
+                                        className={`bg-background absolute rounded-lg shadow-lg p-1 w-40 z-10 border border-text/30 top-10 right-0`}>
+                                        <button
+                                            onClick={() => {
+                                                setIsOpenProfileModal(
+                                                    (prev) => !prev,
+                                                );
+                                                setIsOpenUserOption(false);
+                                            }}
+                                            className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
+                                            <FaUser className='text-xl' />{" "}
+                                            Profile
+                                        </button>{" "}
+                                        <button
+                                            onClick={handleLogout}
+                                            className='w-full text-left p-2 hover:bg-primary hover:text-white/90 rounded-md cursor-pointer text-sm flex items-center gap-2'>
+                                            <CiLogout className='text-xl' /> Log
+                                            Out
+                                        </button>{" "}
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <button
+                                onClick={() => dispatch(openAuthModal())}
+                                className='px-5 py-2 gap-2 font-semibold cursor-pointer hover:bg-primary hover:text-white rounded-xl border border-text/30 duration-300'>
+                                Login
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
             <AuthenticationModal />
