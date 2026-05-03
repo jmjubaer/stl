@@ -190,7 +190,6 @@ const MainSection = () => {
             }
         });
     }, [isExpired, dispatch]);
-    console.log(isExpired, "193");
     return (
         <section className=''>
             {/* Top Navigation */}
